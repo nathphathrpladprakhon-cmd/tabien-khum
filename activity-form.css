@@ -71,6 +71,56 @@ aside .nav:hover,
 aside .nav.active { background: rgba(255,255,255,.11); border-color: rgba(255,255,255,.15); }
 .login-dot { display: inline-block; width: 8px; height: 8px; margin-right: 6px; border-radius: 50%; background: #4de2a6; box-shadow: 0 0 0 4px rgba(77,226,166,.12); }
 
+.dialog-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cancel-toggle {
+  position: relative;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 9px;
+  min-height: 42px;
+  padding: 8px 13px 8px 9px;
+  border: 1px solid #e4c8c4;
+  border-radius: 11px;
+  background: #fff8f7;
+  color: #9a3e35;
+  cursor: pointer;
+  user-select: none;
+}
+
+.cancel-toggle input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: #b44238;
+}
+
+.cancel-toggle:has(input:checked) {
+  border-color: #b44238;
+  background: #b44238;
+  color: white;
+  box-shadow: 0 7px 18px rgba(180,66,56,.2);
+}
+
+.cancelled-badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 4px 8px;
+  border-radius: 7px;
+  background: #fff0ee;
+  color: #ad3e35;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+tr.is-cancelled { background: #fffafa; }
+tr.is-cancelled .name { color: #8f5550; text-decoration: line-through; }
+
 #formCategory,
 #formSubcategory,
 #formDetail {
@@ -179,4 +229,7 @@ aside .nav.active { background: rgba(255,255,255,.11); border-color: rgba(255,25
   #registryMap { height: 330px; }
   #formMap { height: 280px; }
   .role-grid { grid-template-columns: 1fr; }
+  .dialog-head { align-items: flex-start; }
+  .dialog-head-actions { align-items: stretch; flex-direction: column-reverse; }
+  .cancel-toggle { min-height: 38px; padding: 7px 10px; }
 }
