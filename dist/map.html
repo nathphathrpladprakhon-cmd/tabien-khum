@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="แผนที่ Google Maps สำหรับทะเบียนกิจการเทศบาลนครบางบัวทอง">
+  <title>แผนที่กิจการ | ทะเบียนคุม</title>
+  <link rel="stylesheet" href="map.css">
+  <script src="map.js" defer></script>
+</head>
+<body>
+  <aside>
+    <div class="brand"><img src="municipality-seal-transparent.png" alt="ตราเทศบาลนครบางบัวทอง"><div><strong>ทะเบียนคุม</strong><span>กองสาธารณสุขและสิ่งแวดล้อม</span></div></div>
+    <a class="nav" href="index.html"><span>▤</span> ทะเบียนกิจการ</a>
+    <a class="nav active" href="map.html"><span>⌖</span> แผนที่กิจการ</a>
+    <button class="nav" id="mapSettings"><span>⚙</span> ตั้งค่า Google Maps</button>
+    <div class="aside-bottom"><span class="login-dot"></span> เข้าสู่ระบบแล้ว<br><small>เทศบาลนครบางบัวทอง</small></div>
+  </aside>
+  <main>
+    <header>
+      <div><span class="kicker">GOOGLE MAPS • เทศบาลนครบางบัวทอง</span><h1>แผนที่กิจการ</h1><p>จัดการตำแหน่งสถานประกอบการแยกจากหน้าทะเบียน</p></div>
+      <a class="back" href="index.html">← กลับหน้าทะเบียน</a>
+    </header>
+    <section class="stats">
+      <div><span>กิจการทั้งหมด</span><strong id="totalCount">0</strong></div>
+      <div><span>ปักหมุดแล้ว</span><strong id="pinnedCount">0</strong></div>
+      <div><span>รอปักหมุด</span><strong id="unplacedCount">0</strong></div>
+    </section>
+    <div id="notice" role="status"></div>
+    <section class="workspace">
+      <div class="list-panel">
+        <div class="toolbar"><input id="search" placeholder="ค้นหาชื่อ ที่อยู่ หรือรหัสกิจการ"><select id="pinFilter"><option value="all">ทุกกิจการ</option><option value="pinned">ปักหมุดแล้ว</option><option value="missing">ยังไม่มีหมุด</option></select></div>
+        <div class="bulk-actions"><button id="autoGeocode">⌖ ปักหมุดอัตโนมัติทั้งหมด</button><button class="secondary" id="fitAll">ดูหมุดทั้งหมด</button></div>
+        <div id="progress" hidden><div><span id="progressText">กำลังค้นหาพิกัด…</span><b id="progressNumber">0%</b></div><progress id="progressBar" max="100" value="0"></progress></div>
+        <div id="businessList" class="business-list"></div>
+      </div>
+      <div class="map-panel">
+        <div id="apiSetup" class="api-setup">
+          <div class="setup-icon">G</div><h2>เชื่อมต่อ Google Maps</h2>
+          <p>ใส่ Google Maps API Key ที่เปิด Maps JavaScript API และ Geocoding API เพื่อแสดงและค้นหาหมุดทุกกิจการ</p>
+          <label>Google Maps API Key<input id="apiKey" type="password" autocomplete="off" placeholder="วาง API Key ที่นี่"></label>
+          <button id="saveApiKey">เชื่อมต่อ Google Maps</button>
+          <a href="https://console.cloud.google.com/google/maps-apis/credentials" target="_blank" rel="noopener">เปิด Google Cloud Console ↗</a>
+          <small>ควรจำกัดคีย์ให้ใช้ได้เฉพาะโดเมนเว็บไซต์นี้ และจำกัดเฉพาะ Maps JavaScript API กับ Geocoding API</small>
+        </div>
+        <div id="googleMap" aria-label="Google Maps แสดงตำแหน่งกิจการ"></div>
+        <div class="selection" id="selection" hidden>
+          <div><span>กิจการที่เลือก</span><strong id="selectedName">—</strong><small id="selectedAddress">—</small></div>
+          <div class="selection-actions"><button id="addPin">＋ เพิ่ม/ย้ายหมุด</button><button class="secondary" id="currentLocation">◎ ตำแหน่งปัจจุบัน</button><button class="danger" id="deletePin">ลบหมุด</button></div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <dialog id="settingsDialog"><form method="dialog"><div class="dialog-head"><div><small>การเชื่อมต่อ</small><h2>ตั้งค่า Google Maps</h2></div><button class="secondary">ปิด ✕</button></div><label>Google Maps API Key<input id="settingsApiKey" type="password" autocomplete="off"></label><p>คีย์ถูกเก็บในเบราว์เซอร์เครื่องนี้เท่านั้น</p><div class="dialog-actions"><button type="button" class="danger" id="removeApiKey">ลบ API Key</button><button type="button" id="updateApiKey">บันทึกและโหลดใหม่</button></div></form></dialog>
+</body>
+</html>
