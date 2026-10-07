@@ -3,4 +3,5 @@ inspect-workbook.cjs
 verify-summary.cjs
 summary-test.xlsx
 extract-regulation.ps1
+extract-details.ps1
 regulation-source.docx
