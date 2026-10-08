@@ -463,23 +463,53 @@ function parseWorkbook(buffer){
   return{records,categories};
 }
 const thaiNumber=value=>Number(String(value||'').replace(/[๐-๙]/g,c=>'๐๑๒๓๔๕๖๗๘๙'.indexOf(c)));
+function getLicenseExpYear(h){
+  if(!h||!h.expires)return null;
+  const m=String(h.expires).trim().match(/(\d{1,2})$/);
+  if(!m)return null;
+  const y=Number(m[1]);
+  return y<100?2500+y:y;
+}
 function classifyRecords(records,year){
   const numYear=Number(year);
-  const old=records.filter(r=>(r.history||[]).some(h=>Number(h.year)<numYear&&String(h.number||'').trim()));
+  const prevYear=numYear-1; // 2 ปีงบประมาณ: ปีก่อนหน้า (เช่น 68) และ ปีปัจจุบัน (เช่น 69)
+  // รายเก่า: ผู้ประกอบการเดิมที่มีใบอนุญาตในปีก่อนหน้า หรือมีใบอนุญาตเดิมที่หมดอายุในปี prevYear (68) หรือ numYear (69)
+  const old=records.filter(r=>{
+    if(r.cancelled&&r.cancelYear&&Number(r.cancelYear)<prevYear)return false;
+    const hasPrev=(r.history||[]).some(h=>Number(h.year)===prevYear&&String(h.number||'').trim());
+    const hasExpPrev=(r.history||[]).some(h=>getLicenseExpYear(h)===prevYear);
+    const hasExpCur=(r.history||[]).some(h=>Number(h.year)<=prevYear&&getLicenseExpYear(h)===numYear);
+    return hasPrev||hasExpPrev||hasExpCur;
+  });
+  // ผู้มีใบอนุญาตในปีปัจจุบัน
   const current=records.filter(r=>!r.cancelled&&(r.history||[]).some(h=>Number(h.year)===numYear&&String(h.number||'').trim()));
+  // ยกเลิกกิจการ
   const cancelled=records.filter(r=>{
     if(!r.cancelled)return false;
     if(r.cancelYear)return Number(r.cancelYear)===numYear;
-    // หากไม่ได้ระบุ cancelYear ไว้ ให้ตรวจจากประวัติว่าปีล่าสุดก่อนยกเลิกคือปีก่อนหน้าหรือไม่ หรือเป็นปีนั้น
     const maxHistYear=Math.max(0,...(r.history||[]).filter(h=>String(h.number||'').trim()).map(h=>Number(h.year)||0));
-    return maxHistYear>0?(maxHistYear===numYear||maxHistYear===numYear-1):false;
+    return maxHistYear===numYear||maxHistYear===prevYear;
   });
-  const renewed=current.filter(r=>(r.history||[]).some(h=>Number(h.year)<numYear&&String(h.number||'').trim()));
-  return[old.length,cancelled.length,renewed.length,current.length-renewed.length];
+  // รายต่อ: รายเดิมที่มาต่อใบอนุญาตในปีนี้
+  const oldSet=new Set(old.map(r=>r.id));
+  const renewed=current.filter(r=>oldSet.has(r.id)||(r.history||[]).some(h=>Number(h.year)<numYear&&String(h.number||'').trim()));
+  // รายใหม่: เพิ่งได้ใบอนุญาตใหม่ในปีนี้
+  return[old.length,cancelled.length,renewed.length,Math.max(0,current.length-renewed.length)];
 }
 function summaryCounts(category,sub,year){const prefix=`${category}(${sub})`;return classifyRecords(data.records.filter(r=>String(r.code||'').replace(/\s/g,'').startsWith(prefix)),year);}
 function categoryReport(year){return categoryLabels().map((label,index)=>({number:index+1,label,values:classifyRecords(data.records.filter(r=>categoryNo(r.category)===index+1),year)}));}
-function renderSummary(){const year=Number($('#year').value),report=categoryReport(year),totals=[0,0,0,0];$('#reportTitle').textContent=`สรุปกิจการที่เป็นอันตรายต่อสุขภาพ ปี ${year}`;$('#reportRows').innerHTML=report.map(row=>{row.values.forEach((v,i)=>totals[i]+=v);return `<tr><td><b>${row.number}.</b> ${escapeHTML(row.label)}</td>${row.values.map(v=>`<td>${v.toLocaleString('th-TH')}</td>`).join('')}</tr>`;}).join('');['Old','Cancelled','Renewed','New'].forEach((name,i)=>{$('#report'+name).textContent=totals[i].toLocaleString('th-TH');$('#reportTotal'+name).textContent=totals[i].toLocaleString('th-TH');});return{year,report,totals};}
+function renderSummary(){
+  const year=Number($('#year').value),report=categoryReport(year),totals=[0,0,0,0];
+  $('#reportTitle').textContent=`สรุปกิจการที่เป็นอันตรายต่อสุขภาพ ปี ${year}`;
+  const subTitle=$('#reportDialog p');
+  if(subTitle)subTitle.textContent=`ข้อมูล 2 ปีงบประมาณ (ปี ${year-1} - ${year}) อิงใบอนุญาตที่หมดอายุปี ${year-1} และ ${year}`;
+  $('#reportRows').innerHTML=report.map(row=>{row.values.forEach((v,i)=>totals[i]+=v);return `<tr><td><b>${row.number}.</b> ${escapeHTML(row.label)}</td>${row.values.map(v=>`<td>${v.toLocaleString('th-TH')}</td>`).join('')}</tr>`;}).join('');
+  ['Old','Cancelled','Renewed','New'].forEach((name,i)=>{
+    $('#report'+name).textContent=totals[i].toLocaleString('th-TH');
+    $('#reportTotal'+name).textContent=totals[i].toLocaleString('th-TH');
+  });
+  return{year,report,totals};
+}
 async function downloadSummary(){const button=$('#downloadReport'),year=Number($('#year').value);button.disabled=true;notice('กำลังจัดทำ Excel พร้อมตาราง…');try{if(!window.ExcelJS)throw Error('ตัวสร้างเอกสาร Excel โหลดไม่สำเร็จ');const response=await fetch('summary-template.xlsx');if(!response.ok)throw Error('โหลดแม่แบบเอกสารไม่สำเร็จ');const workbook=new ExcelJS.Workbook();await workbook.xlsx.load(await response.arrayBuffer());const sheet=workbook.worksheets[0];sheet.getCell(1,1).value=`ข้อมูลการต่อใบอนุญาตกิจการที่เป็นอันตรายต่อสุขภาพ ประจำปี ${year} ( 1 ต.ค. ${year-1} - 30 ก.ย. ${year} )`;for(let r=1;r<=sheet.rowCount;r++){for(let c=9;c<=16;c++){sheet.getCell(r,c).value=null;}}let category=0;for(let row=5;row<=sheet.rowCount;row++){const a=String(sheet.getCell(row,1).text||'').trim(),heading=a.match(/^(\d{1,2})\s*\.\s*กิจการ/);if(heading){category=Number(heading[1]);continue;}if(category===1&&/^\(1\)\s*การฆ่า/.test(a))category=2;const sub=a.match(/^[（(]\s*([0-9๐-๙]+)\s*[）)]/)||a.match(/^([0-9๐-๙]+)\s*\./),numeric=[5,6,7,8].some(col=>typeof sheet.getCell(row,col).value==='number');if(!sub&&!numeric)continue;for(let col=5;col<=8;col++)sheet.getCell(row,col).value=0;if(!sub||!category)continue;summaryCounts(category,thaiNumber(sub[1]),year).forEach((value,index)=>sheet.getCell(row,5+index).value=value);}workbook.calcProperties.fullCalcOnLoad=true;const output=await workbook.xlsx.writeBuffer();download(output,`สรุปกิจการอันตราย-ปี-${year}.xlsx`,'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');notice(`ดาวน์โหลด Excel ปี ${year} พร้อมรูปแบบตารางแล้ว`);}catch(error){notice(error.message,true);}finally{button.disabled=false;}}
 function printSummary(){const{year,report,totals}=renderSummary(),popup=window.open('','_blank');if(!popup)return notice('เบราว์เซอร์ปิดกั้นหน้าต่างพิมพ์ กรุณาอนุญาตป๊อปอัป',true);const rows=report.map(row=>`<tr><td>${row.number}. ${escapeHTML(row.label)}</td>${row.values.map(v=>`<td>${v}</td>`).join('')}</tr>`).join('');popup.document.write(`<!doctype html><html lang="th"><head><meta charset="utf-8"><title>รายงานปี ${year}</title><style>body{font-family:Tahoma,sans-serif;padding:24px;color:#123}h1{text-align:center;font-size:20px}p{text-align:center}table{width:100%;border-collapse:collapse;font-size:11px}th,td{border:1px solid #333;padding:7px}th{background:#dcebe5}td:not(:first-child),th:not(:first-child){text-align:center}tfoot{font-weight:bold}@page{size:A4 landscape;margin:12mm}</style></head><body><h1>ข้อมูลการต่อใบอนุญาตกิจการที่เป็นอันตรายต่อสุขภาพ</h1><p>ประจำปี ${year} (1 ต.ค. ${year-1} - 30 ก.ย. ${year})</p><table><thead><tr><th>ประเภทกิจการ</th><th>รายเก่า</th><th>ยกเลิก</th><th>รายต่อ</th><th>รายใหม่</th></tr></thead><tbody>${rows}</tbody><tfoot><tr><td>รวมทั้งหมด</td>${totals.map(v=>`<td>${v}</td>`).join('')}</tr></tfoot></table><script>onload=()=>{print();onafterprint=()=>close()}<\/script></body></html>`);popup.document.close();}
 if($('#summaryXlsx'))$('#summaryXlsx').onclick=()=>{renderSummary();$('#reportDialog')?.showModal();};
