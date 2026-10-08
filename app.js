@@ -61,8 +61,27 @@ function syncFormCode(){
   input.value=`${main}(${sub})${detailSuffix||''}`;
 }
 function notice(message,error=false){$('#notice').textContent=message;$('#notice').className=error?'error':'';}
-function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(data));}
-function cleanRecord(record){if(!record||typeof record!=='object'||!String(record.name||'').trim())throw Error('กรุณาระบุชื่อผู้ประกอบการ');const copy={...record};delete copy.id;if(!Array.isArray(copy.history))copy.history=[];return copy;}
+function normalizeThaiDate(str){
+  if(!str)return'';
+  const s=String(str).trim();
+  const m=s.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,5})$/);
+  if(!m)return s;
+  let p1=parseInt(m[1],10),p2=parseInt(m[2],10),yr=parseInt(m[3],10);
+  if(yr>25000)yr=parseInt(String(yr).slice(0,4),10);
+  if(yr>=500&&yr<600)yr+=2000;
+  const shortYr=yr%100;
+  if(p1>12&&p2<=12)return `${p1}/${p2}/${shortYr}`;
+  if(p2>12&&p1<=12)return `${p2}/${p1}/${shortYr}`;
+  return `${p1}/${p2}/${shortYr}`;
+}
+function cleanRecord(record){
+  if(!record||typeof record!=='object'||!String(record.name||'').trim())throw Error('กรุณาระบุชื่อผู้ประกอบการ');
+  const copy={...record};
+  delete copy.id;
+  if(!Array.isArray(copy.history))copy.history=[];
+  else copy.history=copy.history.map(h=>({...h,renewed:normalizeThaiDate(h.renewed),expires:normalizeThaiDate(h.expires)}));
+  return copy;
+}
 const CLOUD_API_KEY='tabien_khum_cloud_api';
 const DEFAULT_CLOUD_API='https://tabien-khum-api.nathphathrpladprakhon.workers.dev';
 function getCloudApiUrl(){
@@ -141,9 +160,12 @@ async function initialize(){
     }catch(e){console.warn('Failed to load initial.json:',e);}
   }
 
+  const DATA_VER='20261008_dmy_v2';
+  const isMigrated=localStorage.getItem('tabien_khum_data_ver')===DATA_VER;
+
   const stored=localStorage.getItem(STORAGE_KEY);
   let hasValidStored=false;
-  if(stored){
+  if(stored&&isMigrated){
     try{
       const parsed=JSON.parse(stored);
       if(parsed&&Array.isArray(parsed.records)&&parsed.records.length>0){
@@ -154,9 +176,28 @@ async function initialize(){
   }
 
   if(!hasValidStored&&initialData&&Array.isArray(initialData.records)&&initialData.records.length>0){
+    const pinMap=new Map();
+    if(stored){
+      try{
+        const p=JSON.parse(stored);
+        (p.records||[]).forEach(r=>{
+          if(r.latitude&&r.longitude)pinMap.set(Number(r.id),{lat:r.latitude,lng:r.longitude,src:r.mapSource});
+        });
+      }catch(_){}
+    }
     data=JSON.parse(JSON.stringify(initialData));
-    data.records=data.records.map((r,i)=>({...r,id:r.id||i+1}));
+    data.records=data.records.map((r,i)=>{
+      const pin=pinMap.get(r.id||i+1);
+      return {
+        ...r,
+        id:r.id||i+1,
+        latitude:pin?pin.lat:(r.latitude||null),
+        longitude:pin?pin.lng:(r.longitude||null),
+        mapSource:pin?pin.src:(r.mapSource||null)
+      };
+    });
     save();
+    localStorage.setItem('tabien_khum_data_ver',DATA_VER);
   }else if(hasValidStored&&initialData&&Array.isArray(initialData.records)){
     const initialMap=new Map();
     initialData.records.forEach(r=>{
@@ -342,7 +383,7 @@ function cleanFee(v){
 function parseWorkbook(buffer){
   const xlsxLib=window.XLSX||(typeof XLSX!=='undefined'?XLSX:null);
   if(!xlsxLib)throw Error('ตัวอ่าน Excel โหลดไม่สำเร็จ กรุณาลองใหม่');
-  const book=xlsxLib.read(buffer,{type:'array',cellDates:true});
+  const book=xlsxLib.read(buffer,{type:'array'});
   const records=[],categories=[];
   const normCat=name=>{
     const m=name.trim().match(/หมวด\s*(\d+)(?:\s*\(([^)]+)\))?/);
@@ -350,10 +391,29 @@ function parseWorkbook(buffer){
     if(m[2])return 'หมวด '+m[1]+'('+m[2]+')';
     return 'หมวด'+m[1];
   };
+  function parseDateCell(rawVal, fmtVal){
+    if(typeof rawVal==='number'&&rawVal>10000&&xlsxLib.SSF){
+      const d=xlsxLib.SSF.parse_date_code(rawVal);
+      if(d&&d.y)return `${d.d}/${d.m}/${d.y%100}`;
+    }
+    const s=String(fmtVal||rawVal||'').trim();
+    const m=s.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,5})$/);
+    if(m){
+      let p1=parseInt(m[1],10),p2=parseInt(m[2],10),yr=parseInt(m[3],10);
+      if(yr>25000)yr=parseInt(String(yr).slice(0,4),10);
+      if(yr>=500&&yr<600)yr+=2000;
+      const shortYr=yr%100;
+      if(p1>12&&p2<=12)return `${p1}/${p2}/${shortYr}`;
+      if(p2>12&&p1<=12)return `${p2}/${p1}/${shortYr}`;
+      return `${p2}/${p1}/${shortYr}`;
+    }
+    return s;
+  }
   for(const name of book.SheetNames){
     const sheet=book.Sheets[name];
     if(!sheet)continue;
     const rows=xlsxLib.utils.sheet_to_json(sheet,{header:1,raw:false,defval:''});
+    const rawRows=xlsxLib.utils.sheet_to_json(sheet,{header:1,raw:true,defval:''});
     if(!rows.slice(0,6).some(row=>row.some(c=>String(c).includes('ชื่อ-สกุล'))))continue;
     const category=normCat(name);
     categories.push({name:category,source_title:cellText(rows[0]?.[0])});
@@ -381,12 +441,15 @@ function parseWorkbook(buffer){
         fee=cleanFee(row[5]);
       }
       if(!nameVal)return;
-      const history=Object.entries(years).map(([col,year])=>({
-        year,
-        number:cellText(rows[index]?.[col]),
-        renewed:cellText(rows[index+1]?.[col]),
-        expires:cellText(rows[index+2]?.[col])
-      }));
+      const history=Object.entries(years).map(([colStr,year])=>{
+        const col=Number(colStr);
+        return {
+          year,
+          number:cellText(rows[index]?.[col]),
+          renewed:parseDateCell(rawRows[index+1]?.[col],rows[index+1]?.[col]),
+          expires:parseDateCell(rawRows[index+2]?.[col],rows[index+2]?.[col])
+        };
+      });
       records.push({category,sequence:seq,code,name:nameVal,address,business,fee,notes:'',history,source_row:index+1});
     });
   }
@@ -426,7 +489,8 @@ function parseThaiDate(str){
   if(!m)return null;
   let day=parseInt(m[1],10),month=parseInt(m[2],10);
   if(month>12){
-    if(month===21||month===24)month=2;
+    if(day<=12){const tmp=day;day=month;month=tmp;}
+    else if(month===21||month===24)month=2;
     else if(month===85)month=8;
     else if(String(m[2]).startsWith('0'))month=parseInt(String(m[2]).replace(/^0+/,''),10);
   }
@@ -930,8 +994,18 @@ if($('#syncToCloud')){
 
 window.addEventListener('auth-success',()=>{renderAll();load();});
 
+const DATA_VERSION='20261008_dmy_v2';
 if(typeof window!=='undefined'){
   if(window.ACTIVITY_TYPES&&Array.isArray(window.ACTIVITY_TYPES)) activityTypes=window.ACTIVITY_TYPES;
+  if(window.SEED_DATA&&Array.isArray(window.SEED_DATA.records)&&window.SEED_DATA.records.length>0){
+    const ver=localStorage.getItem('tabien_khum_data_ver');
+    if(ver!==DATA_VERSION){
+      data=JSON.parse(JSON.stringify(window.SEED_DATA));
+      data.records=data.records.map((r,i)=>({...r,id:r.id||i+1}));
+      save();
+      localStorage.setItem('tabien_khum_data_ver',DATA_VERSION);
+    }
+  }
   if(window.SEED_DATA&&(!data.records||data.records.length===0)){
     const stored=localStorage.getItem(STORAGE_KEY);
     let valid=false;
