@@ -18,7 +18,7 @@ const CATEGORY_TYPES=[
 ];
 const THAI_MONTHS=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
 const categoryNo=value=>Number(String(value||'').match(/หมวด\s*(\d+)/)?.[1]||0);
-const categoryLabels=()=>activityTypes.length?activityTypes.map(x=>x.name):CATEGORY_TYPES;
+const categoryLabels=()=>Array.isArray(activityTypes)&&activityTypes.length?activityTypes.map(x=>x.name):CATEGORY_TYPES;
 function getDetailSuffix(d){
   if(!d)return '';
   const mFull=String(d.name||'').match(/^(\d+(?:\.\d+)?)\s*[^—]*—\s*([ก-ฮ])\./);
@@ -33,7 +33,7 @@ const activityCode=value=>{
   const match=String(value||'').replace(/\s/g,'').match(/^(\d+)\((\d+)\)(?:[-_]?([ก-ฮ0-9.]+))?/);
   return match?{category:Number(match[1]),subcategory:Number(match[2]),detailSuffix:match[3]||''}:{category:0,subcategory:0,detailSuffix:''};
 };
-const activityGroup=number=>activityTypes.find(group=>Number(group.number)===Number(number));
+const activityGroup=number=>Array.isArray(activityTypes)?activityTypes.find(group=>Number(group.number)===Number(number)):null;
 const activityItem=(category,subcategory)=>activityGroup(category)?.items.find(item=>Number(item.number)===Number(subcategory));
 const activityDetail=(category,subcategory,detailVal)=>{
   const it=activityItem(category,subcategory);
@@ -88,7 +88,7 @@ async function api(path,options={}){
       }
     }catch(err){console.warn('Cloud API unavailable or timed out, using local data:',err);}
   }
-  if(path==='/api/records'&&method==='GET')return structuredClone(data);
+  if(path==='/api/records'&&method==='GET')return JSON.parse(JSON.stringify(data));
   if(path==='/api/records'&&method==='POST'){const record=cleanRecord(JSON.parse(options.body));const id=Math.max(0,...data.records.map(r=>Number(r.id)||0))+1;data.records.unshift({...record,id});save();return{id};}
   const match=path.match(/^\/api\/records\/(\d+)$/);
   if(match){const id=Number(match[1]),index=data.records.findIndex(r=>Number(r.id)===id);if(index<0)throw Error('ไม่พบรายการ');if(method==='DELETE')data.records.splice(index,1);else if(method==='PUT')data.records[index]={...cleanRecord(JSON.parse(options.body)),id};else throw Error('ไม่รองรับคำสั่ง');save();return{ok:true};}
@@ -97,8 +97,8 @@ async function api(path,options={}){
 }
 function renderAll(){
   if(!data||!Array.isArray(data.records)||data.records.length===0){
-    if(typeof window!=='undefined'&&window.SEED_DATA&&Array.isArray(window.SEED_DATA.records)){
-      data=structuredClone(window.SEED_DATA);
+    if(typeof window!=='undefined'&&window.SEED_DATA&&Array.isArray(window.SEED_DATA.records)&&window.SEED_DATA.records.length>0){
+      data=JSON.parse(JSON.stringify(window.SEED_DATA));
       data.records=data.records.map((r,i)=>({...r,id:r.id||i+1}));
       save();
     }
@@ -110,11 +110,14 @@ function renderAll(){
   $('#category').value=current;
   updateSubcategories(currentSub);
   $('#formCategory').innerHTML='<option value="">เลือกประเภทกิจการ</option>'+categoryOptions;
-  const years=[...new Set([...data.records.flatMap(r=>(r.history||[]).map(h=>h.year)),String(new Date().getFullYear()+543)])].sort((a,b)=>Number(b)-Number(a));
+
+  const curBE=String(new Date().getFullYear()+543);
+  const years=[...new Set([...(data.records||[]).flatMap(r=>(r.history||[]).map(h=>String(h.year||'').trim())).filter(y=>y&&/^\d{4}$/.test(y)),curBE])].sort((a,b)=>Number(b)-Number(a));
   const yr=$('#year').value;
-  $('#year').innerHTML=years.map(y=>`<option>${escapeHTML(y)}</option>`).join('');
-  $('#year').value=yr||String(new Date().getFullYear()+543);
-  $('#total').textContent=data.records.length.toLocaleString('th-TH');
+  $('#year').innerHTML=years.map(y=>`<option value="${escapeHTML(y)}">${escapeHTML(y)}</option>`).join('');
+  $('#year').value=(yr&&years.includes(yr))?yr:(years[0]||curBE);
+
+  $('#total').textContent=(data.records||[]).length.toLocaleString('th-TH');
   $('#catCount').textContent='13';
   renderCategoryCards();
   render();
@@ -151,7 +154,7 @@ async function initialize(){
   }
 
   if(!hasValidStored&&initialData&&Array.isArray(initialData.records)&&initialData.records.length>0){
-    data=structuredClone(initialData);
+    data=JSON.parse(JSON.stringify(initialData));
     data.records=data.records.map((r,i)=>({...r,id:r.id||i+1}));
     save();
   }else if(hasValidStored&&initialData&&Array.isArray(initialData.records)){
@@ -181,7 +184,7 @@ async function initialize(){
   // Render local data immediately (0ms) so user never sees blank table or empty dash
   renderAll();
 }
-function updateSubcategories(preserve=''){const cat=Number($('#category').value),select=$('#subcategory'),group=activityTypes.find(x=>x.number===cat);if(!group){select.innerHTML='<option value="">ทุกกิจการย่อย</option>';select.value='';select.hidden=true;select.disabled=true;return;}select.hidden=false;select.disabled=false;select.innerHTML='<option value="">ทุกกิจการย่อยในประเภทนี้</option>'+group.items.map(item=>{const prefix=`${cat}(${item.number})`,count=data.records.filter(r=>String(r.code||'').replace(/\s/g,'').startsWith(prefix)).length;return `<option value="${item.number}">${prefix} ${escapeHTML(item.name)} (${count.toLocaleString('th-TH')} รายการ)</option>`;}).join('');select.value=preserve;}
+function updateSubcategories(preserve=''){const cat=Number($('#category')?.value||0),select=$('#subcategory');if(!select)return;const group=Array.isArray(activityTypes)?activityTypes.find(x=>x.number===cat):null;if(!group||!Array.isArray(group.items)){select.innerHTML='<option value="">ทุกกิจการย่อย</option>';select.value='';select.hidden=true;select.disabled=true;return;}select.hidden=false;select.disabled=false;select.innerHTML='<option value="">ทุกกิจการย่อยในประเภทนี้</option>'+group.items.map(item=>{const prefix=`${cat}(${item.number})`,count=(data.records||[]).filter(r=>String(r.code||'').replace(/\s/g,'').startsWith(prefix)).length;return `<option value="${item.number}">${prefix} ${escapeHTML(item.name)} (${count.toLocaleString('th-TH')} รายการ)</option>`;}).join('');select.value=preserve;}
 function renderCategoryCards(){const labels=categoryLabels(),counts=Array.from({length:13},(_,i)=>data.records.filter(r=>categoryNo(r.category)===i+1).length);$('#categoryCards').innerHTML=labels.map((label,i)=>`<button type="button" class="category-card" data-category="${i+1}"><span class="category-number">${i+1}</span><span class="category-copy"><b>${escapeHTML(label)}</b><em>${counts[i].toLocaleString('th-TH')} รายการ</em></span></button>`).join('');}
 async function load(){
   try{
@@ -190,34 +193,50 @@ async function load(){
     }
     const remoteData=await api('/api/records');
     if(remoteData&&Array.isArray(remoteData.records)&&remoteData.records.length>0){
+      const coordMap=new Map();
+      (data.records||[]).forEach(r=>{
+        if(r.latitude&&r.longitude){
+          const k=String(r.name||'').replace(/[\s\r\n]+/g,' ').trim().toLowerCase();
+          if(k)coordMap.set(k,{latitude:r.latitude,longitude:r.longitude,mapSource:r.mapSource});
+        }
+      });
+      remoteData.records.forEach(r=>{
+        if(!r.latitude||!r.longitude){
+          const k=String(r.name||'').replace(/[\s\r\n]+/g,' ').trim().toLowerCase();
+          const c=coordMap.get(k);
+          if(c){r.latitude=c.latitude;r.longitude=c.longitude;r.mapSource=c.mapSource;}
+        }
+      });
       data=remoteData;
+      save();
     }else if(!data.records||data.records.length===0){
-      const res=await fetch('initial.json');
-      if(res.ok){
-        data=await res.json();
-        data.records=data.records.map((r,i)=>({...r,id:r.id||i+1}));
+      if(typeof window!=='undefined'&&window.SEED_DATA&&Array.isArray(window.SEED_DATA.records)&&window.SEED_DATA.records.length>0){
+        data=JSON.parse(JSON.stringify(window.SEED_DATA));
         save();
+      }else{
+        const res=await fetch('initial.json');
+        if(res.ok){
+          data=await res.json();
+          data.records=data.records.map((r,i)=>({...r,id:r.id||i+1}));
+          save();
+        }
       }
     }
     renderAll();
   }catch(e){
     console.error('Load error:',e);
     if(!data.records||data.records.length===0){
-      try{
-        const res=await fetch('initial.json');
-        if(res.ok){
-          data=await res.json();
-          data.records=data.records.map((r,i)=>({...r,id:r.id||i+1}));
-          save();
-          renderAll();
-        }
-      }catch(err){}
+      if(typeof window!=='undefined'&&window.SEED_DATA&&Array.isArray(window.SEED_DATA.records)&&window.SEED_DATA.records.length>0){
+        data=JSON.parse(JSON.stringify(window.SEED_DATA));
+        save();
+        renderAll();
+      }
     }
     notice(e.message,true);
   }
 }
-function filtered(){const q=$('#search').value.trim().toLowerCase(),cat=$('#category').value,sub=$('#subcategory').value,prefix=cat&&sub?`${cat}(${sub})`:'';return data.records.filter(r=>(!cat||categoryNo(r.category)===Number(cat))&&(!prefix||String(r.code||'').replace(/\s/g,'').startsWith(prefix))&&(!q||JSON.stringify(r).toLowerCase().includes(q)));}
-function render(){const list=filtered(),year=$('#year').value;page=Math.max(1,Math.min(page,Math.ceil(list.length/size)||1));$('#licensed').textContent=data.records.filter(r=>!r.cancelled&&(r.history||[]).some(h=>h.year===year&&h.number)).length;$('#result').textContent=`พบ ${list.length.toLocaleString('th-TH')} รายการ • ปีงบประมาณ ${year}`;$('#rows').innerHTML=list.slice((page-1)*size,page*size).map(r=>{const h=(r.history||[]).find(h=>h.year===year)||{},code=activityCode(r.code),cat=code.category||categoryNo(r.category),group=activityGroup(cat),item=activityItem(cat,code.subcategory),detail=activityDetail(cat,code.subcategory,r.activityDetail||code.detailSuffix),hasMap=Number.isFinite(Number(r.latitude))&&Number.isFinite(Number(r.longitude))&&r.latitude&&r.longitude;return `<tr class="${r.cancelled?'is-cancelled':''}"><td><div class="name">${escapeHTML(r.name)}</div><small>${escapeHTML(r.address)}</small><button class="map-link" data-map-record="${r.id}">⌖ ${hasMap?'ดูตำแหน่ง':'เพิ่มหมุด'}ในแผนที่</button></td><td class="activity-cell"><span class="tag">ประเภท ${cat||'—'}</span>${r.cancelled?`<span class="cancelled-badge">ยกเลิกกิจการ${r.cancelYear?` (ปี ${escapeHTML(r.cancelYear)})`:''}</span>`:''}<div class="category-name">${escapeHTML(group?.name||r.category||'ไม่ระบุประเภท')}</div><small class="subcategory-name"><b>${escapeHTML(r.code||'—')}</b>${item?' '+escapeHTML(item.name):''}${detail?`<span class="detail-line">${escapeHTML(detail.name)}</span>`:''}</small></td><td>${escapeHTML(r.business)}</td><td style="text-align:center">${r.fee?escapeHTML(Number.isFinite(Number(String(r.fee).replace(/,/g,'')))?Number(String(r.fee).replace(/,/g,'')).toLocaleString('th-TH'):r.fee):'—'}</td><td>${escapeHTML(h.number||'—')}<small>ต่ออายุ: ${escapeHTML(h.renewed||'—')}<br>หมดอายุ: ${escapeHTML(h.expires||'—')}</small></td><td><div class="row-actions"><button class="secondary" data-edit="${r.id}">เปิด / แก้ไข</button><button class="secondary delete" data-delete="${r.id}">ลบ</button></div></td></tr>`}).join('')||'<tr><td colspan="6" class="empty">ไม่พบรายการที่ค้นหา</td></tr>';$('#pageInfo').textContent=`หน้า ${page} / ${Math.ceil(list.length/size)||1}`;$('#prev').disabled=page===1;$('#next').disabled=page*size>=list.length;}
+function filtered(){const q=($('#search')?.value||'').trim().toLowerCase(),cat=$('#category')?.value||'',sub=$('#subcategory')?.value||'',prefix=cat&&sub?`${cat}(${sub})`:'';return (data.records||[]).filter(r=>(!cat||categoryNo(r.category)===Number(cat))&&(!prefix||String(r.code||'').replace(/\s/g,'').startsWith(prefix))&&(!q||JSON.stringify(r).toLowerCase().includes(q)));}
+function render(){const list=filtered(),year=$('#year')?.value||'';page=Math.max(1,Math.min(page,Math.ceil(list.length/size)||1));$('#licensed').textContent=(data.records||[]).filter(r=>!r.cancelled&&(r.history||[]).some(h=>h.year===year&&h.number)).length;$('#result').textContent=`พบ ${list.length.toLocaleString('th-TH')} รายการ • ปีงบประมาณ ${year}`;$('#rows').innerHTML=list.slice((page-1)*size,page*size).map(r=>{const h=(r.history||[]).find(h=>h.year===year)||{},code=activityCode(r.code),cat=code.category||categoryNo(r.category),group=activityGroup(cat),item=activityItem(cat,code.subcategory),detail=activityDetail(cat,code.subcategory,r.activityDetail||code.detailSuffix),hasMap=Number.isFinite(Number(r.latitude))&&Number.isFinite(Number(r.longitude))&&r.latitude&&r.longitude;return `<tr class="${r.cancelled?'is-cancelled':''}"><td><div class="name">${escapeHTML(r.name)}</div><small>${escapeHTML(r.address)}</small><button class="map-link" data-map-record="${r.id}">⌖ ${hasMap?'ดูตำแหน่ง':'เพิ่มหมุด'}ในแผนที่</button></td><td class="activity-cell"><span class="tag">ประเภท ${cat||'—'}</span>${r.cancelled?`<span class="cancelled-badge">ยกเลิกกิจการ${r.cancelYear?` (ปี ${escapeHTML(r.cancelYear)})`:''}</span>`:''}<div class="category-name">${escapeHTML(group?.name||r.category||'ไม่ระบุประเภท')}</div><small class="subcategory-name"><b>${escapeHTML(r.code||'—')}</b>${item?' '+escapeHTML(item.name):''}${detail?`<span class="detail-line">${escapeHTML(detail.name)}</span>`:''}</small></td><td>${escapeHTML(r.business)}</td><td style="text-align:center">${r.fee?escapeHTML(Number.isFinite(Number(String(r.fee).replace(/,/g,'')))?Number(String(r.fee).replace(/,/g,'')).toLocaleString('th-TH'):r.fee):'—'}</td><td>${escapeHTML(h.number||'—')}<small>ต่ออายุ: ${escapeHTML(h.renewed||'—')}<br>หมดอายุ: ${escapeHTML(h.expires||'—')}</small></td><td><div class="row-actions"><button class="secondary" data-edit="${r.id}">เปิด / แก้ไข</button><button class="secondary delete" data-delete="${r.id}">ลบ</button></div></td></tr>`}).join('')||'<tr><td colspan="6" class="empty">ไม่พบรายการที่ค้นหา</td></tr>';$('#pageInfo').textContent=`หน้า ${page} / ${Math.ceil(list.length/size)||1}`;$('#prev').disabled=page===1;$('#next').disabled=page*size>=list.length;}
 function historyRow(h={}){const tr=document.createElement('tr');tr.innerHTML=['year','number','renewed','expires'].map(k=>`<td><input data-key="${k}" aria-label="${escapeHTML(k)}" value="${escapeHTML(h[k]||'')}" ${k==='year'?'required pattern="[0-9]{4}"':''}></td>`).join('')+'<td><button type="button" class="secondary">ลบปี</button></td>';tr.querySelector('button').onclick=()=>tr.remove();$('#history').append(tr);}
 function edit(r=null){
   editing=r;
@@ -299,8 +318,71 @@ $('#registryNav').onclick=()=>document.querySelector('.panel').scrollIntoView({b
 function download(text,name,type){const url=URL.createObjectURL(new Blob([text],{type}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 $('#backup').onclick=()=>download(JSON.stringify(data,null,2),'ทะเบียนคุม-backup-'+new Date().toISOString().slice(0,10)+'.json','application/json');
 $('#csv').onclick=()=>{const year=$('#year').value;const rows=[['หมวด','ลำดับ','รหัส','ชื่อ-สกุล','ที่อยู่','ประเภทกิจการ','ค่าธรรมเนียม','สถานะ','ปีที่ยกเลิก','ปี','เล่ม/เลข','ต่ออายุ','หมดอายุ','หมายเหตุ'],...filtered().map(r=>{const h=(r.history||[]).find(h=>h.year===year)||{};return [r.category,r.sequence,r.code,r.name,r.address,r.business,r.fee,r.cancelled?'ยกเลิกกิจการ':'ดำเนินกิจการ',r.cancelYear||'',year,h.number,h.renewed,h.expires,r.notes];})];download('\ufeff'+rows.map(r=>r.map(v=>{let s=String(v??'');if(/^[=+@\-\t\r]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';}).join(',')).join('\r\n'),'ทะเบียนคุม-'+year+'.csv','text/csv;charset=utf-8');};
-function cellText(value){if(value==null)return'';if(value instanceof Date)return String(value.getDate()).padStart(2,'0')+'/'+String(value.getMonth()+1).padStart(2,'0')+'/'+value.getFullYear();return String(value).trim();}
-function parseWorkbook(buffer){if(!window.XLSX)throw Error('ตัวอ่าน Excel โหลดไม่สำเร็จ กรุณาลองใหม่');const book=XLSX.read(buffer,{type:'array',cellDates:true});const records=[],categories=[];for(const name of book.SheetNames){const sheet=book.Sheets[name],rows=XLSX.utils.sheet_to_json(sheet,{header:1,raw:true,defval:''});if(!rows.slice(0,5).some(row=>row.some(cell=>String(cell).includes('ชื่อ-สกุล'))))continue;const category=name.trim();categories.push({name:category,source_title:cellText(rows[0]?.[0])});const yearRow=rows.slice(0,5).find(row=>row.slice(7).some(v=>Number(v)>=2500&&Number(v)<=2700))||[];const years={};yearRow.forEach((value,index)=>{if(index>=7&&Number(value)>=2500&&Number(value)<=2700)years[index]=String(Math.trunc(Number(value)));});rows.forEach((row,index)=>{if(row.length<7||cellText(row[6])!=='เล่ม/เลข'||![2,3,4].some(i=>row[i]!==''&&row[i]!=null))return;const history=Object.entries(years).map(([col,year])=>({year,number:cellText(rows[index]?.[col]),renewed:cellText(rows[index+1]?.[col]),expires:cellText(rows[index+2]?.[col])}));records.push({category,sequence:cellText(row[0]),code:cellText(row[1]),name:cellText(row[2]),address:cellText(row[3]),business:cellText(row[4]),fee:cellText(row[5]),notes:'',history,source_row:index+1});});}return{records,categories};}
+function cellText(value){
+  if(value==null)return'';
+  if(value instanceof Date){
+    const yr=value.getFullYear()>2400?value.getFullYear():value.getFullYear()+543;
+    return String(value.getDate()).padStart(2,'0')+'/'+String(value.getMonth()+1).padStart(2,'0')+'/'+yr;
+  }
+  return String(value).trim();
+}
+function cleanFee(v){
+  if(v==null)return'';
+  return String(v).replace(/[^\d.]/g,'').trim();
+}
+function parseWorkbook(buffer){
+  const xlsxLib=window.XLSX||(typeof XLSX!=='undefined'?XLSX:null);
+  if(!xlsxLib)throw Error('ตัวอ่าน Excel โหลดไม่สำเร็จ กรุณาลองใหม่');
+  const book=xlsxLib.read(buffer,{type:'array',cellDates:true});
+  const records=[],categories=[];
+  const normCat=name=>{
+    const m=name.trim().match(/หมวด\s*(\d+)(?:\s*\(([^)]+)\))?/);
+    if(!m)return name.trim();
+    if(m[2])return 'หมวด '+m[1]+'('+m[2]+')';
+    return 'หมวด'+m[1];
+  };
+  for(const name of book.SheetNames){
+    const sheet=book.Sheets[name];
+    if(!sheet)continue;
+    const rows=xlsxLib.utils.sheet_to_json(sheet,{header:1,raw:false,defval:''});
+    if(!rows.slice(0,6).some(row=>row.some(c=>String(c).includes('ชื่อ-สกุล'))))continue;
+    const category=normCat(name);
+    categories.push({name:category,source_title:cellText(rows[0]?.[0])});
+    const years={};
+    for(let r=0;r<Math.min(6,rows.length);r++){
+      rows[r].forEach((c,idx)=>{
+        const m=String(c).match(/\b(25[5-7]\d)\b/);
+        if(m&&idx>=5)years[idx]=m[1];
+      });
+    }
+    rows.forEach((row,index)=>{
+      const bookCol=row.findIndex(c=>String(c).includes('เล่ม/เลข'));
+      if(bookCol<0)return;
+      let seq=cellText(row[0]),code='',nameVal='',address='',business='',fee='';
+      if(bookCol===5){
+        nameVal=cellText(row[1]);
+        address=cellText(row[2]);
+        business=cellText(row[3]);
+        fee=cleanFee(row[4]);
+      }else{
+        code=cellText(row[1]);
+        nameVal=cellText(row[2]);
+        address=cellText(row[3]);
+        business=cellText(row[4]);
+        fee=cleanFee(row[5]);
+      }
+      if(!nameVal)return;
+      const history=Object.entries(years).map(([col,year])=>({
+        year,
+        number:cellText(rows[index]?.[col]),
+        renewed:cellText(rows[index+1]?.[col]),
+        expires:cellText(rows[index+2]?.[col])
+      }));
+      records.push({category,sequence:seq,code,name:nameVal,address,business,fee,notes:'',history,source_row:index+1});
+    });
+  }
+  return{records,categories};
+}
 const thaiNumber=value=>Number(String(value||'').replace(/[๐-๙]/g,c=>'๐๑๒๓๔๕๖๗๘๙'.indexOf(c)));
 function classifyRecords(records,year){
   const numYear=Number(year);
@@ -708,7 +790,76 @@ $('#expiryTableBody').onclick=e=>{
     edit(rec);
   }
 };
-$('#import').onclick=()=>$('#excelFile').click();$('#excelFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;if(!confirm('นำเข้าแบบเพิ่มรายการ ไม่ทับข้อมูลเดิม หากนำเข้าไฟล์เดิมซ้ำจะมีรายการซ้ำ ต้องการดำเนินการหรือไม่?')){e.target.value='';return;}notice('กำลังนำเข้า Excel…');try{const parsed=parseWorkbook(await f.arrayBuffer());if(!parsed.records.length)throw Error('ไม่พบข้อมูลทะเบียนใน Excel');const next=Math.max(0,...data.records.map(r=>Number(r.id)||0))+1;data.records.unshift(...parsed.records.map((r,i)=>({...r,id:next+i})));const names=new Set(data.categories.map(c=>c.name));data.categories.push(...parsed.categories.filter(c=>!names.has(c.name)));save();await load();notice(`นำเข้าเรียบร้อย ${parsed.records.length} รายการ`);}catch(err){notice(err.message,true);}e.target.value='';};
+$('#import').onclick=()=>$('#excelFile').click();
+$('#excelFile').onchange=async e=>{
+  const f=e.target.files[0];
+  if(!f)return;
+  notice('กำลังอ่านและประมวลผลไฟล์ Excel…');
+  try{
+    const buf=await f.arrayBuffer();
+    const parsed=parseWorkbook(buf);
+    if(!parsed.records.length)throw Error('ไม่พบข้อมูลทะเบียนผู้ประกอบการในไฟล์ Excel กรุณาตรวจสอบว่าเป็นไฟล์ทะเบียนคุมที่ถูกต้อง');
+
+    const replaceChoice=confirm(`พบข้อมูลผู้ประกอบการในไฟล์ Excel ทั้งหมด ${parsed.records.length} รายการ\n\n- กด "ตกลง (OK)" เพื่ออัปเดตและแทนที่ข้อมูลเดิมด้วยไฟล์นี้ (แนะนำ)\n- กด "ยกเลิก (Cancel)" เพื่อนำเข้าแบบเพิ่มต่อท้าย`);
+
+    const coordMap=new Map();
+    (data.records||[]).forEach(r=>{
+      if(r.latitude&&r.longitude){
+        const k=String(r.name||'').replace(/[\s\r\n]+/g,' ').trim().toLowerCase();
+        if(k)coordMap.set(k,{latitude:r.latitude,longitude:r.longitude,mapSource:r.mapSource});
+      }
+    });
+
+    if(replaceChoice){
+      data.records=parsed.records.map((r,i)=>{
+        const k=String(r.name||'').replace(/[\s\r\n]+/g,' ').trim().toLowerCase();
+        const c=coordMap.get(k);
+        return {
+          ...r,
+          id:i+1,
+          latitude:c?c.latitude:(r.latitude||null),
+          longitude:c?c.longitude:(r.longitude||null),
+          mapSource:c?c.mapSource:(r.mapSource||null)
+        };
+      });
+      data.categories=parsed.categories;
+    }else{
+      const existingNames=new Set((data.records||[]).map(r=>String(r.name||'').replace(/[\s\r\n]+/g,' ').trim().toLowerCase()));
+      let nextId=Math.max(0,...(data.records||[]).map(r=>Number(r.id)||0))+1;
+      parsed.records.forEach(r=>{
+        const k=String(r.name||'').replace(/[\s\r\n]+/g,' ').trim().toLowerCase();
+        if(!existingNames.has(k)){
+          data.records.push({...r,id:nextId++});
+          existingNames.add(k);
+        }
+      });
+      const catNames=new Set((data.categories||[]).map(c=>c.name));
+      (data.categories||[]).push(...parsed.categories.filter(c=>!catNames.has(c.name)));
+    }
+
+    save();
+    renderAll();
+
+    const cloudUrl=getCloudApiUrl();
+    if(cloudUrl){
+      fetch(cloudUrl+'/api/restore',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({records:data.records,categories:data.categories})
+      }).then(()=>{
+        notice(`นำเข้าเรียบร้อย ${parsed.records.length} รายการ (บันทึกและซิงก์ Cloudflare แล้ว)`);
+      }).catch(()=>{
+        notice(`นำเข้าเรียบร้อย ${parsed.records.length} รายการ (บันทึกในเครื่องแล้ว)`);
+      });
+    }else{
+      notice(`นำเข้าเรียบร้อย ${parsed.records.length} รายการ`);
+    }
+  }catch(err){
+    console.error('Import error:',err);
+    notice('เกิดข้อผิดพลาดในการนำเข้า Excel: '+err.message,true);
+  }
+  e.target.value='';
+};
 $('#restore').onclick=()=>$('#jsonFile').click();$('#jsonFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const payload=JSON.parse(await f.text());if(!Array.isArray(payload.records)||!Array.isArray(payload.categories))throw Error('ไฟล์สำรองไม่ถูกต้อง');if(confirm(`กู้คืน ${payload.records.length} รายการและแทนที่ข้อมูลปัจจุบันทั้งหมด?`)){await api('/api/restore',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});await load();notice('กู้คืนข้อมูลเรียบร้อย');}}catch(err){notice(err.message,true);}e.target.value='';};
 
 function updateCloudSettingsUI(){
@@ -762,7 +913,7 @@ if($('#syncToCloud')){
   };
 }
 
-window.addEventListener('auth-success',()=>{load();});
+window.addEventListener('auth-success',()=>{renderAll();load();});
 
 if(typeof window!=='undefined'){
   if(window.ACTIVITY_TYPES&&Array.isArray(window.ACTIVITY_TYPES)) activityTypes=window.ACTIVITY_TYPES;
@@ -776,7 +927,7 @@ if(typeof window!=='undefined'){
       }catch(e){}
     }
     if(!valid){
-      data=structuredClone(window.SEED_DATA);
+      data=JSON.parse(JSON.stringify(window.SEED_DATA));
       data.records=data.records.map((r,i)=>({...r,id:r.id||i+1}));
       save();
     }
