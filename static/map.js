@@ -33,8 +33,13 @@ function save() {
 // โหลดข้อมูล และรวมพิกัดจาก initial.json ในกรณีที่ localStorage ข้อมูลเก่าไม่มีพิกัด
 async function loadData() {
   try {
-    const response = await fetch('initial.json');
-    const initialData = await response.json();
+    let initialData = (typeof window !== 'undefined' && window.SEED_DATA) || null;
+    if (!initialData) {
+      try {
+        const response = await fetch('initial.json');
+        if (response.ok) initialData = await response.json();
+      } catch (e) {}
+    }
     const initialMap = new Map();
     (initialData.records || []).forEach(r => {
       if (r.id && hasPin(r)) initialMap.set(Number(r.id), r);
