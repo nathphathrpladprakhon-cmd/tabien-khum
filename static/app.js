@@ -63,7 +63,12 @@ function notice(message,error=false){$('#notice').textContent=message;$('#notice
 function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(data));}
 function cleanRecord(record){if(!record||typeof record!=='object'||!String(record.name||'').trim())throw Error('กรุณาระบุชื่อผู้ประกอบการ');const copy={...record};delete copy.id;if(!Array.isArray(copy.history))copy.history=[];return copy;}
 const CLOUD_API_KEY='tabien_khum_cloud_api';
-function getCloudApiUrl(){return(localStorage.getItem(CLOUD_API_KEY)||'').trim().replace(/\/+$/,'');}
+const DEFAULT_CLOUD_API='https://tabien-khum-api.nathphathrpladprakhon.workers.dev';
+function getCloudApiUrl(){
+  const saved=localStorage.getItem(CLOUD_API_KEY);
+  if(saved===null||saved===undefined)return DEFAULT_CLOUD_API;
+  return saved.trim().replace(/\/+$/,'');
+}
 async function api(path,options={}){
   const cloudUrl=getCloudApiUrl(),method=options.method||'GET';
   if(cloudUrl){

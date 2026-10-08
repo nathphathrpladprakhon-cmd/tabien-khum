@@ -3,11 +3,10 @@
   "name": "tabien-khum-api",
   "main": "src/index.js",
   "compatibility_date": "2024-09-23",
-  "d1_databases": [
+  "kv_namespaces": [
     {
-      "binding": "DB",
-      "database_name": "tabien-khum-db",
-      "database_id": "tabien-khum-db"
+      "binding": "TABIEN_KHUM_KV",
+      "id": "869d03dfe54040eb9800288c1e0580c2"
     }
   ]
 }
