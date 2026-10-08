@@ -7,7 +7,9 @@
   <title>แผนที่กิจการ | ทะเบียนคุม เทศบาลนครบางบัวทอง</title>
   <link rel="stylesheet" href="leaflet.css">
   <link rel="stylesheet" href="map.css">
+  <link rel="stylesheet" href="auth.css">
   <script src="leaflet.js"></script>
+  <script src="auth.js" defer></script>
   <script src="map.js" defer></script>
 </head>
 <body>
@@ -19,8 +21,9 @@
     <a class="nav" href="index.html"><span>▤</span> ทะเบียนกิจการ</a>
     <a class="nav active" href="map.html"><span>⌖</span> แผนที่กิจการ</a>
     <div class="aside-bottom">
-      <span class="login-dot"></span> แผนที่ระบบฟรี (OpenStreetMap)<br>
-      <small>เทศบาลนครบางบัวทอง</small>
+      <span class="login-dot"></span> เข้าสู่ระบบแล้ว: <b id="currentUserName">ผู้ดูแลระบบ</b><br>
+      <small>เทศบาลนครบางบัวทอง</small><br>
+      <button type="button" id="logoutBtn" class="logout-btn">ออกจากระบบ ⎋</button>
     </div>
   </aside>
 

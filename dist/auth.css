@@ -1,0 +1,164 @@
+/* Login Screen & User Management Styles */
+#loginOverlay {
+  border: none;
+  border-radius: 20px;
+  padding: 0;
+  max-width: 440px;
+  width: 90%;
+  box-shadow: 0 25px 70px rgba(9, 46, 42, 0.45);
+  background: #ffffff;
+  overflow: hidden;
+}
+#loginOverlay::backdrop {
+  background: rgba(9, 46, 42, 0.92);
+  backdrop-filter: blur(8px);
+}
+.login-header {
+  background: linear-gradient(135deg, #103f38, #0e5145);
+  color: white;
+  padding: 32px 24px 24px;
+  text-align: center;
+}
+.login-header img {
+  width: 76px;
+  height: 76px;
+  object-fit: contain;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
+}
+.login-header h2 {
+  font-size: 20px;
+  margin: 0 0 6px;
+  color: #fff;
+  font-weight: 700;
+}
+.login-header p {
+  font-size: 12px;
+  color: #a7c1b9;
+  margin: 0;
+}
+.login-body {
+  padding: 24px;
+}
+.login-field {
+  margin-bottom: 16px;
+}
+.login-field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #18312d;
+  margin-bottom: 6px;
+}
+.login-field input {
+  width: 100%;
+  padding: 11px 14px;
+  font-size: 14px;
+  border: 1.5px solid #d0ded8;
+  border-radius: 10px;
+  box-sizing: border-box;
+  background: #fbfdfc;
+  font-family: inherit;
+}
+.login-field input:focus {
+  outline: none;
+  border-color: #0e5145;
+  box-shadow: 0 0 0 3px rgba(14, 81, 69, 0.15);
+}
+.login-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #16705e, #0e5145);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 8px;
+  box-shadow: 0 8px 20px rgba(14, 81, 69, 0.25);
+  transition: transform 0.15s;
+}
+.login-btn:hover {
+  transform: translateY(-1px);
+}
+.login-error {
+  color: #dc2626;
+  font-size: 12px;
+  margin-top: 10px;
+  text-align: center;
+  min-height: 18px;
+  font-weight: 600;
+}
+.login-hints {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed #e2ece8;
+  font-size: 11px;
+  color: #6f827c;
+  text-align: center;
+  line-height: 1.6;
+}
+.logout-btn {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 10px;
+  font-size: 11px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffd8d8;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.logout-btn:hover {
+  background: #dc2626;
+  color: #fff;
+  border-color: #dc2626;
+}
+
+/* User Management Table & Form */
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin-top: 10px;
+}
+.user-table th, .user-table td {
+  border: 1px solid #dfe8e4;
+  padding: 8px 10px;
+  vertical-align: middle;
+}
+.user-table th {
+  background: #f4f8f6;
+  font-weight: 600;
+  color: #123c34;
+}
+.user-add-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 14px;
+  background: #f7faf9;
+  border: 1px solid #e1ebe7;
+  border-radius: 12px;
+}
+.user-add-grid label {
+  font-size: 12px;
+  font-weight: 600;
+  display: block;
+}
+.user-add-grid input, .user-add-grid select {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid #c9d7d2;
+  border-radius: 6px;
+  font-size: 12px;
+  margin-top: 4px;
+  box-sizing: border-box;
+}
+.user-add-actions {
+  grid-column: span 2;
+  text-align: right;
+  margin-top: 6px;
+}
