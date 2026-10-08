@@ -42,8 +42,22 @@ async function loadData() {
     });
 
     const stored = localStorage.getItem(STORAGE_KEY);
+    let hasValidStored = false;
     if (stored) {
-      data = JSON.parse(stored);
+      try {
+        const parsed = JSON.parse(stored);
+        if (parsed && Array.isArray(parsed.records) && parsed.records.length > 0) {
+          data = parsed;
+          hasValidStored = true;
+        }
+      } catch (e) {}
+    }
+
+    if (!hasValidStored && initialData && Array.isArray(initialData.records) && initialData.records.length > 0) {
+      data = initialData;
+      data.records = (data.records || []).map((r, i) => ({ ...r, id: r.id || i + 1 }));
+      save();
+    } else if (hasValidStored && initialData && Array.isArray(initialData.records)) {
       // หากมี record ใน localStorage ที่ยังไม่มีพิกัด ให้นำพิกัดจาก initialData มาใส่
       let mergedCount = 0;
       data.records.forEach((r, idx) => {
@@ -61,16 +75,12 @@ async function loadData() {
       if (mergedCount > 0) {
         save();
       }
-    } else {
-      data = initialData;
-      data.records = (data.records || []).map((r, i) => ({ ...r, id: r.id || i + 1 }));
-      save();
     }
   } catch (err) {
     console.error('Error loading initial.json', err);
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
-      data = JSON.parse(stored);
+      try { data = JSON.parse(stored); } catch (e) {}
     }
   }
 

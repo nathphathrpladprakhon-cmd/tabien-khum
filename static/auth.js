@@ -227,3 +227,4 @@ if (document.readyState === 'loading') {
   checkLoginRequired();
   setupUserAddForm();
 }
+
