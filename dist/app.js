@@ -950,7 +950,12 @@ function updateCloudSettingsUI(){
   const url=getCloudApiUrl();
   const input=$('#cloudApiInput'),status=$('#cloudStatus');
   if(input) input.value=url;
-  if(status) status.textContent=url?`เชื่อมต่อกับ: ${url}`:'สถานะ: ใช้งาน Local Storage ภายในเครื่อง';
+  if(status){
+    const count = (data.records||[]).length;
+    status.innerHTML = url
+      ? `<span style="color:#059669;font-weight:600;">✓ ออนไลน์ &amp; ซิงค์อัตโนมัติ:</span> <span style="word-break:break-all;">${escapeHTML(url)}</span> <small style="display:block;margin-top:2px;color:#047857;">(ข้อมูล ${count} รายการเชื่อมโยงกับ Cloudflare เรียบร้อยแล้ว)</small>`
+      : '<span style="color:#d97706;font-weight:600;">สถานะ:</span> ใช้งาน Local Storage ภายในเครื่อง (ออฟไลน์)';
+  }
 }
 if($('#settingsNav')){
   const origSettingsClick=$('#settingsNav').onclick;
@@ -988,12 +993,11 @@ if($('#syncToCloud')){
   $('#syncToCloud').onclick=async()=>{
     const url=getCloudApiUrl();
     if(!url)return alert('กรุณาระบุและบันทึก URL ของ Cloudflare ก่อนส่งข้อมูล');
-    if(!confirm(`ส่งข้อมูลปัจจุบันทั้งหมด ${data.records.length} รายการขึ้นไปเก็บที่ Cloudflare D1?`))return;
-    notice('กำลังส่งข้อมูลขึ้น Cloudflare D1…');
+    notice('กำลังตรวจสอบและซิงค์ข้อมูลขึ้น Cloudflare D1…');
     try{
       const res=await fetch(url+'/api/restore',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({records:data.records,categories:data.categories})});
       if(res.ok){
-        notice(`ส่งข้อมูลขึ้น Cloudflare D1 เรียบร้อย (${data.records.length} รายการ)`);
+        notice(`✓ อัปโหลดและซิงค์ข้อมูลขึ้น Cloudflare D1 เรียบร้อย (${data.records.length} รายการ)`);
       }else{throw Error('บันทึกไม่สำเร็จ รหัส '+res.status);}
     }catch(e){notice('ส่งข้อมูลไม่สำเร็จ: '+e.message,true);}
   };
