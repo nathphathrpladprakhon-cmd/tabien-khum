@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "tabien-khum-api",
+  "main": "src/index.js",
+  "compatibility_date": "2024-09-23",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "tabien-khum-db",
+      "database_id": "tabien-khum-db"
+    }
+  ]
+}

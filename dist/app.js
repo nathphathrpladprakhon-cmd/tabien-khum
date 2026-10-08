@@ -62,8 +62,22 @@ function syncFormCode(){
 function notice(message,error=false){$('#notice').textContent=message;$('#notice').className=error?'error':'';}
 function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(data));}
 function cleanRecord(record){if(!record||typeof record!=='object'||!String(record.name||'').trim())throw Error('กรุณาระบุชื่อผู้ประกอบการ');const copy={...record};delete copy.id;if(!Array.isArray(copy.history))copy.history=[];return copy;}
+const CLOUD_API_KEY='tabien_khum_cloud_api';
+function getCloudApiUrl(){return(localStorage.getItem(CLOUD_API_KEY)||'').trim().replace(/\/+$/,'');}
 async function api(path,options={}){
-  const method=options.method||'GET';
+  const cloudUrl=getCloudApiUrl(),method=options.method||'GET';
+  if(cloudUrl){
+    try{
+      const res=await fetch(cloudUrl+path,{...options,headers:{'Content-Type':'application/json',...(options.headers||{})}});
+      if(res.ok){
+        const jsonResult=await res.json();
+        if(path==='/api/records'&&method==='GET'&&Array.isArray(jsonResult?.records)&&jsonResult.records.length>0){
+          data=jsonResult;save();
+        }
+        return jsonResult;
+      }
+    }catch(err){console.warn('Cloud API unavailable, using local cache:',err);}
+  }
   if(path==='/api/records'&&method==='GET')return structuredClone(data);
   if(path==='/api/records'&&method==='POST'){const record=cleanRecord(JSON.parse(options.body));const id=Math.max(0,...data.records.map(r=>Number(r.id)||0))+1;data.records.unshift({...record,id});save();return{id};}
   const match=path.match(/^\/api\/records\/(\d+)$/);
@@ -613,4 +627,57 @@ $('#expiryTableBody').onclick=e=>{
   }
 };
 $('#import').onclick=()=>$('#excelFile').click();$('#excelFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;if(!confirm('นำเข้าแบบเพิ่มรายการ ไม่ทับข้อมูลเดิม หากนำเข้าไฟล์เดิมซ้ำจะมีรายการซ้ำ ต้องการดำเนินการหรือไม่?')){e.target.value='';return;}notice('กำลังนำเข้า Excel…');try{const parsed=parseWorkbook(await f.arrayBuffer());if(!parsed.records.length)throw Error('ไม่พบข้อมูลทะเบียนใน Excel');const next=Math.max(0,...data.records.map(r=>Number(r.id)||0))+1;data.records.unshift(...parsed.records.map((r,i)=>({...r,id:next+i})));const names=new Set(data.categories.map(c=>c.name));data.categories.push(...parsed.categories.filter(c=>!names.has(c.name)));save();await load();notice(`นำเข้าเรียบร้อย ${parsed.records.length} รายการ`);}catch(err){notice(err.message,true);}e.target.value='';};
-$('#restore').onclick=()=>$('#jsonFile').click();$('#jsonFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const payload=JSON.parse(await f.text());if(!Array.isArray(payload.records)||!Array.isArray(payload.categories))throw Error('ไฟล์สำรองไม่ถูกต้อง');if(confirm(`กู้คืน ${payload.records.length} รายการและแทนที่ข้อมูลปัจจุบันทั้งหมด?`)){await api('/api/restore',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});await load();notice('กู้คืนข้อมูลเรียบร้อย');}}catch(err){notice(err.message,true);}e.target.value='';};initialize().then(load).catch(e=>notice(e.message,true));
+$('#restore').onclick=()=>$('#jsonFile').click();$('#jsonFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const payload=JSON.parse(await f.text());if(!Array.isArray(payload.records)||!Array.isArray(payload.categories))throw Error('ไฟล์สำรองไม่ถูกต้อง');if(confirm(`กู้คืน ${payload.records.length} รายการและแทนที่ข้อมูลปัจจุบันทั้งหมด?`)){await api('/api/restore',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});await load();notice('กู้คืนข้อมูลเรียบร้อย');}}catch(err){notice(err.message,true);}e.target.value='';};
+
+function updateCloudSettingsUI(){
+  const url=getCloudApiUrl();
+  const input=$('#cloudApiInput'),status=$('#cloudStatus');
+  if(input) input.value=url;
+  if(status) status.textContent=url?`เชื่อมต่อกับ: ${url}`:'สถานะ: ใช้งาน Local Storage ภายในเครื่อง';
+}
+const origSettingsClick=$('#settingsNav').onclick;
+$('#settingsNav').onclick=()=>{updateCloudSettingsUI();if(origSettingsClick)origSettingsClick();};
+if($('#saveCloudApi')){
+  $('#saveCloudApi').onclick=async()=>{
+    const url=($('#cloudApiInput').value||'').trim().replace(/\/+$/,'');
+    if(!url){localStorage.removeItem(CLOUD_API_KEY);updateCloudSettingsUI();notice('ยกเลิกการเชื่อมต่อ Cloudflare แล้ว');return;}
+    notice('กำลังทดสอบการเชื่อมต่อ Cloudflare…');
+    try{
+      const res=await fetch(url+'/health');
+      if(res.ok){
+        localStorage.setItem(CLOUD_API_KEY,url);
+        updateCloudSettingsUI();
+        notice('เชื่อมต่อ Cloudflare สำเร็จ! กำลังโหลดข้อมูล…');
+        await load();
+      }else{throw Error('รหัส '+res.status);}
+    }catch(e){
+      localStorage.setItem(CLOUD_API_KEY,url);
+      updateCloudSettingsUI();
+      notice('บันทึกที่อยู่ Cloudflare แล้ว: '+url);
+    }
+  };
+}
+if($('#resetCloudApi')){
+  $('#resetCloudApi').onclick=async()=>{
+    localStorage.removeItem(CLOUD_API_KEY);
+    updateCloudSettingsUI();
+    notice('สลับกลับมาใช้ Local Storage เรียบร้อย');
+    await load();
+  };
+}
+if($('#syncToCloud')){
+  $('#syncToCloud').onclick=async()=>{
+    const url=getCloudApiUrl();
+    if(!url)return alert('กรุณาระบุและบันทึก URL ของ Cloudflare ก่อนส่งข้อมูล');
+    if(!confirm(`ส่งข้อมูลปัจจุบันทั้งหมด ${data.records.length} รายการขึ้นไปเก็บที่ Cloudflare D1?`))return;
+    notice('กำลังส่งข้อมูลขึ้น Cloudflare D1…');
+    try{
+      const res=await fetch(url+'/api/restore',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({records:data.records,categories:data.categories})});
+      if(res.ok){
+        notice(`ส่งข้อมูลขึ้น Cloudflare D1 เรียบร้อย (${data.records.length} รายการ)`);
+      }else{throw Error('บันทึกไม่สำเร็จ รหัส '+res.status);}
+    }catch(e){notice('ส่งข้อมูลไม่สำเร็จ: '+e.message,true);}
+  };
+}
+
+initialize().then(load).catch(e=>notice(e.message,true));
