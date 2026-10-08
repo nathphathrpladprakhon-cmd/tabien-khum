@@ -26,6 +26,29 @@ const notice = (message, error = false) => {
   el.className = error ? 'error' : '';
 };
 
+const CLOUD_API_KEY = 'tabien_khum_cloud_api';
+const DEFAULT_CLOUD_API = 'https://tabien-khum-api.nathphathrpladprakhon.workers.dev';
+function getCloudApiUrl() {
+  const saved = localStorage.getItem(CLOUD_API_KEY);
+  if (saved === 'none' || saved === '') return '';
+  if (saved === null || saved === undefined) return DEFAULT_CLOUD_API;
+  return saved.trim().replace(/\/+$/, '');
+}
+
+async function syncRecordToCloud(record) {
+  const cloudUrl = getCloudApiUrl();
+  if (!cloudUrl || !record || !record.id) return;
+  try {
+    await fetch(`${cloudUrl}/api/records/${record.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(record)
+    });
+  } catch (err) {
+    console.warn('Sync pin to Cloudflare failed:', err);
+  }
+}
+
 function save() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
@@ -247,6 +270,7 @@ function setPin(record, latitude, longitude, focus = true) {
   record.longitude = Number(longitude).toFixed(6);
   record.mapSource = 'manual';
   save();
+  syncRecordToCloud(record);
 
   const old = markers.get(Number(record.id));
   if (old) map.removeLayer(old);
@@ -274,6 +298,7 @@ function deletePin() {
   if (marker) map.removeLayer(marker);
   markers.delete(Number(selected.id));
   save();
+  syncRecordToCloud(selected);
   updateStats();
   renderList();
   $('#deletePin').disabled = true;

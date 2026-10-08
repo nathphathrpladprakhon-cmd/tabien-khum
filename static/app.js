@@ -82,6 +82,13 @@ function cleanRecord(record){
   else copy.history=copy.history.map(h=>({...h,renewed:normalizeThaiDate(h.renewed),expires:normalizeThaiDate(h.expires)}));
   return copy;
 }
+function save(){
+  try{
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
+  }catch(e){
+    console.warn('LocalStorage save error:',e);
+  }
+}
 const CLOUD_API_KEY='tabien_khum_cloud_api';
 const DEFAULT_CLOUD_API='https://tabien-khum-api.nathphathrpladprakhon.workers.dev';
 function getCloudApiUrl(){
