@@ -641,7 +641,7 @@ function updateCloudSettingsUI(){
   if(status) status.textContent=url?`เชื่อมต่อกับ: ${url}`:'สถานะ: ใช้งาน Local Storage ภายในเครื่อง';
 }
 const origSettingsClick=$('#settingsNav').onclick;
-$('#settingsNav').onclick=()=>{updateCloudSettingsUI();if(origSettingsClick)origSettingsClick();};
+$('#settingsNav').onclick=()=>{updateCloudSettingsUI();if(typeof renderUserManager==='function')renderUserManager();if(origSettingsClick)origSettingsClick();};
 if($('#saveCloudApi')){
   $('#saveCloudApi').onclick=async()=>{
     const url=($('#cloudApiInput').value||'').trim().replace(/\/+$/,'');
