@@ -46,9 +46,12 @@ async function loadData() {
       else if (r.name && hasPin(r)) initialMap.set(r.name.trim(), r);
     });
 
+    const DATA_VER = '20261008_dmy_v2';
+    const isMigrated = localStorage.getItem('tabien_khum_data_ver') === DATA_VER;
+
     const stored = localStorage.getItem(STORAGE_KEY);
     let hasValidStored = false;
-    if (stored) {
+    if (stored && isMigrated) {
       try {
         const parsed = JSON.parse(stored);
         if (parsed && Array.isArray(parsed.records) && parsed.records.length > 0) {
@@ -59,9 +62,28 @@ async function loadData() {
     }
 
     if (!hasValidStored && initialData && Array.isArray(initialData.records) && initialData.records.length > 0) {
-      data = initialData;
-      data.records = (data.records || []).map((r, i) => ({ ...r, id: r.id || i + 1 }));
+      const pinMap = new Map();
+      if (stored) {
+        try {
+          const p = JSON.parse(stored);
+          (p.records || []).forEach(r => {
+            if (r.latitude && r.longitude) pinMap.set(Number(r.id), { lat: r.latitude, lng: r.longitude, src: r.mapSource });
+          });
+        } catch (_) {}
+      }
+      data = JSON.parse(JSON.stringify(initialData));
+      data.records = (data.records || []).map((r, i) => {
+        const pin = pinMap.get(r.id || i + 1);
+        return {
+          ...r,
+          id: r.id || i + 1,
+          latitude: pin ? pin.lat : (r.latitude || null),
+          longitude: pin ? pin.lng : (r.longitude || null),
+          mapSource: pin ? pin.src : (r.mapSource || null)
+        };
+      });
       save();
+      localStorage.setItem('tabien_khum_data_ver', DATA_VER);
     } else if (hasValidStored && initialData && Array.isArray(initialData.records)) {
       // หากมี record ใน localStorage ที่ยังไม่มีพิกัด ให้นำพิกัดจาก initialData มาใส่
       let mergedCount = 0;
