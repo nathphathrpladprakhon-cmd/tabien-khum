@@ -253,16 +253,16 @@ function edit(r=null){
   if($('#formCancelYear'))$('#formCancelYear').value=r?.cancelYear||(isCancelled?$('#year').value:'');
   $('#history').innerHTML='';
   (r?.history||[{year:$('#year').value}]).forEach(historyRow);
-  $('#editor').showModal();
+  $('#editor')?.showModal();
 }
-$('#formCancelled').onchange=e=>{
+if($('#formCancelled'))$('#formCancelled').onchange=e=>{
   const checked=e.target.checked;
   if($('#cancelYearField'))$('#cancelYearField').hidden=!checked;
   if(checked&&$('#formCancelYear')&&!$('#formCancelYear').value){
     $('#formCancelYear').value=$('#year').value;
   }
 };
-$('#form').onsubmit=async e=>{
+if($('#form'))$('#form').onsubmit=async e=>{
   e.preventDefault();
   const fields=Object.fromEntries(new FormData(e.target)),main=Number(fields.categoryMain),sub=Number(fields.categorySub),detailVal=fields.categoryDetail||'',item=activityItem(main,sub);
   if(!item)return alert('กรุณาเลือกประเภทกิจการและกิจการย่อยให้ครบถ้วน');
@@ -299,25 +299,34 @@ $('#form').onsubmit=async e=>{
     b.disabled=false;
   }
 };
-$('#rows').onclick=async e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.edit){openedFromExpiryDialog=false;edit(data.records.find(r=>r.id===Number(b.dataset.edit)));}if(b.dataset.mapRecord)location.href=`map.html?id=${encodeURIComponent(b.dataset.mapRecord)}`;if(b.dataset.delete&&confirm('ลบทะเบียนนี้? แนะนำให้สำรองข้อมูลก่อนลบ')){try{await api('/api/records/'+b.dataset.delete,{method:'DELETE'});notice('ลบรายการแล้ว');await load();}catch(err){notice(err.message,true);}}};
-$('#add').onclick=()=>{openedFromExpiryDialog=false;edit();};
-$('#close').onclick=()=>{
-  $('#editor').close();
+if($('#rows'))$('#rows').onclick=async e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.edit){openedFromExpiryDialog=false;edit(data.records.find(r=>r.id===Number(b.dataset.edit)));}if(b.dataset.mapRecord)location.href=`map.html?id=${encodeURIComponent(b.dataset.mapRecord)}`;if(b.dataset.delete&&confirm('ลบทะเบียนนี้? แนะนำให้สำรองข้อมูลก่อนลบ')){try{await api('/api/records/'+b.dataset.delete,{method:'DELETE'});notice('ลบรายการแล้ว');await load();}catch(err){notice(err.message,true);}}};
+if($('#add'))$('#add').onclick=()=>{openedFromExpiryDialog=false;edit();};
+if($('#close'))$('#close').onclick=()=>{
+  $('#editor')?.close();
   if(openedFromExpiryDialog){
     openedFromExpiryDialog=false;
     openExpiryDialog();
   }
 };
-$('#addYear').onclick=()=>historyRow();
-$('#formCategory').addEventListener('change',e=>{populateFormSubcategories(e.target.value);populateFormDetails(e.target.value,'');syncFormCode();});
-$('#formSubcategory').addEventListener('change',e=>{populateFormDetails($('#formCategory').value,e.target.value);syncFormCode();});
-$('#formDetail').addEventListener('change',e=>{syncFormCode();const fee=e.target.selectedOptions[0]?.dataset.fee;if(fee)$('#form').elements.fee.value=fee.replace(/,/g,'');});$('#search').addEventListener('input',()=>{page=1;render();});$('#year').addEventListener('change',()=>{page=1;render();});$('#category').addEventListener('change',()=>{page=1;updateSubcategories();render();});$('#subcategory').addEventListener('change',()=>{page=1;render();});$('#prev').onclick=()=>{page--;render();};$('#next').onclick=()=>{page++;render();};
-$('#toggleCategories').onclick=()=>{const cards=$('#categoryCards'),open=cards.hidden;cards.hidden=!open;$('#toggleCategories').setAttribute('aria-expanded',String(open));$('#toggleCategories').textContent=open?'ซ่อนรายการ':'ดูทั้ง 13 ประเภท';};
-$('#categoryCards').onclick=e=>{const card=e.target.closest('[data-category]');if(!card)return;$('#category').value=card.dataset.category;updateSubcategories();page=1;render();document.querySelector('.panel').scrollIntoView({behavior:'smooth',block:'start'});};
-$('#registryNav').onclick=()=>document.querySelector('.panel').scrollIntoView({behavior:'smooth'});$('#settingsNav').onclick=()=>$('#settingsDialog').showModal();$('#closeSettings').onclick=()=>$('#settingsDialog').close();$('#copySiteLink').onclick=async()=>{try{await navigator.clipboard.writeText(location.href);$('#copyStatus').textContent='คัดลอกลิงก์แล้ว — เพิ่มอีเมลผู้ใช้จากเมนู Share ของเว็บไซต์';}catch{$('#copyStatus').textContent='ลิงก์เว็บไซต์: '+location.href;}};
+if($('#addYear'))$('#addYear').onclick=()=>historyRow();
+if($('#formCategory'))$('#formCategory').addEventListener('change',e=>{populateFormSubcategories(e.target.value);populateFormDetails(e.target.value,'');syncFormCode();});
+if($('#formSubcategory'))$('#formSubcategory').addEventListener('change',e=>{populateFormDetails($('#formCategory').value,e.target.value);syncFormCode();});
+if($('#formDetail'))$('#formDetail').addEventListener('change',e=>{syncFormCode();const fee=e.target.selectedOptions[0]?.dataset.fee;if(fee)$('#form').elements.fee.value=fee.replace(/,/g,'');});
+if($('#search'))$('#search').addEventListener('input',()=>{page=1;render();});
+if($('#year'))$('#year').addEventListener('change',()=>{page=1;render();});
+if($('#category'))$('#category').addEventListener('change',()=>{page=1;updateSubcategories();render();});
+if($('#subcategory'))$('#subcategory').addEventListener('change',()=>{page=1;render();});
+if($('#prev'))$('#prev').onclick=()=>{page--;render();};
+if($('#next'))$('#next').onclick=()=>{page++;render();};
+if($('#toggleCategories'))$('#toggleCategories').onclick=()=>{const cards=$('#categoryCards'),open=cards.hidden;cards.hidden=!open;$('#toggleCategories').setAttribute('aria-expanded',String(open));$('#toggleCategories').textContent=open?'ซ่อนรายการ':'ดูทั้ง 13 ประเภท';};
+if($('#categoryCards'))$('#categoryCards').onclick=e=>{const card=e.target.closest('[data-category]');if(!card)return;$('#category').value=card.dataset.category;updateSubcategories();page=1;render();document.querySelector('.panel')?.scrollIntoView({behavior:'smooth',block:'start'});};
+if($('#registryNav'))$('#registryNav').onclick=()=>document.querySelector('.panel')?.scrollIntoView({behavior:'smooth'});
+if($('#settingsNav'))$('#settingsNav').onclick=()=>$('#settingsDialog')?.showModal();
+if($('#closeSettings'))$('#closeSettings').onclick=()=>$('#settingsDialog')?.close();
+if($('#copySiteLink'))$('#copySiteLink').onclick=async()=>{try{await navigator.clipboard.writeText(location.href);if($('#copyStatus'))$('#copyStatus').textContent='คัดลอกลิงก์แล้ว — เพิ่มอีเมลผู้ใช้จากเมนู Share ของเว็บไซต์';}catch{if($('#copyStatus'))$('#copyStatus').textContent='ลิงก์เว็บไซต์: '+location.href;}};
 function download(text,name,type){const url=URL.createObjectURL(new Blob([text],{type}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
-$('#backup').onclick=()=>download(JSON.stringify(data,null,2),'ทะเบียนคุม-backup-'+new Date().toISOString().slice(0,10)+'.json','application/json');
-$('#csv').onclick=()=>{const year=$('#year').value;const rows=[['หมวด','ลำดับ','รหัส','ชื่อ-สกุล','ที่อยู่','ประเภทกิจการ','ค่าธรรมเนียม','สถานะ','ปีที่ยกเลิก','ปี','เล่ม/เลข','ต่ออายุ','หมดอายุ','หมายเหตุ'],...filtered().map(r=>{const h=(r.history||[]).find(h=>h.year===year)||{};return [r.category,r.sequence,r.code,r.name,r.address,r.business,r.fee,r.cancelled?'ยกเลิกกิจการ':'ดำเนินกิจการ',r.cancelYear||'',year,h.number,h.renewed,h.expires,r.notes];})];download('\ufeff'+rows.map(r=>r.map(v=>{let s=String(v??'');if(/^[=+@\-\t\r]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';}).join(',')).join('\r\n'),'ทะเบียนคุม-'+year+'.csv','text/csv;charset=utf-8');};
+if($('#backup'))$('#backup').onclick=()=>download(JSON.stringify(data,null,2),'ทะเบียนคุม-backup-'+new Date().toISOString().slice(0,10)+'.json','application/json');
+if($('#csv'))$('#csv').onclick=()=>{const year=$('#year')?.value||'';const rows=[['หมวด','ลำดับ','รหัส','ชื่อ-สกุล','ที่อยู่','ประเภทกิจการ','ค่าธรรมเนียม','สถานะ','ปีที่ยกเลิก','ปี','เล่ม/เลข','ต่ออายุ','หมดอายุ','หมายเหตุ'],...filtered().map(r=>{const h=(r.history||[]).find(h=>h.year===year)||{};return [r.category,r.sequence,r.code,r.name,r.address,r.business,r.fee,r.cancelled?'ยกเลิกกิจการ':'ดำเนินกิจการ',r.cancelYear||'',year,h.number,h.renewed,h.expires,r.notes];})];download('\ufeff'+rows.map(r=>r.map(v=>{let s=String(v??'');if(/^[=+@\-\t\r]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';}).join(',')).join('\r\n'),'ทะเบียนคุม-'+year+'.csv','text/csv;charset=utf-8');};
 function cellText(value){
   if(value==null)return'';
   if(value instanceof Date){
@@ -403,7 +412,10 @@ function categoryReport(year){return categoryLabels().map((label,index)=>({numbe
 function renderSummary(){const year=Number($('#year').value),report=categoryReport(year),totals=[0,0,0,0];$('#reportTitle').textContent=`สรุปกิจการที่เป็นอันตรายต่อสุขภาพ ปี ${year}`;$('#reportRows').innerHTML=report.map(row=>{row.values.forEach((v,i)=>totals[i]+=v);return `<tr><td><b>${row.number}.</b> ${escapeHTML(row.label)}</td>${row.values.map(v=>`<td>${v.toLocaleString('th-TH')}</td>`).join('')}</tr>`;}).join('');['Old','Cancelled','Renewed','New'].forEach((name,i)=>{$('#report'+name).textContent=totals[i].toLocaleString('th-TH');$('#reportTotal'+name).textContent=totals[i].toLocaleString('th-TH');});return{year,report,totals};}
 async function downloadSummary(){const button=$('#downloadReport'),year=Number($('#year').value);button.disabled=true;notice('กำลังจัดทำ Excel พร้อมตาราง…');try{if(!window.ExcelJS)throw Error('ตัวสร้างเอกสาร Excel โหลดไม่สำเร็จ');const response=await fetch('summary-template.xlsx');if(!response.ok)throw Error('โหลดแม่แบบเอกสารไม่สำเร็จ');const workbook=new ExcelJS.Workbook();await workbook.xlsx.load(await response.arrayBuffer());const sheet=workbook.worksheets[0];sheet.getCell(1,1).value=`ข้อมูลการต่อใบอนุญาตกิจการที่เป็นอันตรายต่อสุขภาพ ประจำปี ${year} ( 1 ต.ค. ${year-1} - 30 ก.ย. ${year} )`;for(let r=1;r<=sheet.rowCount;r++){for(let c=9;c<=16;c++){sheet.getCell(r,c).value=null;}}let category=0;for(let row=5;row<=sheet.rowCount;row++){const a=String(sheet.getCell(row,1).text||'').trim(),heading=a.match(/^(\d{1,2})\s*\.\s*กิจการ/);if(heading){category=Number(heading[1]);continue;}if(category===1&&/^\(1\)\s*การฆ่า/.test(a))category=2;const sub=a.match(/^[（(]\s*([0-9๐-๙]+)\s*[）)]/)||a.match(/^([0-9๐-๙]+)\s*\./),numeric=[5,6,7,8].some(col=>typeof sheet.getCell(row,col).value==='number');if(!sub&&!numeric)continue;for(let col=5;col<=8;col++)sheet.getCell(row,col).value=0;if(!sub||!category)continue;summaryCounts(category,thaiNumber(sub[1]),year).forEach((value,index)=>sheet.getCell(row,5+index).value=value);}workbook.calcProperties.fullCalcOnLoad=true;const output=await workbook.xlsx.writeBuffer();download(output,`สรุปกิจการอันตราย-ปี-${year}.xlsx`,'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');notice(`ดาวน์โหลด Excel ปี ${year} พร้อมรูปแบบตารางแล้ว`);}catch(error){notice(error.message,true);}finally{button.disabled=false;}}
 function printSummary(){const{year,report,totals}=renderSummary(),popup=window.open('','_blank');if(!popup)return notice('เบราว์เซอร์ปิดกั้นหน้าต่างพิมพ์ กรุณาอนุญาตป๊อปอัป',true);const rows=report.map(row=>`<tr><td>${row.number}. ${escapeHTML(row.label)}</td>${row.values.map(v=>`<td>${v}</td>`).join('')}</tr>`).join('');popup.document.write(`<!doctype html><html lang="th"><head><meta charset="utf-8"><title>รายงานปี ${year}</title><style>body{font-family:Tahoma,sans-serif;padding:24px;color:#123}h1{text-align:center;font-size:20px}p{text-align:center}table{width:100%;border-collapse:collapse;font-size:11px}th,td{border:1px solid #333;padding:7px}th{background:#dcebe5}td:not(:first-child),th:not(:first-child){text-align:center}tfoot{font-weight:bold}@page{size:A4 landscape;margin:12mm}</style></head><body><h1>ข้อมูลการต่อใบอนุญาตกิจการที่เป็นอันตรายต่อสุขภาพ</h1><p>ประจำปี ${year} (1 ต.ค. ${year-1} - 30 ก.ย. ${year})</p><table><thead><tr><th>ประเภทกิจการ</th><th>รายเก่า</th><th>ยกเลิก</th><th>รายต่อ</th><th>รายใหม่</th></tr></thead><tbody>${rows}</tbody><tfoot><tr><td>รวมทั้งหมด</td>${totals.map(v=>`<td>${v}</td>`).join('')}</tr></tfoot></table><script>onload=()=>{print();onafterprint=()=>close()}<\/script></body></html>`);popup.document.close();}
-$('#summaryXlsx').onclick=()=>{renderSummary();$('#reportDialog').showModal();};$('#closeReport').onclick=()=>$('#reportDialog').close();$('#downloadReport').onclick=downloadSummary;$('#printReport').onclick=printSummary;
+if($('#summaryXlsx'))$('#summaryXlsx').onclick=()=>{renderSummary();$('#reportDialog')?.showModal();};
+if($('#closeReport'))$('#closeReport').onclick=()=>$('#reportDialog')?.close();
+if($('#downloadReport'))$('#downloadReport').onclick=downloadSummary;
+if($('#printReport'))$('#printReport').onclick=printSummary;
 
 let currentExpiryList=[];
 
@@ -768,18 +780,18 @@ function printExpiryReport(){
   popup.document.close();
 }
 
-$('#openExpiryReport').onclick=openExpiryDialog;
-$('#expiryStatCard').onclick=openExpiryDialog;
-$('#expiryNav').onclick=openExpiryDialog;
-$('#closeExpiryDialog').onclick=()=>$('#expiryDialog').close();
-$('#expiryMonthSelect').onchange=renderExpiryModal;
-$('#expiryYearSelect').onchange=renderExpiryModal;
-$('#expiryIncludePending').onchange=renderExpiryModal;
-$('#expirySearchInput').oninput=renderExpiryModal;
-$('#downloadExpiryXlsx').onclick=downloadExpiryExcel;
-$('#downloadExpiryCsv').onclick=downloadExpiryCsv;
-$('#printExpiryReport').onclick=printExpiryReport;
-$('#expiryTableBody').onclick=e=>{
+if($('#openExpiryReport'))$('#openExpiryReport').onclick=openExpiryDialog;
+if($('#expiryStatCard'))$('#expiryStatCard').onclick=openExpiryDialog;
+if($('#expiryNav'))$('#expiryNav').onclick=openExpiryDialog;
+if($('#closeExpiryDialog'))$('#closeExpiryDialog').onclick=()=>$('#expiryDialog')?.close();
+if($('#expiryMonthSelect'))$('#expiryMonthSelect').onchange=renderExpiryModal;
+if($('#expiryYearSelect'))$('#expiryYearSelect').onchange=renderExpiryModal;
+if($('#expiryIncludePending'))$('#expiryIncludePending').onchange=renderExpiryModal;
+if($('#expirySearchInput'))$('#expirySearchInput').oninput=renderExpiryModal;
+if($('#downloadExpiryXlsx'))$('#downloadExpiryXlsx').onclick=downloadExpiryExcel;
+if($('#downloadExpiryCsv'))$('#downloadExpiryCsv').onclick=downloadExpiryCsv;
+if($('#printExpiryReport'))$('#printExpiryReport').onclick=printExpiryReport;
+if($('#expiryTableBody'))$('#expiryTableBody').onclick=e=>{
   const btn=e.target.closest('[data-open-record]');
   if(!btn)return;
   const id=Number(btn.dataset.openRecord);
@@ -790,8 +802,8 @@ $('#expiryTableBody').onclick=e=>{
     edit(rec);
   }
 };
-$('#import').onclick=()=>$('#excelFile').click();
-$('#excelFile').onchange=async e=>{
+if($('#import'))$('#import').onclick=()=>$('#excelFile')?.click();
+if($('#excelFile'))$('#excelFile').onchange=async e=>{
   const f=e.target.files[0];
   if(!f)return;
   notice('กำลังอ่านและประมวลผลไฟล์ Excel…');
@@ -860,7 +872,8 @@ $('#excelFile').onchange=async e=>{
   }
   e.target.value='';
 };
-$('#restore').onclick=()=>$('#jsonFile').click();$('#jsonFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const payload=JSON.parse(await f.text());if(!Array.isArray(payload.records)||!Array.isArray(payload.categories))throw Error('ไฟล์สำรองไม่ถูกต้อง');if(confirm(`กู้คืน ${payload.records.length} รายการและแทนที่ข้อมูลปัจจุบันทั้งหมด?`)){await api('/api/restore',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});await load();notice('กู้คืนข้อมูลเรียบร้อย');}}catch(err){notice(err.message,true);}e.target.value='';};
+if($('#restore'))$('#restore').onclick=()=>$('#jsonFile')?.click();
+if($('#jsonFile'))$('#jsonFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const payload=JSON.parse(await f.text());if(!Array.isArray(payload.records)||!Array.isArray(payload.categories))throw Error('ไฟล์สำรองไม่ถูกต้อง');if(confirm(`กู้คืน ${payload.records.length} รายการและแทนที่ข้อมูลปัจจุบันทั้งหมด?`)){await api('/api/restore',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});await load();notice('กู้คืนข้อมูลเรียบร้อย');}}catch(err){notice(err.message,true);}e.target.value='';};
 
 function updateCloudSettingsUI(){
   const url=getCloudApiUrl();
@@ -868,8 +881,10 @@ function updateCloudSettingsUI(){
   if(input) input.value=url;
   if(status) status.textContent=url?`เชื่อมต่อกับ: ${url}`:'สถานะ: ใช้งาน Local Storage ภายในเครื่อง';
 }
-const origSettingsClick=$('#settingsNav').onclick;
-$('#settingsNav').onclick=()=>{updateCloudSettingsUI();if(typeof renderUserManager==='function')renderUserManager();if(origSettingsClick)origSettingsClick();};
+if($('#settingsNav')){
+  const origSettingsClick=$('#settingsNav').onclick;
+  $('#settingsNav').onclick=()=>{updateCloudSettingsUI();if(typeof renderUserManager==='function')renderUserManager();if(origSettingsClick)origSettingsClick();};
+}
 if($('#saveCloudApi')){
   $('#saveCloudApi').onclick=async()=>{
     const url=($('#cloudApiInput').value||'').trim().replace(/\/+$/,'');
