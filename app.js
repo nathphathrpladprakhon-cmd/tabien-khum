@@ -66,6 +66,7 @@ const CLOUD_API_KEY='tabien_khum_cloud_api';
 const DEFAULT_CLOUD_API='https://tabien-khum-api.nathphathrpladprakhon.workers.dev';
 function getCloudApiUrl(){
   const saved=localStorage.getItem(CLOUD_API_KEY);
+  if(saved==='none'||saved==='')return '';
   if(saved===null||saved===undefined)return DEFAULT_CLOUD_API;
   return saved.trim().replace(/\/+$/,'');
 }
@@ -73,7 +74,10 @@ async function api(path,options={}){
   const cloudUrl=getCloudApiUrl(),method=options.method||'GET';
   if(cloudUrl){
     try{
-      const res=await fetch(cloudUrl+path,{...options,headers:{'Content-Type':'application/json',...(options.headers||{})}});
+      const controller=new AbortController();
+      const timeoutId=setTimeout(()=>controller.abort(),3500);
+      const res=await fetch(cloudUrl+path,{...options,signal:controller.signal,headers:{'Content-Type':'application/json',...(options.headers||{})}});
+      clearTimeout(timeoutId);
       if(res.ok){
         const jsonResult=await res.json();
         if(path==='/api/records'&&method==='GET'&&Array.isArray(jsonResult?.records)&&jsonResult.records.length>0){
@@ -81,7 +85,7 @@ async function api(path,options={}){
         }
         return jsonResult;
       }
-    }catch(err){console.warn('Cloud API unavailable, using local cache:',err);}
+    }catch(err){console.warn('Cloud API unavailable or timed out, using local data:',err);}
   }
   if(path==='/api/records'&&method==='GET')return structuredClone(data);
   if(path==='/api/records'&&method==='POST'){const record=cleanRecord(JSON.parse(options.body));const id=Math.max(0,...data.records.map(r=>Number(r.id)||0))+1;data.records.unshift({...record,id});save();return{id};}
@@ -89,6 +93,24 @@ async function api(path,options={}){
   if(match){const id=Number(match[1]),index=data.records.findIndex(r=>Number(r.id)===id);if(index<0)throw Error('ไม่พบรายการ');if(method==='DELETE')data.records.splice(index,1);else if(method==='PUT')data.records[index]={...cleanRecord(JSON.parse(options.body)),id};else throw Error('ไม่รองรับคำสั่ง');save();return{ok:true};}
   if(path==='/api/restore'&&method==='POST'){const payload=JSON.parse(options.body);if(!Array.isArray(payload.records)||!Array.isArray(payload.categories))throw Error('ไฟล์สำรองไม่ถูกต้อง');data={records:payload.records.map((r,i)=>({...cleanRecord(r),id:Number(r.id)||i+1})),categories:payload.categories};save();return{count:data.records.length};}
   throw Error('ไม่พบเส้นทางข้อมูล');
+}
+function renderAll(){
+  if(!data||!Array.isArray(data.records))return;
+  const current=$('#category').value,currentSub=$('#subcategory').value,labels=categoryLabels();
+  const categoryOptions=labels.map((label,i)=>`<option value="${i+1}">${i+1}. ${escapeHTML(label)}</option>`).join('');
+  $('#category').innerHTML='<option value="">ทุกประเภทกิจการ (13 ประเภท)</option>'+categoryOptions;
+  $('#category').value=current;
+  updateSubcategories(currentSub);
+  $('#formCategory').innerHTML='<option value="">เลือกประเภทกิจการ</option>'+categoryOptions;
+  const years=[...new Set([...data.records.flatMap(r=>(r.history||[]).map(h=>h.year)),String(new Date().getFullYear()+543)])].sort((a,b)=>Number(b)-Number(a));
+  const yr=$('#year').value;
+  $('#year').innerHTML=years.map(y=>`<option>${escapeHTML(y)}</option>`).join('');
+  $('#year').value=yr||String(new Date().getFullYear()+543);
+  $('#total').textContent=data.records.length.toLocaleString('th-TH');
+  $('#catCount').textContent='13';
+  renderCategoryCards();
+  render();
+  updateExpiryBadgeAndCard();
 }
 async function initialize(){
   const types=await fetch('activity-types.json');
@@ -99,45 +121,86 @@ async function initialize(){
   try{
     const res=await fetch('initial.json');
     if(res.ok) initialData=await res.json();
-  }catch(e){}
+  }catch(e){console.warn('Failed to load initial.json:',e);}
 
   const stored=localStorage.getItem(STORAGE_KEY);
+  let hasValidStored=false;
   if(stored){
-    data=JSON.parse(stored);
-    if(initialData&&Array.isArray(initialData.records)){
-      const initialMap=new Map();
-      initialData.records.forEach(r=>{
-        if(r.latitude&&r.longitude){
-          if(r.id) initialMap.set(Number(r.id),r);
-          if(r.name) initialMap.set(String(r.name).trim(),r);
-        }
-      });
-      let merged=0;
-      data.records.forEach((r,idx)=>{
-        if(!r.id) r.id=idx+1;
-        if(!r.latitude||!r.longitude){
-          const m=initialMap.get(Number(r.id))||initialMap.get(String(r.name||'').trim());
-          if(m&&m.latitude&&m.longitude){
-            r.latitude=m.latitude;
-            r.longitude=m.longitude;
-            r.mapSource=m.mapSource||'auto-free';
-            merged++;
-          }
-        }
-      });
-      if(merged>0) save();
-    }
-    return;
+    try{
+      const parsed=JSON.parse(stored);
+      if(parsed&&Array.isArray(parsed.records)&&parsed.records.length>0){
+        data=parsed;
+        hasValidStored=true;
+      }
+    }catch(e){console.warn('Invalid stored data:',e);}
   }
-  if(initialData){
+
+  if(!hasValidStored&&initialData&&Array.isArray(initialData.records)&&initialData.records.length>0){
     data=initialData;
     data.records=data.records.map((r,i)=>({...r,id:r.id||i+1}));
     save();
+  }else if(hasValidStored&&initialData&&Array.isArray(initialData.records)){
+    const initialMap=new Map();
+    initialData.records.forEach(r=>{
+      if(r.latitude&&r.longitude){
+        if(r.id) initialMap.set(Number(r.id),r);
+        if(r.name) initialMap.set(String(r.name).trim(),r);
+      }
+    });
+    let merged=0;
+    data.records.forEach((r,idx)=>{
+      if(!r.id) r.id=idx+1;
+      if(!r.latitude||!r.longitude){
+        const m=initialMap.get(Number(r.id))||initialMap.get(String(r.name||'').trim());
+        if(m&&m.latitude&&m.longitude){
+          r.latitude=m.latitude;
+          r.longitude=m.longitude;
+          r.mapSource=m.mapSource||'auto-free';
+          merged++;
+        }
+      }
+    });
+    if(merged>0) save();
   }
+
+  // Render local data immediately (0ms) so user never sees blank table or empty dash
+  renderAll();
 }
 function updateSubcategories(preserve=''){const cat=Number($('#category').value),select=$('#subcategory'),group=activityTypes.find(x=>x.number===cat);if(!group){select.innerHTML='<option value="">ทุกกิจการย่อย</option>';select.value='';select.hidden=true;select.disabled=true;return;}select.hidden=false;select.disabled=false;select.innerHTML='<option value="">ทุกกิจการย่อยในประเภทนี้</option>'+group.items.map(item=>{const prefix=`${cat}(${item.number})`,count=data.records.filter(r=>String(r.code||'').replace(/\s/g,'').startsWith(prefix)).length;return `<option value="${item.number}">${prefix} ${escapeHTML(item.name)} (${count.toLocaleString('th-TH')} รายการ)</option>`;}).join('');select.value=preserve;}
 function renderCategoryCards(){const labels=categoryLabels(),counts=Array.from({length:13},(_,i)=>data.records.filter(r=>categoryNo(r.category)===i+1).length);$('#categoryCards').innerHTML=labels.map((label,i)=>`<button type="button" class="category-card" data-category="${i+1}"><span class="category-number">${i+1}</span><span class="category-copy"><b>${escapeHTML(label)}</b><em>${counts[i].toLocaleString('th-TH')} รายการ</em></span></button>`).join('');}
-async function load(){try{data=await api('/api/records');const current=$('#category').value,currentSub=$('#subcategory').value,labels=categoryLabels();const categoryOptions=labels.map((label,i)=>`<option value="${i+1}">${i+1}. ${escapeHTML(label)}</option>`).join('');$('#category').innerHTML='<option value="">ทุกประเภทกิจการ (13 ประเภท)</option>'+categoryOptions;$('#category').value=current;updateSubcategories(currentSub);$('#formCategory').innerHTML='<option value="">เลือกประเภทกิจการ</option>'+categoryOptions;const years=[...new Set([...data.records.flatMap(r=>(r.history||[]).map(h=>h.year)),String(new Date().getFullYear()+543)])].sort((a,b)=>Number(b)-Number(a));const yr=$('#year').value;$('#year').innerHTML=years.map(y=>`<option>${escapeHTML(y)}</option>`).join('');$('#year').value=yr||String(new Date().getFullYear()+543);$('#total').textContent=data.records.length.toLocaleString('th-TH');$('#catCount').textContent='13';renderCategoryCards();render();updateExpiryBadgeAndCard();}catch(e){notice(e.message,true);}}
+async function load(){
+  try{
+    if(data.records&&data.records.length>0){
+      renderAll();
+    }
+    const remoteData=await api('/api/records');
+    if(remoteData&&Array.isArray(remoteData.records)&&remoteData.records.length>0){
+      data=remoteData;
+    }else if(!data.records||data.records.length===0){
+      const res=await fetch('initial.json');
+      if(res.ok){
+        data=await res.json();
+        data.records=data.records.map((r,i)=>({...r,id:r.id||i+1}));
+        save();
+      }
+    }
+    renderAll();
+  }catch(e){
+    console.error('Load error:',e);
+    if(!data.records||data.records.length===0){
+      try{
+        const res=await fetch('initial.json');
+        if(res.ok){
+          data=await res.json();
+          data.records=data.records.map((r,i)=>({...r,id:r.id||i+1}));
+          save();
+          renderAll();
+        }
+      }catch(err){}
+    }
+    notice(e.message,true);
+  }
+}
 function filtered(){const q=$('#search').value.trim().toLowerCase(),cat=$('#category').value,sub=$('#subcategory').value,prefix=cat&&sub?`${cat}(${sub})`:'';return data.records.filter(r=>(!cat||categoryNo(r.category)===Number(cat))&&(!prefix||String(r.code||'').replace(/\s/g,'').startsWith(prefix))&&(!q||JSON.stringify(r).toLowerCase().includes(q)));}
 function render(){const list=filtered(),year=$('#year').value;page=Math.max(1,Math.min(page,Math.ceil(list.length/size)||1));$('#licensed').textContent=data.records.filter(r=>!r.cancelled&&(r.history||[]).some(h=>h.year===year&&h.number)).length;$('#result').textContent=`พบ ${list.length.toLocaleString('th-TH')} รายการ • ปีงบประมาณ ${year}`;$('#rows').innerHTML=list.slice((page-1)*size,page*size).map(r=>{const h=(r.history||[]).find(h=>h.year===year)||{},code=activityCode(r.code),cat=code.category||categoryNo(r.category),group=activityGroup(cat),item=activityItem(cat,code.subcategory),detail=activityDetail(cat,code.subcategory,r.activityDetail||code.detailSuffix),hasMap=Number.isFinite(Number(r.latitude))&&Number.isFinite(Number(r.longitude))&&r.latitude&&r.longitude;return `<tr class="${r.cancelled?'is-cancelled':''}"><td><div class="name">${escapeHTML(r.name)}</div><small>${escapeHTML(r.address)}</small><button class="map-link" data-map-record="${r.id}">⌖ ${hasMap?'ดูตำแหน่ง':'เพิ่มหมุด'}ในแผนที่</button></td><td class="activity-cell"><span class="tag">ประเภท ${cat||'—'}</span>${r.cancelled?`<span class="cancelled-badge">ยกเลิกกิจการ${r.cancelYear?` (ปี ${escapeHTML(r.cancelYear)})`:''}</span>`:''}<div class="category-name">${escapeHTML(group?.name||r.category||'ไม่ระบุประเภท')}</div><small class="subcategory-name"><b>${escapeHTML(r.code||'—')}</b>${item?' '+escapeHTML(item.name):''}${detail?`<span class="detail-line">${escapeHTML(detail.name)}</span>`:''}</small></td><td>${escapeHTML(r.business)}</td><td style="text-align:center">${r.fee?escapeHTML(Number.isFinite(Number(String(r.fee).replace(/,/g,'')))?Number(String(r.fee).replace(/,/g,'')).toLocaleString('th-TH'):r.fee):'—'}</td><td>${escapeHTML(h.number||'—')}<small>ต่ออายุ: ${escapeHTML(h.renewed||'—')}<br>หมดอายุ: ${escapeHTML(h.expires||'—')}</small></td><td><div class="row-actions"><button class="secondary" data-edit="${r.id}">เปิด / แก้ไข</button><button class="secondary delete" data-delete="${r.id}">ลบ</button></div></td></tr>`}).join('')||'<tr><td colspan="6" class="empty">ไม่พบรายการที่ค้นหา</td></tr>';$('#pageInfo').textContent=`หน้า ${page} / ${Math.ceil(list.length/size)||1}`;$('#prev').disabled=page===1;$('#next').disabled=page*size>=list.length;}
 function historyRow(h={}){const tr=document.createElement('tr');tr.innerHTML=['year','number','renewed','expires'].map(k=>`<td><input data-key="${k}" aria-label="${escapeHTML(k)}" value="${escapeHTML(h[k]||'')}" ${k==='year'?'required pattern="[0-9]{4}"':''}></td>`).join('')+'<td><button type="button" class="secondary">ลบปี</button></td>';tr.querySelector('button').onclick=()=>tr.remove();$('#history').append(tr);}
@@ -664,7 +727,7 @@ if($('#saveCloudApi')){
 }
 if($('#resetCloudApi')){
   $('#resetCloudApi').onclick=async()=>{
-    localStorage.removeItem(CLOUD_API_KEY);
+    localStorage.setItem(CLOUD_API_KEY,'none');
     updateCloudSettingsUI();
     notice('สลับกลับมาใช้ Local Storage เรียบร้อย');
     await load();
@@ -685,4 +748,7 @@ if($('#syncToCloud')){
   };
 }
 
+window.addEventListener('auth-success',()=>{load();});
+
 initialize().then(load).catch(e=>notice(e.message,true));
+
