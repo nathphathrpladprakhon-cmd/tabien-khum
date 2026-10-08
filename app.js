@@ -16,6 +16,7 @@ const CATEGORY_TYPES=[
   'กิจการที่เกี่ยวกับปิโตรเลียม ปิโตรเคมี ถ่านหิน ถ่านโค้ก และสารเคมีต่าง ๆ',
   'กิจการอื่น ๆ'
 ];
+const THAI_MONTHS=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
 const categoryNo=value=>Number(String(value||'').match(/หมวด\s*(\d+)/)?.[1]||0);
 const categoryLabels=()=>activityTypes.length?activityTypes.map(x=>x.name):CATEGORY_TYPES;
 function getDetailSuffix(d){
@@ -95,6 +96,13 @@ async function api(path,options={}){
   throw Error('ไม่พบเส้นทางข้อมูล');
 }
 function renderAll(){
+  if(!data||!Array.isArray(data.records)||data.records.length===0){
+    if(typeof window!=='undefined'&&window.SEED_DATA&&Array.isArray(window.SEED_DATA.records)){
+      data=structuredClone(window.SEED_DATA);
+      data.records=data.records.map((r,i)=>({...r,id:r.id||i+1}));
+      save();
+    }
+  }
   if(!data||!Array.isArray(data.records))return;
   const current=$('#category').value,currentSub=$('#subcategory').value,labels=categoryLabels();
   const categoryOptions=labels.map((label,i)=>`<option value="${i+1}">${i+1}. ${escapeHTML(label)}</option>`).join('');
@@ -113,15 +121,22 @@ function renderAll(){
   updateExpiryBadgeAndCard();
 }
 async function initialize(){
-  const types=await fetch('activity-types.json');
-  if(!types.ok)throw Error('โหลดรายการกิจการตามเทศบัญญัติไม่สำเร็จ');
-  activityTypes=await types.json();
+  if(typeof window!=='undefined'&&window.ACTIVITY_TYPES&&Array.isArray(window.ACTIVITY_TYPES)){
+    activityTypes=window.ACTIVITY_TYPES;
+  }else{
+    try{
+      const types=await fetch('activity-types.json');
+      if(types.ok)activityTypes=await types.json();
+    }catch(e){}
+  }
 
-  let initialData=null;
-  try{
-    const res=await fetch('initial.json');
-    if(res.ok) initialData=await res.json();
-  }catch(e){console.warn('Failed to load initial.json:',e);}
+  let initialData=(typeof window!=='undefined'&&window.SEED_DATA)||null;
+  if(!initialData){
+    try{
+      const res=await fetch('initial.json');
+      if(res.ok) initialData=await res.json();
+    }catch(e){console.warn('Failed to load initial.json:',e);}
+  }
 
   const stored=localStorage.getItem(STORAGE_KEY);
   let hasValidStored=false;
@@ -136,7 +151,7 @@ async function initialize(){
   }
 
   if(!hasValidStored&&initialData&&Array.isArray(initialData.records)&&initialData.records.length>0){
-    data=initialData;
+    data=structuredClone(initialData);
     data.records=data.records.map((r,i)=>({...r,id:r.id||i+1}));
     save();
   }else if(hasValidStored&&initialData&&Array.isArray(initialData.records)){
@@ -308,7 +323,6 @@ async function downloadSummary(){const button=$('#downloadReport'),year=Number($
 function printSummary(){const{year,report,totals}=renderSummary(),popup=window.open('','_blank');if(!popup)return notice('เบราว์เซอร์ปิดกั้นหน้าต่างพิมพ์ กรุณาอนุญาตป๊อปอัป',true);const rows=report.map(row=>`<tr><td>${row.number}. ${escapeHTML(row.label)}</td>${row.values.map(v=>`<td>${v}</td>`).join('')}</tr>`).join('');popup.document.write(`<!doctype html><html lang="th"><head><meta charset="utf-8"><title>รายงานปี ${year}</title><style>body{font-family:Tahoma,sans-serif;padding:24px;color:#123}h1{text-align:center;font-size:20px}p{text-align:center}table{width:100%;border-collapse:collapse;font-size:11px}th,td{border:1px solid #333;padding:7px}th{background:#dcebe5}td:not(:first-child),th:not(:first-child){text-align:center}tfoot{font-weight:bold}@page{size:A4 landscape;margin:12mm}</style></head><body><h1>ข้อมูลการต่อใบอนุญาตกิจการที่เป็นอันตรายต่อสุขภาพ</h1><p>ประจำปี ${year} (1 ต.ค. ${year-1} - 30 ก.ย. ${year})</p><table><thead><tr><th>ประเภทกิจการ</th><th>รายเก่า</th><th>ยกเลิก</th><th>รายต่อ</th><th>รายใหม่</th></tr></thead><tbody>${rows}</tbody><tfoot><tr><td>รวมทั้งหมด</td>${totals.map(v=>`<td>${v}</td>`).join('')}</tr></tfoot></table><script>onload=()=>{print();onafterprint=()=>close()}<\/script></body></html>`);popup.document.close();}
 $('#summaryXlsx').onclick=()=>{renderSummary();$('#reportDialog').showModal();};$('#closeReport').onclick=()=>$('#reportDialog').close();$('#downloadReport').onclick=downloadSummary;$('#printReport').onclick=printSummary;
 
-const THAI_MONTHS=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
 let currentExpiryList=[];
 
 function parseThaiDate(str){
@@ -750,5 +764,36 @@ if($('#syncToCloud')){
 
 window.addEventListener('auth-success',()=>{load();});
 
-initialize().then(load).catch(e=>notice(e.message,true));
+if(typeof window!=='undefined'){
+  if(window.ACTIVITY_TYPES&&Array.isArray(window.ACTIVITY_TYPES)) activityTypes=window.ACTIVITY_TYPES;
+  if(window.SEED_DATA&&(!data.records||data.records.length===0)){
+    const stored=localStorage.getItem(STORAGE_KEY);
+    let valid=false;
+    if(stored){
+      try{
+        const p=JSON.parse(stored);
+        if(p&&Array.isArray(p.records)&&p.records.length>0){data=p;valid=true;}
+      }catch(e){}
+    }
+    if(!valid){
+      data=structuredClone(window.SEED_DATA);
+      data.records=data.records.map((r,i)=>({...r,id:r.id||i+1}));
+      save();
+    }
+  }
+}
+
+function startApplication(){
+  try{renderAll();}catch(e){}
+  initialize().then(load).catch(e=>{
+    console.error('App init error:',e);
+    renderAll();
+  });
+}
+
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',startApplication);
+}else{
+  startApplication();
+}
 
