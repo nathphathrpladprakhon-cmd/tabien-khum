@@ -121,7 +121,10 @@
           "expires": ""
         }
       ],
-      "source_row": 4
+      "source_row": 4,
+      "latitude": 13.89188,
+      "longitude": 100.41772,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด2",
@@ -170,7 +173,10 @@
           "expires": ""
         }
       ],
-      "source_row": 7
+      "source_row": 7,
+      "latitude": 13.89016,
+      "longitude": 100.41812,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด3",
@@ -219,7 +225,10 @@
           "expires": ""
         }
       ],
-      "source_row": 4
+      "source_row": 4,
+      "latitude": 13.8908,
+      "longitude": 100.4174,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด3",
@@ -268,7 +277,10 @@
           "expires": ""
         }
       ],
-      "source_row": 7
+      "source_row": 7,
+      "latitude": 13.91454,
+      "longitude": 100.41924,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด3",
@@ -317,7 +329,10 @@
           "expires": ""
         }
       ],
-      "source_row": 10
+      "source_row": 10,
+      "latitude": 13.93092,
+      "longitude": 100.4256,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด3",
@@ -366,7 +381,10 @@
           "expires": ""
         }
       ],
-      "source_row": 13
+      "source_row": 13,
+      "latitude": 13.88192,
+      "longitude": 100.43636,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด3",
@@ -415,7 +433,10 @@
           "expires": ""
         }
       ],
-      "source_row": 16
+      "source_row": 16,
+      "latitude": 13.88392,
+      "longitude": 100.41572,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด3",
@@ -464,7 +485,10 @@
           "expires": ""
         }
       ],
-      "source_row": 19
+      "source_row": 19,
+      "latitude": 13.87956,
+      "longitude": 100.44076,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด3",
@@ -513,7 +537,10 @@
           "expires": ""
         }
       ],
-      "source_row": 22
+      "source_row": 22,
+      "latitude": 13.88216,
+      "longitude": 100.409,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด3",
@@ -562,7 +589,10 @@
           "expires": ""
         }
       ],
-      "source_row": 25
+      "source_row": 25,
+      "latitude": 13.9264,
+      "longitude": 100.42812,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด3",
@@ -611,7 +641,10 @@
           "expires": ""
         }
       ],
-      "source_row": 28
+      "source_row": 28,
+      "latitude": 13.89108,
+      "longitude": 100.41992,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด3",
@@ -660,7 +693,10 @@
           "expires": ""
         }
       ],
-      "source_row": 31
+      "source_row": 31,
+      "latitude": 13.92764,
+      "longitude": 100.42744,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด3",
@@ -709,7 +745,10 @@
           "expires": ""
         }
       ],
-      "source_row": 34
+      "source_row": 34,
+      "latitude": 13.91666,
+      "longitude": 100.42263,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด3",
@@ -758,7 +797,10 @@
           "expires": ""
         }
       ],
-      "source_row": 37
+      "source_row": 37,
+      "latitude": 13.91669,
+      "longitude": 100.42263,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด3",
@@ -807,7 +849,10 @@
           "expires": ""
         }
       ],
-      "source_row": 40
+      "source_row": 40,
+      "latitude": 13.92628,
+      "longitude": 100.42536,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด3",
@@ -856,7 +901,10 @@
           "expires": ""
         }
       ],
-      "source_row": 43
+      "source_row": 43,
+      "latitude": 13.87688,
+      "longitude": 100.44092,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด4",
@@ -911,7 +959,10 @@
           "expires": ""
         }
       ],
-      "source_row": 4
+      "source_row": 4,
+      "latitude": 13.91538,
+      "longitude": 100.4247,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด4",
@@ -966,7 +1017,10 @@
           "expires": ""
         }
       ],
-      "source_row": 7
+      "source_row": 7,
+      "latitude": 13.88276,
+      "longitude": 100.4392,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด4",
@@ -1021,7 +1075,10 @@
           "expires": ""
         }
       ],
-      "source_row": 10
+      "source_row": 10,
+      "latitude": 13.91334,
+      "longitude": 100.4251,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด5",
@@ -1070,7 +1127,10 @@
           "expires": ""
         }
       ],
-      "source_row": 3
+      "source_row": 3,
+      "latitude": 13.92356,
+      "longitude": 100.43508,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด5",
@@ -1119,7 +1179,10 @@
           "expires": ""
         }
       ],
-      "source_row": 6
+      "source_row": 6,
+      "latitude": 13.9147,
+      "longitude": 100.422,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด5",
@@ -1168,7 +1231,10 @@
           "expires": ""
         }
       ],
-      "source_row": 9
+      "source_row": 9,
+      "latitude": 13.93048,
+      "longitude": 100.42308,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด5",
@@ -1217,7 +1283,10 @@
           "expires": ""
         }
       ],
-      "source_row": 12
+      "source_row": 12,
+      "latitude": 13.88984,
+      "longitude": 100.4196,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด5",
@@ -1266,7 +1335,10 @@
           "expires": ""
         }
       ],
-      "source_row": 15
+      "source_row": 15,
+      "latitude": 13.92656,
+      "longitude": 100.42996,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด5",
@@ -1315,7 +1387,10 @@
           "expires": ""
         }
       ],
-      "source_row": 18
+      "source_row": 18,
+      "latitude": 13.88208,
+      "longitude": 100.4156,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด5",
@@ -1364,7 +1439,10 @@
           "expires": ""
         }
       ],
-      "source_row": 21
+      "source_row": 21,
+      "latitude": 13.88072,
+      "longitude": 100.43752,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด6",
@@ -1413,7 +1491,10 @@
           "expires": ""
         }
       ],
-      "source_row": 4
+      "source_row": 4,
+      "latitude": 13.91644,
+      "longitude": 100.39376,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด6",
@@ -1462,7 +1543,10 @@
           "expires": ""
         }
       ],
-      "source_row": 7
+      "source_row": 7,
+      "latitude": 13.92416,
+      "longitude": 100.42824,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด6",
@@ -1511,7 +1595,10 @@
           "expires": ""
         }
       ],
-      "source_row": 10
+      "source_row": 10,
+      "latitude": 13.91628,
+      "longitude": 100.39248,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด6",
@@ -1560,7 +1647,10 @@
           "expires": ""
         }
       ],
-      "source_row": 13
+      "source_row": 13,
+      "latitude": 13.8808,
+      "longitude": 100.41228,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด6",
@@ -1609,7 +1699,10 @@
           "expires": ""
         }
       ],
-      "source_row": 16
+      "source_row": 16,
+      "latitude": 13.92728,
+      "longitude": 100.42668,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด6",
@@ -1658,7 +1751,10 @@
           "expires": ""
         }
       ],
-      "source_row": 19
+      "source_row": 19,
+      "latitude": 13.8944,
+      "longitude": 100.40924,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด6",
@@ -1707,7 +1803,10 @@
           "expires": ""
         }
       ],
-      "source_row": 22
+      "source_row": 22,
+      "latitude": 13.9142,
+      "longitude": 100.42654,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด6",
@@ -1756,7 +1855,10 @@
           "expires": ""
         }
       ],
-      "source_row": 25
+      "source_row": 25,
+      "latitude": 13.89556,
+      "longitude": 100.40808,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด6",
@@ -1805,7 +1907,10 @@
           "expires": ""
         }
       ],
-      "source_row": 28
+      "source_row": 28,
+      "latitude": 13.8892,
+      "longitude": 100.41632,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด6",
@@ -1854,7 +1959,10 @@
           "expires": ""
         }
       ],
-      "source_row": 31
+      "source_row": 31,
+      "latitude": 13.89032,
+      "longitude": 100.41988,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด6",
@@ -1903,7 +2011,10 @@
           "expires": ""
         }
       ],
-      "source_row": 34
+      "source_row": 34,
+      "latitude": 13.9196,
+      "longitude": 100.39496,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด6",
@@ -1952,7 +2063,10 @@
           "expires": ""
         }
       ],
-      "source_row": 37
+      "source_row": 37,
+      "latitude": 13.88008,
+      "longitude": 100.41524,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด6",
@@ -2001,7 +2115,10 @@
           "expires": ""
         }
       ],
-      "source_row": 40
+      "source_row": 40,
+      "latitude": 13.89076,
+      "longitude": 100.41916,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด6",
@@ -2050,7 +2167,10 @@
           "expires": ""
         }
       ],
-      "source_row": 43
+      "source_row": 43,
+      "latitude": 13.91546,
+      "longitude": 100.42248,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -2099,7 +2219,10 @@
           "expires": ""
         }
       ],
-      "source_row": 4
+      "source_row": 4,
+      "latitude": 13.91206,
+      "longitude": 100.42314,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -2148,7 +2271,10 @@
           "expires": ""
         }
       ],
-      "source_row": 7
+      "source_row": 7,
+      "latitude": 13.88108,
+      "longitude": 100.44088,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -2197,7 +2323,10 @@
           "expires": ""
         }
       ],
-      "source_row": 10
+      "source_row": 10,
+      "latitude": 13.88916,
+      "longitude": 100.4168,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -2246,7 +2375,10 @@
           "expires": ""
         }
       ],
-      "source_row": 13
+      "source_row": 13,
+      "latitude": 13.89536,
+      "longitude": 100.41108,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -2295,7 +2427,10 @@
           "expires": ""
         }
       ],
-      "source_row": 16
+      "source_row": 16,
+      "latitude": 13.897,
+      "longitude": 100.40816,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -2344,7 +2479,10 @@
           "expires": ""
         }
       ],
-      "source_row": 19
+      "source_row": 19,
+      "latitude": 13.88004,
+      "longitude": 100.44156,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -2393,7 +2531,10 @@
           "expires": ""
         }
       ],
-      "source_row": 22
+      "source_row": 22,
+      "latitude": 13.89532,
+      "longitude": 100.40856,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -2442,7 +2583,10 @@
           "expires": ""
         }
       ],
-      "source_row": 25
+      "source_row": 25,
+      "latitude": 13.88208,
+      "longitude": 100.44216,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -2491,7 +2635,10 @@
           "expires": ""
         }
       ],
-      "source_row": 28
+      "source_row": 28,
+      "latitude": 13.93164,
+      "longitude": 100.42516,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -2540,7 +2687,10 @@
           "expires": ""
         }
       ],
-      "source_row": 31
+      "source_row": 31,
+      "latitude": 13.9248,
+      "longitude": 100.42852,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -2589,7 +2739,10 @@
           "expires": ""
         }
       ],
-      "source_row": 34
+      "source_row": 34,
+      "latitude": 13.9164,
+      "longitude": 100.39476,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -2638,7 +2791,10 @@
           "expires": ""
         }
       ],
-      "source_row": 37
+      "source_row": 37,
+      "latitude": 13.88128,
+      "longitude": 100.41508,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -2687,7 +2843,10 @@
           "expires": ""
         }
       ],
-      "source_row": 40
+      "source_row": 40,
+      "latitude": 13.92276,
+      "longitude": 100.42816,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -2736,7 +2895,10 @@
           "expires": ""
         }
       ],
-      "source_row": 43
+      "source_row": 43,
+      "latitude": 13.88116,
+      "longitude": 100.4158,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -2785,7 +2947,10 @@
           "expires": ""
         }
       ],
-      "source_row": 46
+      "source_row": 46,
+      "latitude": 13.89196,
+      "longitude": 100.41824,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -2834,7 +2999,10 @@
           "expires": ""
         }
       ],
-      "source_row": 49
+      "source_row": 49,
+      "latitude": 13.88888,
+      "longitude": 100.41928,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -2883,7 +3051,10 @@
           "expires": ""
         }
       ],
-      "source_row": 52
+      "source_row": 52,
+      "latitude": 13.88268,
+      "longitude": 100.41216,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -2932,7 +3103,10 @@
           "expires": ""
         }
       ],
-      "source_row": 55
+      "source_row": 55,
+      "latitude": 13.91928,
+      "longitude": 100.39344,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -2981,7 +3155,10 @@
           "expires": ""
         }
       ],
-      "source_row": 58
+      "source_row": 58,
+      "latitude": 13.88064,
+      "longitude": 100.41576,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -3030,7 +3207,10 @@
           "expires": ""
         }
       ],
-      "source_row": 61
+      "source_row": 61,
+      "latitude": 13.88872,
+      "longitude": 100.41852,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -3079,7 +3259,10 @@
           "expires": ""
         }
       ],
-      "source_row": 64
+      "source_row": 64,
+      "latitude": 13.91554,
+      "longitude": 100.42216,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -3128,7 +3311,10 @@
           "expires": ""
         }
       ],
-      "source_row": 67
+      "source_row": 67,
+      "latitude": 13.89092,
+      "longitude": 100.4174,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -3177,7 +3363,10 @@
           "expires": ""
         }
       ],
-      "source_row": 70
+      "source_row": 70,
+      "latitude": 13.89004,
+      "longitude": 100.41912,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -3226,7 +3415,10 @@
           "expires": ""
         }
       ],
-      "source_row": 73
+      "source_row": 73,
+      "latitude": 13.8908,
+      "longitude": 100.4184,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -3275,7 +3467,10 @@
           "expires": ""
         }
       ],
-      "source_row": 76
+      "source_row": 76,
+      "latitude": 13.89052,
+      "longitude": 100.41764,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -3324,7 +3519,10 @@
           "expires": ""
         }
       ],
-      "source_row": 79
+      "source_row": 79,
+      "latitude": 13.88844,
+      "longitude": 100.41924,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -3373,7 +3571,10 @@
           "expires": ""
         }
       ],
-      "source_row": 82
+      "source_row": 82,
+      "latitude": 13.89752,
+      "longitude": 100.4102,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -3422,7 +3623,10 @@
           "expires": ""
         }
       ],
-      "source_row": 85
+      "source_row": 85,
+      "latitude": 13.92176,
+      "longitude": 100.39796,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -3471,7 +3675,10 @@
           "expires": ""
         }
       ],
-      "source_row": 88
+      "source_row": 88,
+      "latitude": 13.88056,
+      "longitude": 100.41428,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -3520,7 +3727,10 @@
           "expires": ""
         }
       ],
-      "source_row": 91
+      "source_row": 91,
+      "latitude": 13.91146,
+      "longitude": 100.4221,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -3569,7 +3779,10 @@
           "expires": ""
         }
       ],
-      "source_row": 94
+      "source_row": 94,
+      "latitude": 13.88248,
+      "longitude": 100.41212,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -3618,7 +3831,10 @@
           "expires": ""
         }
       ],
-      "source_row": 97
+      "source_row": 97,
+      "latitude": 13.88824,
+      "longitude": 100.419,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -3667,7 +3883,10 @@
           "expires": ""
         }
       ],
-      "source_row": 100
+      "source_row": 100,
+      "latitude": 13.88992,
+      "longitude": 100.41612,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -3716,7 +3935,10 @@
           "expires": ""
         }
       ],
-      "source_row": 103
+      "source_row": 103,
+      "latitude": 13.9121,
+      "longitude": 100.4188,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -3765,7 +3987,10 @@
           "expires": ""
         }
       ],
-      "source_row": 106
+      "source_row": 106,
+      "latitude": 13.89632,
+      "longitude": 100.40888,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -3814,7 +4039,10 @@
           "expires": ""
         }
       ],
-      "source_row": 109
+      "source_row": 109,
+      "latitude": 13.88544,
+      "longitude": 100.40944,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -3863,7 +4091,10 @@
           "expires": ""
         }
       ],
-      "source_row": 112
+      "source_row": 112,
+      "latitude": 13.89164,
+      "longitude": 100.41944,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -3912,7 +4143,10 @@
           "expires": ""
         }
       ],
-      "source_row": 115
+      "source_row": 115,
+      "latitude": 13.91382,
+      "longitude": 100.42104,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -3961,7 +4195,10 @@
           "expires": ""
         }
       ],
-      "source_row": 118
+      "source_row": 118,
+      "latitude": 13.91258,
+      "longitude": 100.42578,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -4010,7 +4247,10 @@
           "expires": ""
         }
       ],
-      "source_row": 121
+      "source_row": 121,
+      "latitude": 13.8942,
+      "longitude": 100.41076,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -4059,7 +4299,10 @@
           "expires": ""
         }
       ],
-      "source_row": 124
+      "source_row": 124,
+      "latitude": 13.89184,
+      "longitude": 100.41896,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -4108,7 +4351,10 @@
           "expires": ""
         }
       ],
-      "source_row": 127
+      "source_row": 127,
+      "latitude": 13.88264,
+      "longitude": 100.43428,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -4157,7 +4403,10 @@
           "expires": ""
         }
       ],
-      "source_row": 130
+      "source_row": 130,
+      "latitude": 13.89408,
+      "longitude": 100.40972,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -4206,7 +4455,10 @@
           "expires": ""
         }
       ],
-      "source_row": 133
+      "source_row": 133,
+      "latitude": 13.88268,
+      "longitude": 100.40928,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -4255,7 +4507,10 @@
           "expires": ""
         }
       ],
-      "source_row": 136
+      "source_row": 136,
+      "latitude": 13.88936,
+      "longitude": 100.41632,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -4304,7 +4559,10 @@
           "expires": ""
         }
       ],
-      "source_row": 139
+      "source_row": 139,
+      "latitude": 13.92332,
+      "longitude": 100.4312,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -4353,7 +4611,10 @@
           "expires": ""
         }
       ],
-      "source_row": 142
+      "source_row": 142,
+      "latitude": 13.89448,
+      "longitude": 100.41128,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -4402,7 +4663,10 @@
           "expires": ""
         }
       ],
-      "source_row": 145
+      "source_row": 145,
+      "latitude": 13.92356,
+      "longitude": 100.4312,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -4451,7 +4715,10 @@
           "expires": ""
         }
       ],
-      "source_row": 148
+      "source_row": 148,
+      "latitude": 13.92528,
+      "longitude": 100.42608,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -4500,7 +4767,10 @@
           "expires": ""
         }
       ],
-      "source_row": 151
+      "source_row": 151,
+      "latitude": 13.93012,
+      "longitude": 100.4238,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -4549,7 +4819,10 @@
           "expires": ""
         }
       ],
-      "source_row": 154
+      "source_row": 154,
+      "latitude": 13.92412,
+      "longitude": 100.42856,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -4598,7 +4871,10 @@
           "expires": ""
         }
       ],
-      "source_row": 157
+      "source_row": 157,
+      "latitude": 13.92504,
+      "longitude": 100.42756,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -4647,7 +4923,10 @@
           "expires": ""
         }
       ],
-      "source_row": 160
+      "source_row": 160,
+      "latitude": 13.92544,
+      "longitude": 100.42684,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -4696,7 +4975,10 @@
           "expires": ""
         }
       ],
-      "source_row": 163
+      "source_row": 163,
+      "latitude": 13.88244,
+      "longitude": 100.4134,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -4745,7 +5027,10 @@
           "expires": ""
         }
       ],
-      "source_row": 166
+      "source_row": 166,
+      "latitude": 13.88912,
+      "longitude": 100.41632,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -4794,7 +5079,10 @@
           "expires": ""
         }
       ],
-      "source_row": 169
+      "source_row": 169,
+      "latitude": 13.89632,
+      "longitude": 100.41136,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -4843,7 +5131,10 @@
           "expires": ""
         }
       ],
-      "source_row": 172
+      "source_row": 172,
+      "latitude": 13.93288,
+      "longitude": 100.42396,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -4892,7 +5183,10 @@
           "expires": ""
         }
       ],
-      "source_row": 175
+      "source_row": 175,
+      "latitude": 13.88136,
+      "longitude": 100.44088,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -4941,7 +5235,10 @@
           "expires": ""
         }
       ],
-      "source_row": 178
+      "source_row": 178,
+      "latitude": 13.91074,
+      "longitude": 100.4213,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -4990,7 +5287,10 @@
           "expires": ""
         }
       ],
-      "source_row": 181
+      "source_row": 181,
+      "latitude": 13.88204,
+      "longitude": 100.41584,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -5039,7 +5339,10 @@
           "expires": ""
         }
       ],
-      "source_row": 184
+      "source_row": 184,
+      "latitude": 13.91366,
+      "longitude": 100.42498,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -5088,7 +5391,10 @@
           "expires": ""
         }
       ],
-      "source_row": 187
+      "source_row": 187,
+      "latitude": 13.9145,
+      "longitude": 100.42236,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -5137,7 +5443,10 @@
           "expires": ""
         }
       ],
-      "source_row": 190
+      "source_row": 190,
+      "latitude": 13.92468,
+      "longitude": 100.42704,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -5186,7 +5495,10 @@
           "expires": ""
         }
       ],
-      "source_row": 193
+      "source_row": 193,
+      "latitude": 13.91736,
+      "longitude": 100.39232,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -5235,7 +5547,10 @@
           "expires": ""
         }
       ],
-      "source_row": 196
+      "source_row": 196,
+      "latitude": 13.88824,
+      "longitude": 100.41776,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -5284,7 +5599,10 @@
           "expires": ""
         }
       ],
-      "source_row": 199
+      "source_row": 199,
+      "latitude": 13.91624,
+      "longitude": 100.393,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -5333,7 +5651,10 @@
           "expires": ""
         }
       ],
-      "source_row": 202
+      "source_row": 202,
+      "latitude": 13.88272,
+      "longitude": 100.4154,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -5382,7 +5703,10 @@
           "expires": ""
         }
       ],
-      "source_row": 205
+      "source_row": 205,
+      "latitude": 13.88896,
+      "longitude": 100.4198,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -5431,7 +5755,10 @@
           "expires": ""
         }
       ],
-      "source_row": 208
+      "source_row": 208,
+      "latitude": 13.89068,
+      "longitude": 100.4164,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -5480,7 +5807,10 @@
           "expires": ""
         }
       ],
-      "source_row": 211
+      "source_row": 211,
+      "latitude": 13.88388,
+      "longitude": 100.40884,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -5529,7 +5859,10 @@
           "expires": ""
         }
       ],
-      "source_row": 214
+      "source_row": 214,
+      "latitude": 13.91602,
+      "longitude": 100.42374,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -5578,7 +5911,10 @@
           "expires": ""
         }
       ],
-      "source_row": 217
+      "source_row": 217,
+      "latitude": 13.91528,
+      "longitude": 100.42586,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -5627,7 +5963,10 @@
           "expires": ""
         }
       ],
-      "source_row": 220
+      "source_row": 220,
+      "latitude": 13.87898,
+      "longitude": 100.43602,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -5676,7 +6015,10 @@
           "expires": ""
         }
       ],
-      "source_row": 223
+      "source_row": 223,
+      "latitude": 13.91486,
+      "longitude": 100.42312,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -5725,7 +6067,10 @@
           "expires": ""
         }
       ],
-      "source_row": 226
+      "source_row": 226,
+      "latitude": 13.91708,
+      "longitude": 100.42155,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -5774,7 +6119,10 @@
           "expires": ""
         }
       ],
-      "source_row": 229
+      "source_row": 229,
+      "latitude": 13.89652,
+      "longitude": 100.41012,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -5823,7 +6171,10 @@
           "expires": ""
         }
       ],
-      "source_row": 232
+      "source_row": 232,
+      "latitude": 13.88192,
+      "longitude": 100.41536,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -5872,7 +6223,10 @@
           "expires": ""
         }
       ],
-      "source_row": 235
+      "source_row": 235,
+      "latitude": 13.89072,
+      "longitude": 100.41792,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -5921,7 +6275,10 @@
           "expires": ""
         }
       ],
-      "source_row": 238
+      "source_row": 238,
+      "latitude": 13.89156,
+      "longitude": 100.41996,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -5970,7 +6327,10 @@
           "expires": ""
         }
       ],
-      "source_row": 241
+      "source_row": 241,
+      "latitude": 13.88136,
+      "longitude": 100.41432,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -6019,7 +6379,10 @@
           "expires": ""
         }
       ],
-      "source_row": 244
+      "source_row": 244,
+      "latitude": 13.88104,
+      "longitude": 100.41304,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -6068,7 +6431,10 @@
           "expires": ""
         }
       ],
-      "source_row": 247
+      "source_row": 247,
+      "latitude": 13.9274,
+      "longitude": 100.42568,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -6117,7 +6483,10 @@
           "expires": ""
         }
       ],
-      "source_row": 250
+      "source_row": 250,
+      "latitude": 13.88836,
+      "longitude": 100.41876,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -6166,7 +6535,10 @@
           "expires": ""
         }
       ],
-      "source_row": 253
+      "source_row": 253,
+      "latitude": 13.88488,
+      "longitude": 100.40868,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -6215,7 +6587,10 @@
           "expires": ""
         }
       ],
-      "source_row": 256
+      "source_row": 256,
+      "latitude": 13.93012,
+      "longitude": 100.42656,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -6264,7 +6639,10 @@
           "expires": ""
         }
       ],
-      "source_row": 259
+      "source_row": 259,
+      "latitude": 13.92964,
+      "longitude": 100.42604,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -6313,7 +6691,10 @@
           "expires": ""
         }
       ],
-      "source_row": 262
+      "source_row": 262,
+      "latitude": 13.89524,
+      "longitude": 100.41032,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -6362,7 +6743,10 @@
           "expires": ""
         }
       ],
-      "source_row": 265
+      "source_row": 265,
+      "latitude": 13.8889,
+      "longitude": 100.40991,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -6411,7 +6795,10 @@
           "expires": ""
         }
       ],
-      "source_row": 268
+      "source_row": 268,
+      "latitude": 13.92604,
+      "longitude": 100.4276,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -6460,7 +6847,10 @@
           "expires": ""
         }
       ],
-      "source_row": 271
+      "source_row": 271,
+      "latitude": 13.89692,
+      "longitude": 100.41168,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด7",
@@ -6509,7 +6899,10 @@
           "expires": ""
         }
       ],
-      "source_row": 274
+      "source_row": 274,
+      "latitude": 13.92116,
+      "longitude": 100.43056,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด8",
@@ -6558,7 +6951,10 @@
           "expires": ""
         }
       ],
-      "source_row": 4
+      "source_row": 4,
+      "latitude": 13.89148,
+      "longitude": 100.41896,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด8",
@@ -6607,7 +7003,10 @@
           "expires": ""
         }
       ],
-      "source_row": 7
+      "source_row": 7,
+      "latitude": 13.92612,
+      "longitude": 100.4256,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด8",
@@ -6656,7 +7055,10 @@
           "expires": ""
         }
       ],
-      "source_row": 10
+      "source_row": 10,
+      "latitude": 13.89048,
+      "longitude": 100.41788,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด8",
@@ -6705,7 +7107,10 @@
           "expires": ""
         }
       ],
-      "source_row": 13
+      "source_row": 13,
+      "latitude": 13.88296,
+      "longitude": 100.41568,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด8",
@@ -6754,7 +7159,10 @@
           "expires": ""
         }
       ],
-      "source_row": 16
+      "source_row": 16,
+      "latitude": 13.88912,
+      "longitude": 100.41704,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(5)",
@@ -6803,7 +7211,10 @@
           "expires": ""
         }
       ],
-      "source_row": 4
+      "source_row": 4,
+      "latitude": 13.88084,
+      "longitude": 100.41228,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -6852,7 +7263,10 @@
           "expires": ""
         }
       ],
-      "source_row": 4
+      "source_row": 4,
+      "latitude": 13.9157,
+      "longitude": 100.42062,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -6901,7 +7315,10 @@
           "expires": ""
         }
       ],
-      "source_row": 7
+      "source_row": 7,
+      "latitude": 13.91238,
+      "longitude": 100.42514,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -6950,7 +7367,10 @@
           "expires": ""
         }
       ],
-      "source_row": 10
+      "source_row": 10,
+      "latitude": 13.91122,
+      "longitude": 100.42334,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -6999,7 +7419,10 @@
           "expires": ""
         }
       ],
-      "source_row": 13
+      "source_row": 13,
+      "latitude": 13.92572,
+      "longitude": 100.42784,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -7048,7 +7471,10 @@
           "expires": ""
         }
       ],
-      "source_row": 16
+      "source_row": 16,
+      "latitude": 13.88844,
+      "longitude": 100.41652,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -7097,7 +7523,10 @@
           "expires": ""
         }
       ],
-      "source_row": 22
+      "source_row": 22,
+      "latitude": 13.88868,
+      "longitude": 100.41976,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -7146,7 +7575,10 @@
           "expires": ""
         }
       ],
-      "source_row": 25
+      "source_row": 25,
+      "latitude": 13.889,
+      "longitude": 100.41656,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -7195,7 +7627,10 @@
           "expires": ""
         }
       ],
-      "source_row": 28
+      "source_row": 28,
+      "latitude": 13.92724,
+      "longitude": 100.4252,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -7244,7 +7679,10 @@
           "expires": ""
         }
       ],
-      "source_row": 31
+      "source_row": 31,
+      "latitude": 13.8944,
+      "longitude": 100.41152,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -7293,7 +7731,10 @@
           "expires": ""
         }
       ],
-      "source_row": 34
+      "source_row": 34,
+      "latitude": 13.88864,
+      "longitude": 100.41876,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -7342,7 +7783,10 @@
           "expires": ""
         }
       ],
-      "source_row": 37
+      "source_row": 37,
+      "latitude": 13.88952,
+      "longitude": 100.41708,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -7391,7 +7835,10 @@
           "expires": ""
         }
       ],
-      "source_row": 40
+      "source_row": 40,
+      "latitude": 13.8898,
+      "longitude": 100.4186,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -7440,7 +7887,10 @@
           "expires": ""
         }
       ],
-      "source_row": 43
+      "source_row": 43,
+      "latitude": 13.89196,
+      "longitude": 100.41648,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -7489,7 +7939,10 @@
           "expires": ""
         }
       ],
-      "source_row": 46
+      "source_row": 46,
+      "latitude": 13.92712,
+      "longitude": 100.42792,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -7538,7 +7991,10 @@
           "expires": ""
         }
       ],
-      "source_row": 49
+      "source_row": 49,
+      "latitude": 13.9312,
+      "longitude": 100.42412,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -7587,7 +8043,10 @@
           "expires": ""
         }
       ],
-      "source_row": 52
+      "source_row": 52,
+      "latitude": 13.89708,
+      "longitude": 100.40916,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -7636,7 +8095,10 @@
           "expires": ""
         }
       ],
-      "source_row": 55
+      "source_row": 55,
+      "latitude": 13.9238,
+      "longitude": 100.40272,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -7685,7 +8147,10 @@
           "expires": ""
         }
       ],
-      "source_row": 58
+      "source_row": 58,
+      "latitude": 13.89728,
+      "longitude": 100.40968,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -7734,7 +8199,10 @@
           "expires": ""
         }
       ],
-      "source_row": 61
+      "source_row": 61,
+      "latitude": 13.92608,
+      "longitude": 100.4286,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -7783,7 +8251,10 @@
           "expires": ""
         }
       ],
-      "source_row": 64
+      "source_row": 64,
+      "latitude": 13.88364,
+      "longitude": 100.41544,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -7832,7 +8303,10 @@
           "expires": ""
         }
       ],
-      "source_row": 67
+      "source_row": 67,
+      "latitude": 13.92388,
+      "longitude": 100.40072,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -7881,7 +8355,10 @@
           "expires": ""
         }
       ],
-      "source_row": 70
+      "source_row": 70,
+      "latitude": 13.88832,
+      "longitude": 100.41824,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -7930,7 +8407,10 @@
           "expires": ""
         }
       ],
-      "source_row": 73
+      "source_row": 73,
+      "latitude": 13.88084,
+      "longitude": 100.41552,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -7979,7 +8459,10 @@
           "expires": ""
         }
       ],
-      "source_row": 76
+      "source_row": 76,
+      "latitude": 13.91408,
+      "longitude": 100.4243,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -8028,7 +8511,10 @@
           "expires": ""
         }
       ],
-      "source_row": 79
+      "source_row": 79,
+      "latitude": 13.88004,
+      "longitude": 100.41348,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -8077,7 +8563,10 @@
           "expires": ""
         }
       ],
-      "source_row": 82
+      "source_row": 82,
+      "latitude": 13.88292,
+      "longitude": 100.41392,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -8126,7 +8615,10 @@
           "expires": ""
         }
       ],
-      "source_row": 85
+      "source_row": 85,
+      "latitude": 13.92792,
+      "longitude": 100.42696,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -8175,7 +8667,10 @@
           "expires": ""
         }
       ],
-      "source_row": 88
+      "source_row": 88,
+      "latitude": 13.91594,
+      "longitude": 100.42162,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -8224,7 +8719,10 @@
           "expires": ""
         }
       ],
-      "source_row": 91
+      "source_row": 91,
+      "latitude": 13.91454,
+      "longitude": 100.41878,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -8273,7 +8771,10 @@
           "expires": ""
         }
       ],
-      "source_row": 94
+      "source_row": 94,
+      "latitude": 13.91498,
+      "longitude": 100.42131,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -8322,7 +8823,10 @@
           "expires": ""
         }
       ],
-      "source_row": 97
+      "source_row": 97,
+      "latitude": 13.93232,
+      "longitude": 100.42544,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -8371,7 +8875,10 @@
           "expires": ""
         }
       ],
-      "source_row": 100
+      "source_row": 100,
+      "latitude": 13.929,
+      "longitude": 100.42324,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -8420,7 +8927,10 @@
           "expires": ""
         }
       ],
-      "source_row": 103
+      "source_row": 103,
+      "latitude": 13.92916,
+      "longitude": 100.425,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -8469,7 +8979,10 @@
           "expires": ""
         }
       ],
-      "source_row": 106
+      "source_row": 106,
+      "latitude": 13.91486,
+      "longitude": 100.42092,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -8518,7 +9031,10 @@
           "expires": ""
         }
       ],
-      "source_row": 109
+      "source_row": 109,
+      "latitude": 13.92668,
+      "longitude": 100.4254,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -8567,7 +9083,10 @@
           "expires": ""
         }
       ],
-      "source_row": 112
+      "source_row": 112,
+      "latitude": 13.92488,
+      "longitude": 100.42828,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -8616,7 +9135,10 @@
           "expires": ""
         }
       ],
-      "source_row": 115
+      "source_row": 115,
+      "latitude": 13.88504,
+      "longitude": 100.43416,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -8665,7 +9187,10 @@
           "expires": ""
         }
       ],
-      "source_row": 118
+      "source_row": 118,
+      "latitude": 13.88496,
+      "longitude": 100.4364,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -8714,7 +9239,10 @@
           "expires": ""
         }
       ],
-      "source_row": 121
+      "source_row": 121,
+      "latitude": 13.89692,
+      "longitude": 100.4114,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -8763,7 +9291,10 @@
           "expires": ""
         }
       ],
-      "source_row": 124
+      "source_row": 124,
+      "latitude": 13.9135,
+      "longitude": 100.42286,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -8812,7 +9343,10 @@
           "expires": ""
         }
       ],
-      "source_row": 127
+      "source_row": 127,
+      "latitude": 13.91474,
+      "longitude": 100.42266,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -8861,7 +9395,10 @@
           "expires": ""
         }
       ],
-      "source_row": 130
+      "source_row": 130,
+      "latitude": 13.88592,
+      "longitude": 100.43624,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(6)",
@@ -8910,7 +9447,10 @@
           "expires": ""
         }
       ],
-      "source_row": 133
+      "source_row": 133,
+      "latitude": 13.8836,
+      "longitude": 100.4346,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(8)",
@@ -8959,7 +9499,10 @@
           "expires": ""
         }
       ],
-      "source_row": 4
+      "source_row": 4,
+      "latitude": 13.88132,
+      "longitude": 100.41508,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(8)",
@@ -9008,7 +9551,10 @@
           "expires": ""
         }
       ],
-      "source_row": 7
+      "source_row": 7,
+      "latitude": 13.8836,
+      "longitude": 100.4152,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -9057,7 +9603,10 @@
           "expires": ""
         }
       ],
-      "source_row": 4
+      "source_row": 4,
+      "latitude": 13.91254,
+      "longitude": 100.42378,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -9106,7 +9655,10 @@
           "expires": ""
         }
       ],
-      "source_row": 7
+      "source_row": 7,
+      "latitude": 13.88308,
+      "longitude": 100.40704,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -9155,7 +9707,10 @@
           "expires": ""
         }
       ],
-      "source_row": 10
+      "source_row": 10,
+      "latitude": 13.91238,
+      "longitude": 100.4249,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -9204,7 +9759,10 @@
           "expires": ""
         }
       ],
-      "source_row": 13
+      "source_row": 13,
+      "latitude": 13.91642,
+      "longitude": 100.42326,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -9253,7 +9811,10 @@
           "expires": ""
         }
       ],
-      "source_row": 16
+      "source_row": 16,
+      "latitude": 13.92644,
+      "longitude": 100.42664,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -9302,7 +9863,10 @@
           "expires": ""
         }
       ],
-      "source_row": 19
+      "source_row": 19,
+      "latitude": 13.91538,
+      "longitude": 100.42264,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -9351,7 +9915,10 @@
           "expires": ""
         }
       ],
-      "source_row": 22
+      "source_row": 22,
+      "latitude": 13.89536,
+      "longitude": 100.41008,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -9400,7 +9967,10 @@
           "expires": ""
         }
       ],
-      "source_row": 25
+      "source_row": 25,
+      "latitude": 13.91318,
+      "longitude": 100.42482,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -9449,7 +10019,10 @@
           "expires": ""
         }
       ],
-      "source_row": 28
+      "source_row": 28,
+      "latitude": 13.88944,
+      "longitude": 100.41908,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -9498,7 +10071,10 @@
           "expires": ""
         }
       ],
-      "source_row": 31
+      "source_row": 31,
+      "latitude": 13.89552,
+      "longitude": 100.40884,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -9547,7 +10123,10 @@
           "expires": ""
         }
       ],
-      "source_row": 34
+      "source_row": 34,
+      "latitude": 13.91538,
+      "longitude": 100.42546,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -9596,7 +10175,10 @@
           "expires": ""
         }
       ],
-      "source_row": 37
+      "source_row": 37,
+      "latitude": 13.91632,
+      "longitude": 100.39252,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -9645,7 +10227,10 @@
           "expires": ""
         }
       ],
-      "source_row": 40
+      "source_row": 40,
+      "latitude": 13.91402,
+      "longitude": 100.42362,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -9694,7 +10279,10 @@
           "expires": ""
         }
       ],
-      "source_row": 43
+      "source_row": 43,
+      "latitude": 13.91274,
+      "longitude": 100.42189,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -9743,7 +10331,10 @@
           "expires": ""
         }
       ],
-      "source_row": 46
+      "source_row": 46,
+      "latitude": 13.8954,
+      "longitude": 100.4108,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -9792,7 +10383,10 @@
           "expires": ""
         }
       ],
-      "source_row": 49
+      "source_row": 49,
+      "latitude": 13.89052,
+      "longitude": 100.4184,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -9841,7 +10435,10 @@
           "expires": ""
         }
       ],
-      "source_row": 52
+      "source_row": 52,
+      "latitude": 13.88852,
+      "longitude": 100.41928,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -9890,7 +10487,10 @@
           "expires": ""
         }
       ],
-      "source_row": 55
+      "source_row": 55,
+      "latitude": 13.88924,
+      "longitude": 100.4168,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -9939,7 +10539,10 @@
           "expires": ""
         }
       ],
-      "source_row": 58
+      "source_row": 58,
+      "latitude": 13.89196,
+      "longitude": 100.41796,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -9988,7 +10591,10 @@
           "expires": ""
         }
       ],
-      "source_row": 61
+      "source_row": 61,
+      "latitude": 13.89088,
+      "longitude": 100.41668,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -10037,7 +10643,10 @@
           "expires": ""
         }
       ],
-      "source_row": 64
+      "source_row": 64,
+      "latitude": 13.895,
+      "longitude": 100.4118,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -10086,7 +10695,10 @@
           "expires": ""
         }
       ],
-      "source_row": 67
+      "source_row": 67,
+      "latitude": 13.91502,
+      "longitude": 100.42594,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -10135,7 +10747,10 @@
           "expires": ""
         }
       ],
-      "source_row": 70
+      "source_row": 70,
+      "latitude": 13.9153,
+      "longitude": 100.42134,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -10184,7 +10799,10 @@
           "expires": ""
         }
       ],
-      "source_row": 73
+      "source_row": 73,
+      "latitude": 13.91378,
+      "longitude": 100.41968,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -10233,7 +10851,10 @@
           "expires": ""
         }
       ],
-      "source_row": 76
+      "source_row": 76,
+      "latitude": 13.9298,
+      "longitude": 100.4238,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -10282,7 +10903,10 @@
           "expires": ""
         }
       ],
-      "source_row": 79
+      "source_row": 79,
+      "latitude": 13.89028,
+      "longitude": 100.41836,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -10331,7 +10955,10 @@
           "expires": ""
         }
       ],
-      "source_row": 82
+      "source_row": 82,
+      "latitude": 13.89068,
+      "longitude": 100.41816,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -10380,7 +11007,10 @@
           "expires": ""
         }
       ],
-      "source_row": 85
+      "source_row": 85,
+      "latitude": 13.88916,
+      "longitude": 100.4178,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -10429,7 +11059,10 @@
           "expires": ""
         }
       ],
-      "source_row": 88
+      "source_row": 88,
+      "latitude": 13.89088,
+      "longitude": 100.41768,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -10478,7 +11111,10 @@
           "expires": ""
         }
       ],
-      "source_row": 91
+      "source_row": 91,
+      "latitude": 13.89536,
+      "longitude": 100.41108,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -10527,7 +11163,10 @@
           "expires": ""
         }
       ],
-      "source_row": 94
+      "source_row": 94,
+      "latitude": 13.92124,
+      "longitude": 100.42804,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -10576,7 +11215,10 @@
           "expires": ""
         }
       ],
-      "source_row": 97
+      "source_row": 97,
+      "latitude": 13.89708,
+      "longitude": 100.40868,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -10625,7 +11267,10 @@
           "expires": ""
         }
       ],
-      "source_row": 100
+      "source_row": 100,
+      "latitude": 13.91438,
+      "longitude": 100.42338,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -10674,7 +11319,10 @@
           "expires": ""
         }
       ],
-      "source_row": 103
+      "source_row": 103,
+      "latitude": 13.92448,
+      "longitude": 100.425,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -10723,7 +11371,10 @@
           "expires": ""
         }
       ],
-      "source_row": 106
+      "source_row": 106,
+      "latitude": 13.88212,
+      "longitude": 100.40872,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -10772,7 +11423,10 @@
           "expires": ""
         }
       ],
-      "source_row": 109
+      "source_row": 109,
+      "latitude": 13.9133,
+      "longitude": 100.4231,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -10821,7 +11475,10 @@
           "expires": ""
         }
       ],
-      "source_row": 112
+      "source_row": 112,
+      "latitude": 13.88888,
+      "longitude": 100.41904,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -10870,7 +11527,10 @@
           "expires": ""
         }
       ],
-      "source_row": 115
+      "source_row": 115,
+      "latitude": 13.8826,
+      "longitude": 100.4422,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -10919,7 +11579,10 @@
           "expires": ""
         }
       ],
-      "source_row": 118
+      "source_row": 118,
+      "latitude": 13.91562,
+      "longitude": 100.42422,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -10968,7 +11631,10 @@
           "expires": ""
         }
       ],
-      "source_row": 121
+      "source_row": 121,
+      "latitude": 13.89672,
+      "longitude": 100.4084,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -11017,7 +11683,10 @@
           "expires": ""
         }
       ],
-      "source_row": 124
+      "source_row": 124,
+      "latitude": 13.89048,
+      "longitude": 100.41988,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -11066,7 +11735,10 @@
           "expires": ""
         }
       ],
-      "source_row": 127
+      "source_row": 127,
+      "latitude": 13.9159,
+      "longitude": 100.42274,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -11115,7 +11787,10 @@
           "expires": ""
         }
       ],
-      "source_row": 130
+      "source_row": 130,
+      "latitude": 13.91618,
+      "longitude": 100.42278,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -11164,7 +11839,10 @@
           "expires": ""
         }
       ],
-      "source_row": 133
+      "source_row": 133,
+      "latitude": 13.91426,
+      "longitude": 100.42466,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -11213,7 +11891,10 @@
           "expires": ""
         }
       ],
-      "source_row": 136
+      "source_row": 136,
+      "latitude": 13.8836,
+      "longitude": 100.43508,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -11262,7 +11943,10 @@
           "expires": ""
         }
       ],
-      "source_row": 139
+      "source_row": 139,
+      "latitude": 13.91314,
+      "longitude": 100.42418,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -11311,7 +11995,10 @@
           "expires": ""
         }
       ],
-      "source_row": 142
+      "source_row": 142,
+      "latitude": 13.91462,
+      "longitude": 100.41896,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -11360,7 +12047,10 @@
           "expires": ""
         }
       ],
-      "source_row": 145
+      "source_row": 145,
+      "latitude": 13.91422,
+      "longitude": 100.42614,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -11409,7 +12099,10 @@
           "expires": ""
         }
       ],
-      "source_row": 148
+      "source_row": 148,
+      "latitude": 13.88868,
+      "longitude": 100.41728,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -11458,7 +12151,10 @@
           "expires": ""
         }
       ],
-      "source_row": 151
+      "source_row": 151,
+      "latitude": 13.88896,
+      "longitude": 100.41828,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -11507,7 +12203,10 @@
           "expires": ""
         }
       ],
-      "source_row": 154
+      "source_row": 154,
+      "latitude": 13.91723,
+      "longitude": 100.42083,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -11556,7 +12255,10 @@
           "expires": ""
         }
       ],
-      "source_row": 157
+      "source_row": 157,
+      "latitude": 13.92724,
+      "longitude": 100.4282,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -11605,7 +12307,10 @@
           "expires": ""
         }
       ],
-      "source_row": 160
+      "source_row": 160,
+      "latitude": 13.888,
+      "longitude": 100.41848,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -11654,7 +12359,10 @@
           "expires": ""
         }
       ],
-      "source_row": 163
+      "source_row": 163,
+      "latitude": 13.92416,
+      "longitude": 100.42748,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -11703,7 +12411,10 @@
           "expires": ""
         }
       ],
-      "source_row": 166
+      "source_row": 166,
+      "latitude": 13.91508,
+      "longitude": 100.4218,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -11752,7 +12463,10 @@
           "expires": ""
         }
       ],
-      "source_row": 169
+      "source_row": 169,
+      "latitude": 13.91682,
+      "longitude": 100.42248,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -11801,7 +12515,10 @@
           "expires": ""
         }
       ],
-      "source_row": 172
+      "source_row": 172,
+      "latitude": 13.91274,
+      "longitude": 100.42366,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -11850,7 +12567,10 @@
           "expires": ""
         }
       ],
-      "source_row": 175
+      "source_row": 175,
+      "latitude": 13.89148,
+      "longitude": 100.41944,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -11899,7 +12619,10 @@
           "expires": ""
         }
       ],
-      "source_row": 178
+      "source_row": 178,
+      "latitude": 13.9142,
+      "longitude": 100.4253,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -11948,7 +12671,10 @@
           "expires": ""
         }
       ],
-      "source_row": 181
+      "source_row": 181,
+      "latitude": 13.88948,
+      "longitude": 100.41808,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -11997,7 +12723,10 @@
           "expires": ""
         }
       ],
-      "source_row": 184
+      "source_row": 184,
+      "latitude": 13.91502,
+      "longitude": 100.42518,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -12046,7 +12775,10 @@
           "expires": ""
         }
       ],
-      "source_row": 187
+      "source_row": 187,
+      "latitude": 13.88832,
+      "longitude": 100.419,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -12095,7 +12827,10 @@
           "expires": ""
         }
       ],
-      "source_row": 190
+      "source_row": 190,
+      "latitude": 13.91562,
+      "longitude": 100.42522,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -12144,7 +12879,10 @@
           "expires": ""
         }
       ],
-      "source_row": 193
+      "source_row": 193,
+      "latitude": 13.92548,
+      "longitude": 100.42656,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -12193,7 +12931,10 @@
           "expires": ""
         }
       ],
-      "source_row": 196
+      "source_row": 196,
+      "latitude": 13.91426,
+      "longitude": 100.42208,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -12242,7 +12983,10 @@
           "expires": ""
         }
       ],
-      "source_row": 199
+      "source_row": 199,
+      "latitude": 13.91234,
+      "longitude": 100.42238,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด 9(11)",
@@ -12291,7 +13035,10 @@
           "expires": ""
         }
       ],
-      "source_row": 202
+      "source_row": 202,
+      "latitude": 13.8902,
+      "longitude": 100.4176,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด9(12)",
@@ -12340,7 +13087,10 @@
           "expires": ""
         }
       ],
-      "source_row": 4
+      "source_row": 4,
+      "latitude": 13.92944,
+      "longitude": 100.423,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด9(18)",
@@ -12389,7 +13139,10 @@
           "expires": ""
         }
       ],
-      "source_row": 4
+      "source_row": 4,
+      "latitude": 13.9141,
+      "longitude": 100.42562,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด9(18)",
@@ -12438,7 +13191,10 @@
           "expires": ""
         }
       ],
-      "source_row": 7
+      "source_row": 7,
+      "latitude": 13.89028,
+      "longitude": 100.41964,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด9(18)",
@@ -12487,7 +13243,10 @@
           "expires": ""
         }
       ],
-      "source_row": 10
+      "source_row": 10,
+      "latitude": 13.91511,
+      "longitude": 100.42255,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด9(18)",
@@ -12536,7 +13295,10 @@
           "expires": ""
         }
       ],
-      "source_row": 13
+      "source_row": 13,
+      "latitude": 13.91502,
+      "longitude": 100.4203,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด9(18)",
@@ -12585,7 +13347,10 @@
           "expires": ""
         }
       ],
-      "source_row": 16
+      "source_row": 16,
+      "latitude": 13.89196,
+      "longitude": 100.41996,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด9(18)",
@@ -12634,7 +13399,10 @@
           "expires": ""
         }
       ],
-      "source_row": 19
+      "source_row": 19,
+      "latitude": 13.91672,
+      "longitude": 100.42422,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด9(18)",
@@ -12683,7 +13451,10 @@
           "expires": ""
         }
       ],
-      "source_row": 22
+      "source_row": 22,
+      "latitude": 13.88308,
+      "longitude": 100.41316,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด10",
@@ -12732,7 +13503,10 @@
           "expires": ""
         }
       ],
-      "source_row": 4
+      "source_row": 4,
+      "latitude": 13.91588,
+      "longitude": 100.42514,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด10",
@@ -12781,7 +13555,10 @@
           "expires": ""
         }
       ],
-      "source_row": 7
+      "source_row": 7,
+      "latitude": 13.89028,
+      "longitude": 100.41736,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด10",
@@ -12830,7 +13607,10 @@
           "expires": ""
         }
       ],
-      "source_row": 10
+      "source_row": 10,
+      "latitude": 13.89176,
+      "longitude": 100.4162,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด10",
@@ -12879,7 +13659,10 @@
           "expires": ""
         }
       ],
-      "source_row": 13
+      "source_row": 13,
+      "latitude": 13.89712,
+      "longitude": 100.41016,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด10",
@@ -12928,7 +13711,10 @@
           "expires": ""
         }
       ],
-      "source_row": 16
+      "source_row": 16,
+      "latitude": 13.89068,
+      "longitude": 100.41816,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด10",
@@ -12977,7 +13763,10 @@
           "expires": ""
         }
       ],
-      "source_row": 19
+      "source_row": 19,
+      "latitude": 13.91566,
+      "longitude": 100.4224,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด10",
@@ -13026,7 +13815,10 @@
           "expires": ""
         }
       ],
-      "source_row": 22
+      "source_row": 22,
+      "latitude": 13.88272,
+      "longitude": 100.40752,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด10",
@@ -13075,7 +13867,10 @@
           "expires": ""
         }
       ],
-      "source_row": 25
+      "source_row": 25,
+      "latitude": 13.89156,
+      "longitude": 100.41796,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด10",
@@ -13124,7 +13919,10 @@
           "expires": ""
         }
       ],
-      "source_row": 28
+      "source_row": 28,
+      "latitude": 13.92452,
+      "longitude": 100.42876,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด10",
@@ -13173,7 +13971,10 @@
           "expires": ""
         }
       ],
-      "source_row": 31
+      "source_row": 31,
+      "latitude": 13.91386,
+      "longitude": 100.4241,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด10",
@@ -13222,7 +14023,10 @@
           "expires": ""
         }
       ],
-      "source_row": 34
+      "source_row": 34,
+      "latitude": 13.8958,
+      "longitude": 100.41108,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด10",
@@ -13271,7 +14075,10 @@
           "expires": ""
         }
       ],
-      "source_row": 37
+      "source_row": 37,
+      "latitude": 13.92564,
+      "longitude": 100.42808,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด11",
@@ -13320,7 +14127,10 @@
           "expires": ""
         }
       ],
-      "source_row": 4
+      "source_row": 4,
+      "latitude": 13.88248,
+      "longitude": 100.41364,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด11",
@@ -13369,7 +14179,10 @@
           "expires": ""
         }
       ],
-      "source_row": 7
+      "source_row": 7,
+      "latitude": 13.88244,
+      "longitude": 100.43524,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด11",
@@ -13418,7 +14231,10 @@
           "expires": ""
         }
       ],
-      "source_row": 10
+      "source_row": 10,
+      "latitude": 13.92564,
+      "longitude": 100.42584,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด11",
@@ -13467,7 +14283,10 @@
           "expires": ""
         }
       ],
-      "source_row": 13
+      "source_row": 13,
+      "latitude": 13.92452,
+      "longitude": 100.428,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด11",
@@ -13516,7 +14335,10 @@
           "expires": ""
         }
       ],
-      "source_row": 16
+      "source_row": 16,
+      "latitude": 13.9302,
+      "longitude": 100.4268,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด11",
@@ -13565,7 +14387,10 @@
           "expires": ""
         }
       ],
-      "source_row": 19
+      "source_row": 19,
+      "latitude": 13.88248,
+      "longitude": 100.4392,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด11",
@@ -13614,7 +14439,10 @@
           "expires": ""
         }
       ],
-      "source_row": 22
+      "source_row": 22,
+      "latitude": 13.88224,
+      "longitude": 100.41288,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด11",
@@ -13663,7 +14491,10 @@
           "expires": ""
         }
       ],
-      "source_row": 25
+      "source_row": 25,
+      "latitude": 13.9155,
+      "longitude": 100.42092,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด11",
@@ -13712,7 +14543,10 @@
           "expires": ""
         }
       ],
-      "source_row": 28
+      "source_row": 28,
+      "latitude": 13.89024,
+      "longitude": 100.41864,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด11",
@@ -13761,7 +14595,10 @@
           "expires": ""
         }
       ],
-      "source_row": 31
+      "source_row": 31,
+      "latitude": 13.92196,
+      "longitude": 100.40084,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด11",
@@ -13810,7 +14647,10 @@
           "expires": ""
         }
       ],
-      "source_row": 34
+      "source_row": 34,
+      "latitude": 13.89148,
+      "longitude": 100.41968,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด11",
@@ -13859,7 +14699,10 @@
           "expires": ""
         }
       ],
-      "source_row": 37
+      "source_row": 37,
+      "latitude": 13.8828,
+      "longitude": 100.43652,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด11",
@@ -13908,7 +14751,10 @@
           "expires": ""
         }
       ],
-      "source_row": 40
+      "source_row": 40,
+      "latitude": 13.88092,
+      "longitude": 100.41252,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด11",
@@ -13957,7 +14803,10 @@
           "expires": ""
         }
       ],
-      "source_row": 43
+      "source_row": 43,
+      "latitude": 13.88216,
+      "longitude": 100.43944,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด11",
@@ -14006,7 +14855,10 @@
           "expires": ""
         }
       ],
-      "source_row": 46
+      "source_row": 46,
+      "latitude": 13.9242,
+      "longitude": 100.42704,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด11",
@@ -14055,7 +14907,10 @@
           "expires": ""
         }
       ],
-      "source_row": 49
+      "source_row": 49,
+      "latitude": 13.88148,
+      "longitude": 100.41584,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด11",
@@ -14104,7 +14959,10 @@
           "expires": ""
         }
       ],
-      "source_row": 52
+      "source_row": 52,
+      "latitude": 13.89056,
+      "longitude": 100.4184,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด11",
@@ -14153,7 +15011,10 @@
           "expires": ""
         }
       ],
-      "source_row": 55
+      "source_row": 55,
+      "latitude": 13.87904,
+      "longitude": 100.44224,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -14202,7 +15063,10 @@
           "expires": ""
         }
       ],
-      "source_row": 4
+      "source_row": 4,
+      "latitude": 13.88004,
+      "longitude": 100.44028,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -14251,7 +15115,10 @@
           "expires": ""
         }
       ],
-      "source_row": 7
+      "source_row": 7,
+      "latitude": 13.88288,
+      "longitude": 100.41592,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -14300,7 +15167,10 @@
           "expires": ""
         }
       ],
-      "source_row": 10
+      "source_row": 10,
+      "latitude": 13.91362,
+      "longitude": 100.42228,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -14349,7 +15219,10 @@
           "expires": ""
         }
       ],
-      "source_row": 13
+      "source_row": 13,
+      "latitude": 13.91546,
+      "longitude": 100.42346,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -14398,7 +15271,10 @@
           "expires": ""
         }
       ],
-      "source_row": 16
+      "source_row": 16,
+      "latitude": 13.91896,
+      "longitude": 100.3944,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -14447,7 +15323,10 @@
           "expires": ""
         }
       ],
-      "source_row": 19
+      "source_row": 19,
+      "latitude": 13.91788,
+      "longitude": 100.42602,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -14496,7 +15375,10 @@
           "expires": ""
         }
       ],
-      "source_row": 22
+      "source_row": 22,
+      "latitude": 13.92268,
+      "longitude": 100.40364,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -14545,7 +15427,10 @@
           "expires": ""
         }
       ],
-      "source_row": 25
+      "source_row": 25,
+      "latitude": 13.88012,
+      "longitude": 100.41248,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -14594,7 +15479,10 @@
           "expires": ""
         }
       ],
-      "source_row": 28
+      "source_row": 28,
+      "latitude": 13.89044,
+      "longitude": 100.41688,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -14643,7 +15531,10 @@
           "expires": ""
         }
       ],
-      "source_row": 31
+      "source_row": 31,
+      "latitude": 13.8844,
+      "longitude": 100.40764,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -14692,7 +15583,10 @@
           "expires": ""
         }
       ],
-      "source_row": 34
+      "source_row": 34,
+      "latitude": 13.89784,
+      "longitude": 100.40872,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -14741,7 +15635,10 @@
           "expires": ""
         }
       ],
-      "source_row": 37
+      "source_row": 37,
+      "latitude": 13.92452,
+      "longitude": 100.426,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -14790,7 +15687,10 @@
           "expires": ""
         }
       ],
-      "source_row": 40
+      "source_row": 40,
+      "latitude": 13.88376,
+      "longitude": 100.4066,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -14839,7 +15739,10 @@
           "expires": ""
         }
       ],
-      "source_row": 43
+      "source_row": 43,
+      "latitude": 13.92432,
+      "longitude": 100.42856,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -14888,7 +15791,10 @@
           "expires": ""
         }
       ],
-      "source_row": 46
+      "source_row": 46,
+      "latitude": 13.8818,
+      "longitude": 100.4136,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -14937,7 +15843,10 @@
           "expires": ""
         }
       ],
-      "source_row": 49
+      "source_row": 49,
+      "latitude": 13.89048,
+      "longitude": 100.41864,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -14986,7 +15895,10 @@
           "expires": ""
         }
       ],
-      "source_row": 52
+      "source_row": 52,
+      "latitude": 13.93256,
+      "longitude": 100.4252,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -15035,7 +15947,10 @@
           "expires": ""
         }
       ],
-      "source_row": 55
+      "source_row": 55,
+      "latitude": 13.93176,
+      "longitude": 100.42416,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -15084,7 +15999,10 @@
           "expires": ""
         }
       ],
-      "source_row": 58
+      "source_row": 58,
+      "latitude": 13.89116,
+      "longitude": 100.41744,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -15133,7 +16051,10 @@
           "expires": ""
         }
       ],
-      "source_row": 61
+      "source_row": 61,
+      "latitude": 13.92352,
+      "longitude": 100.43072,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -15182,7 +16103,10 @@
           "expires": ""
         }
       ],
-      "source_row": 64
+      "source_row": 64,
+      "latitude": 13.9272,
+      "longitude": 100.42544,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -15231,7 +16155,10 @@
           "expires": ""
         }
       ],
-      "source_row": 67
+      "source_row": 67,
+      "latitude": 13.9133,
+      "longitude": 100.42346,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -15280,7 +16207,10 @@
           "expires": ""
         }
       ],
-      "source_row": 70
+      "source_row": 70,
+      "latitude": 13.93072,
+      "longitude": 100.4256,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -15329,7 +16259,10 @@
           "expires": ""
         }
       ],
-      "source_row": 73
+      "source_row": 73,
+      "latitude": 13.9163,
+      "longitude": 100.42196,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -15378,7 +16311,10 @@
           "expires": ""
         }
       ],
-      "source_row": 76
+      "source_row": 76,
+      "latitude": 13.88812,
+      "longitude": 100.41748,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -15427,7 +16363,10 @@
           "expires": ""
         }
       ],
-      "source_row": 79
+      "source_row": 79,
+      "latitude": 13.89156,
+      "longitude": 100.41944,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -15476,7 +16415,10 @@
           "expires": ""
         }
       ],
-      "source_row": 82
+      "source_row": 82,
+      "latitude": 13.89072,
+      "longitude": 100.4164,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -15525,7 +16467,10 @@
           "expires": ""
         }
       ],
-      "source_row": 85
+      "source_row": 85,
+      "latitude": 13.88804,
+      "longitude": 100.41648,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -15574,7 +16519,10 @@
           "expires": ""
         }
       ],
-      "source_row": 88
+      "source_row": 88,
+      "latitude": 13.8884,
+      "longitude": 100.41952,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -15623,7 +16571,10 @@
           "expires": ""
         }
       ],
-      "source_row": 91
+      "source_row": 91,
+      "latitude": 13.91832,
+      "longitude": 100.39288,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -15672,7 +16623,10 @@
           "expires": ""
         }
       ],
-      "source_row": 94
+      "source_row": 94,
+      "latitude": 13.92448,
+      "longitude": 100.42576,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -15721,7 +16675,10 @@
           "expires": "10/02/2567"
         }
       ],
-      "source_row": 97
+      "source_row": 97,
+      "latitude": 13.881,
+      "longitude": 100.4128,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -15770,7 +16727,10 @@
           "expires": ""
         }
       ],
-      "source_row": 100
+      "source_row": 100,
+      "latitude": 13.8904,
+      "longitude": 100.41664,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -15819,7 +16779,10 @@
           "expires": ""
         }
       ],
-      "source_row": 103
+      "source_row": 103,
+      "latitude": 13.89568,
+      "longitude": 100.4086,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -15868,7 +16831,10 @@
           "expires": ""
         }
       ],
-      "source_row": 106
+      "source_row": 106,
+      "latitude": 13.92904,
+      "longitude": 100.425,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -15917,7 +16883,10 @@
           "expires": ""
         }
       ],
-      "source_row": 109
+      "source_row": 109,
+      "latitude": 13.93108,
+      "longitude": 100.4246,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -15966,7 +16935,10 @@
           "expires": ""
         }
       ],
-      "source_row": 112
+      "source_row": 112,
+      "latitude": 13.89448,
+      "longitude": 100.41052,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -16015,7 +16987,10 @@
           "expires": ""
         }
       ],
-      "source_row": 115
+      "source_row": 115,
+      "latitude": 13.88852,
+      "longitude": 100.418,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -16064,7 +17039,10 @@
           "expires": ""
         }
       ],
-      "source_row": 118
+      "source_row": 118,
+      "latitude": 13.926,
+      "longitude": 100.42736,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -16113,7 +17091,10 @@
           "expires": ""
         }
       ],
-      "source_row": 121
+      "source_row": 121,
+      "latitude": 13.87916,
+      "longitude": 100.44024,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -16162,7 +17143,10 @@
           "expires": ""
         }
       ],
-      "source_row": 124
+      "source_row": 124,
+      "latitude": 13.88528,
+      "longitude": 100.4362,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -16211,7 +17195,10 @@
           "expires": ""
         }
       ],
-      "source_row": 127
+      "source_row": 127,
+      "latitude": 13.89008,
+      "longitude": 100.41912,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -16260,7 +17247,10 @@
           "expires": ""
         }
       ],
-      "source_row": 130
+      "source_row": 130,
+      "latitude": 13.89432,
+      "longitude": 100.41,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -16309,7 +17299,10 @@
           "expires": ""
         }
       ],
-      "source_row": 133
+      "source_row": 133,
+      "latitude": 13.89688,
+      "longitude": 100.4114,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -16358,7 +17351,10 @@
           "expires": ""
         }
       ],
-      "source_row": 136
+      "source_row": 136,
+      "latitude": 13.8946,
+      "longitude": 100.41052,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -16407,7 +17403,10 @@
           "expires": ""
         }
       ],
-      "source_row": 139
+      "source_row": 139,
+      "latitude": 13.91422,
+      "longitude": 100.42178,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -16456,7 +17455,10 @@
           "expires": ""
         }
       ],
-      "source_row": 142
+      "source_row": 142,
+      "latitude": 13.8836,
+      "longitude": 100.41544,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -16505,7 +17507,10 @@
           "expires": ""
         }
       ],
-      "source_row": 145
+      "source_row": 145,
+      "latitude": 13.92612,
+      "longitude": 100.42888,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -16554,7 +17559,10 @@
           "expires": ""
         }
       ],
-      "source_row": 148
+      "source_row": 148,
+      "latitude": 13.91358,
+      "longitude": 100.42534,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -16603,7 +17611,10 @@
           "expires": ""
         }
       ],
-      "source_row": 151
+      "source_row": 151,
+      "latitude": 13.89212,
+      "longitude": 100.4156,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -16652,7 +17663,10 @@
           "expires": ""
         }
       ],
-      "source_row": 154
+      "source_row": 154,
+      "latitude": 13.9318,
+      "longitude": 100.42364,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -16701,7 +17715,10 @@
           "expires": ""
         }
       ],
-      "source_row": 157
+      "source_row": 157,
+      "latitude": 13.8886,
+      "longitude": 100.41676,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -16750,7 +17767,10 @@
           "expires": ""
         }
       ],
-      "source_row": 160
+      "source_row": 160,
+      "latitude": 13.89724,
+      "longitude": 100.41068,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -16799,7 +17819,10 @@
           "expires": ""
         }
       ],
-      "source_row": 163
+      "source_row": 163,
+      "latitude": 13.88344,
+      "longitude": 100.41344,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -16848,7 +17871,10 @@
           "expires": ""
         }
       ],
-      "source_row": 166
+      "source_row": 166,
+      "latitude": 13.88912,
+      "longitude": 100.41804,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -16897,7 +17923,10 @@
           "expires": ""
         }
       ],
-      "source_row": 169
+      "source_row": 169,
+      "latitude": 13.93056,
+      "longitude": 100.42656,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -16946,7 +17975,10 @@
           "expires": ""
         }
       ],
-      "source_row": 172
+      "source_row": 172,
+      "latitude": 13.89184,
+      "longitude": 100.41848,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -16995,7 +18027,10 @@
           "expires": ""
         }
       ],
-      "source_row": 175
+      "source_row": 175,
+      "latitude": 13.92568,
+      "longitude": 100.42808,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -17044,7 +18079,10 @@
           "expires": ""
         }
       ],
-      "source_row": 178
+      "source_row": 178,
+      "latitude": 13.92924,
+      "longitude": 100.426,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -17093,7 +18131,10 @@
           "expires": ""
         }
       ],
-      "source_row": 181
+      "source_row": 181,
+      "latitude": 13.91694,
+      "longitude": 100.422,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -17142,7 +18183,10 @@
           "expires": ""
         }
       ],
-      "source_row": 184
+      "source_row": 184,
+      "latitude": 13.88844,
+      "longitude": 100.417,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -17191,7 +18235,10 @@
           "expires": ""
         }
       ],
-      "source_row": 187
+      "source_row": 187,
+      "latitude": 13.88264,
+      "longitude": 100.40976,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -17240,7 +18287,10 @@
           "expires": ""
         }
       ],
-      "source_row": 190
+      "source_row": 190,
+      "latitude": 13.92524,
+      "longitude": 100.42688,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -17289,7 +18339,10 @@
           "expires": ""
         }
       ],
-      "source_row": 193
+      "source_row": 193,
+      "latitude": 13.88028,
+      "longitude": 100.415,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -17338,7 +18391,10 @@
           "expires": ""
         }
       ],
-      "source_row": 196
+      "source_row": 196,
+      "latitude": 13.89492,
+      "longitude": 100.40852,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -17387,7 +18443,10 @@
           "expires": ""
         }
       ],
-      "source_row": 199
+      "source_row": 199,
+      "latitude": 13.93024,
+      "longitude": 100.42432,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -17436,7 +18495,10 @@
           "expires": ""
         }
       ],
-      "source_row": 202
+      "source_row": 202,
+      "latitude": 13.93192,
+      "longitude": 100.4254,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -17485,7 +18547,10 @@
           "expires": ""
         }
       ],
-      "source_row": 205
+      "source_row": 205,
+      "latitude": 13.92464,
+      "longitude": 100.4354,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -17534,7 +18599,10 @@
           "expires": ""
         }
       ],
-      "source_row": 208
+      "source_row": 208,
+      "latitude": 13.89144,
+      "longitude": 100.41332,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -17583,7 +18651,10 @@
           "expires": ""
         }
       ],
-      "source_row": 211
+      "source_row": 211,
+      "latitude": 13.9252,
+      "longitude": 100.42656,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -17632,7 +18703,10 @@
           "expires": ""
         }
       ],
-      "source_row": 214
+      "source_row": 214,
+      "latitude": 13.92492,
+      "longitude": 100.42612,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด12",
@@ -17681,7 +18755,10 @@
           "expires": ""
         }
       ],
-      "source_row": 217
+      "source_row": 217,
+      "latitude": 13.88212,
+      "longitude": 100.41412,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -17730,7 +18807,10 @@
           "expires": ""
         }
       ],
-      "source_row": 4
+      "source_row": 4,
+      "latitude": 13.926,
+      "longitude": 100.42684,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -17779,7 +18859,10 @@
           "expires": ""
         }
       ],
-      "source_row": 7
+      "source_row": 7,
+      "latitude": 13.8894,
+      "longitude": 100.41656,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -17828,7 +18911,10 @@
           "expires": ""
         }
       ],
-      "source_row": 10
+      "source_row": 10,
+      "latitude": 13.88916,
+      "longitude": 100.4198,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -17877,7 +18963,10 @@
           "expires": ""
         }
       ],
-      "source_row": 13
+      "source_row": 13,
+      "latitude": 13.91574,
+      "longitude": 100.42468,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -17926,7 +19015,10 @@
           "expires": ""
         }
       ],
-      "source_row": 16
+      "source_row": 16,
+      "latitude": 13.8958,
+      "longitude": 100.4096,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -17975,7 +19067,10 @@
           "expires": ""
         }
       ],
-      "source_row": 19
+      "source_row": 19,
+      "latitude": 13.89024,
+      "longitude": 100.41636,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -18024,7 +19119,10 @@
           "expires": ""
         }
       ],
-      "source_row": 22
+      "source_row": 22,
+      "latitude": 13.88256,
+      "longitude": 100.44196,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -18073,7 +19171,10 @@
           "expires": ""
         }
       ],
-      "source_row": 25
+      "source_row": 25,
+      "latitude": 13.9129,
+      "longitude": 100.4227,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -18122,7 +19223,10 @@
           "expires": ""
         }
       ],
-      "source_row": 28
+      "source_row": 28,
+      "latitude": 13.88888,
+      "longitude": 100.41704,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -18171,7 +19275,10 @@
           "expires": ""
         }
       ],
-      "source_row": 31
+      "source_row": 31,
+      "latitude": 13.92628,
+      "longitude": 100.42788,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -18220,7 +19327,10 @@
           "expires": ""
         }
       ],
-      "source_row": 34
+      "source_row": 34,
+      "latitude": 13.92488,
+      "longitude": 100.4268,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -18269,7 +19379,10 @@
           "expires": ""
         }
       ],
-      "source_row": 37
+      "source_row": 37,
+      "latitude": 13.91282,
+      "longitude": 100.42294,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -18318,7 +19431,10 @@
           "expires": ""
         }
       ],
-      "source_row": 40
+      "source_row": 40,
+      "latitude": 13.91298,
+      "longitude": 100.42482,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -18367,7 +19483,10 @@
           "expires": ""
         }
       ],
-      "source_row": 43
+      "source_row": 43,
+      "latitude": 13.91422,
+      "longitude": 100.42562,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -18416,7 +19535,10 @@
           "expires": ""
         }
       ],
-      "source_row": 46
+      "source_row": 46,
+      "latitude": 13.9147,
+      "longitude": 100.42412,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -18465,7 +19587,10 @@
           "expires": ""
         }
       ],
-      "source_row": 49
+      "source_row": 49,
+      "latitude": 13.89148,
+      "longitude": 100.4172,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -18514,7 +19639,10 @@
           "expires": ""
         }
       ],
-      "source_row": 52
+      "source_row": 52,
+      "latitude": 13.89184,
+      "longitude": 100.41896,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -18563,7 +19691,10 @@
           "expires": ""
         }
       ],
-      "source_row": 55
+      "source_row": 55,
+      "latitude": 13.88904,
+      "longitude": 100.41728,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -18612,7 +19743,10 @@
           "expires": ""
         }
       ],
-      "source_row": 58
+      "source_row": 58,
+      "latitude": 13.88186,
+      "longitude": 100.4367,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -18661,7 +19795,10 @@
           "expires": ""
         }
       ],
-      "source_row": 61
+      "source_row": 61,
+      "latitude": 13.91374,
+      "longitude": 100.4245,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -18710,7 +19847,10 @@
           "expires": ""
         }
       ],
-      "source_row": 64
+      "source_row": 64,
+      "latitude": 13.89064,
+      "longitude": 100.4194,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -18759,7 +19899,10 @@
           "expires": ""
         }
       ],
-      "source_row": 67
+      "source_row": 67,
+      "latitude": 13.89768,
+      "longitude": 100.40996,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -18808,7 +19951,10 @@
           "expires": ""
         }
       ],
-      "source_row": 70
+      "source_row": 70,
+      "latitude": 13.88052,
+      "longitude": 100.43908,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -18857,7 +20003,10 @@
           "expires": ""
         }
       ],
-      "source_row": 73
+      "source_row": 73,
+      "latitude": 13.8816,
+      "longitude": 100.44164,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -18906,7 +20055,10 @@
           "expires": ""
         }
       ],
-      "source_row": 76
+      "source_row": 76,
+      "latitude": 13.88128,
+      "longitude": 100.41232,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -18955,7 +20107,10 @@
           "expires": ""
         }
       ],
-      "source_row": 79
+      "source_row": 79,
+      "latitude": 13.9234,
+      "longitude": 100.42896,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -19004,7 +20159,10 @@
           "expires": ""
         }
       ],
-      "source_row": 82
+      "source_row": 82,
+      "latitude": 13.8952,
+      "longitude": 100.4108,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -19053,7 +20211,10 @@
           "expires": ""
         }
       ],
-      "source_row": 85
+      "source_row": 85,
+      "latitude": 13.8884,
+      "longitude": 100.417,
+      "mapSource": "auto-free"
     },
     {
       "category": "หมวด13",
@@ -19102,7 +20263,10 @@
           "expires": ""
         }
       ],
-      "source_row": 88
+      "source_row": 88,
+      "latitude": 13.91342,
+      "longitude": 100.42116,
+      "mapSource": "auto-free"
     }
   ]
 }

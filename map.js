@@ -1,35 +1,341 @@
 'use strict';
-const $=selector=>document.querySelector(selector);
-const STORAGE_KEY='tabien-khum-v1',MAPS_KEY='tabien-khum-google-maps-key',AUTORUN_KEY='tabien-khum-google-geocode-v3',CENTER={lat:13.9166,lng:100.4240};
-const BOUNDS={north:14.035,south:13.825,east:100.555,west:100.300};
-let data={records:[],categories:[]},map=null,geocoder=null,selected=null,pinMode=false,geocoding=false;
-const markers=new Map();
-const escapeHTML=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
-const hasPin=record=>Boolean(record.latitude&&record.longitude&&Number.isFinite(Number(record.latitude))&&Number.isFinite(Number(record.longitude)));
-const notice=(message,error=false)=>{$('#notice').textContent=message;$('#notice').className=error?'error':'';};
-function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(data));}
-async function loadData(){const stored=localStorage.getItem(STORAGE_KEY);if(stored){data=JSON.parse(stored);}else{const response=await fetch('initial.json');data=await response.json();localStorage.setItem(STORAGE_KEY,JSON.stringify(data));}renderList();updateStats();}
-function updateStats(){const pinned=data.records.filter(hasPin).length;$('#totalCount').textContent=data.records.length.toLocaleString('en-US');$('#pinnedCount').textContent=pinned.toLocaleString('en-US');$('#unplacedCount').textContent=(data.records.length-pinned).toLocaleString('en-US');}
-function renderList(){const query=$('#search').value.trim().toLowerCase(),filter=$('#pinFilter').value;const records=data.records.filter(record=>(filter==='all'||(filter==='pinned'&&hasPin(record))||(filter==='missing'&&!hasPin(record)))&&(!query||JSON.stringify([record.name,record.address,record.code,record.business]).toLowerCase().includes(query)));$('#businessList').innerHTML=records.map(record=>`<button class="business-card ${selected?.id===record.id?'active':''}" data-id="${record.id}"><span class="pin-status ${hasPin(record)?'':'missing'}">${hasPin(record)?'มีหมุด':'รอปักหมุด'}</span><b>${escapeHTML(record.name||'ไม่ระบุชื่อ')}</b><span>${escapeHTML(record.address||'ไม่ระบุที่อยู่')}</span><small>${escapeHTML(record.code||'—')} • ${escapeHTML(record.business||'')}</small></button>`).join('')||'<p style="padding:20px;color:#71847e">ไม่พบกิจการ</p>';}
-function loadGoogleMaps(key){return new Promise((resolve,reject)=>{if(window.google?.maps)return resolve();window.__initRegistryGoogleMap=resolve;window.gm_authFailure=()=>{$('#apiSetup').hidden=false;notice('Google Maps API Key ไม่ถูกต้อง หรือยังไม่ได้เปิด Billing และ API ที่จำเป็น',true);reject(Error('Google Maps ยืนยัน API Key ไม่สำเร็จ'));};const script=document.createElement('script');script.src=`https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(key)}&callback=__initRegistryGoogleMap&v=weekly`;script.async=true;script.onerror=()=>reject(Error('โหลด Google Maps ไม่สำเร็จ กรุณาตรวจสอบ API Key และอินเทอร์เน็ต'));document.head.append(script);setTimeout(()=>reject(Error('Google Maps ใช้เวลาตอบสนองนานเกินไป กรุณาตรวจสอบ API Key')),20000);});}
-async function connectMap(key){if(!key)return;$('#apiSetup').hidden=true;try{await loadGoogleMaps(key);map=new google.maps.Map($('#googleMap'),{center:CENTER,zoom:13,mapTypeControl:true,streetViewControl:true,fullscreenControl:true});geocoder=new google.maps.Geocoder();map.addListener('click',event=>{if(pinMode&&selected)setPin(selected,event.latLng.lat(),event.latLng.lng(),true);});renderMarkers();const requested=Number(new URLSearchParams(location.search).get('id'));if(requested){const record=data.records.find(item=>Number(item.id)===requested);if(record)selectRecord(record);}if(!localStorage.getItem(AUTORUN_KEY)&&data.records.some(record=>!hasPin(record)))setTimeout(()=>autoGeocode(true),900);}catch(error){$('#apiSetup').hidden=false;notice(error.message,true);}}
-function markerFor(record){if(!hasPin(record)||!map)return null;const marker=new google.maps.Marker({map,position:{lat:Number(record.latitude),lng:Number(record.longitude)},title:record.name||'กิจการ',draggable:true});const info=new google.maps.InfoWindow({content:`<b>${escapeHTML(record.name||'ไม่ระบุชื่อ')}</b><br>${escapeHTML(record.address||'')}<br>${escapeHTML(record.code||'')}`});marker.addListener('click',()=>{selectRecord(record);info.open({map,anchor:marker});});marker.addListener('dragend',event=>setPin(record,event.latLng.lat(),event.latLng.lng(),false));markers.set(Number(record.id),marker);return marker;}
-function renderMarkers(){markers.forEach(marker=>marker.setMap(null));markers.clear();data.records.forEach(markerFor);updateStats();}
-function selectRecord(record){selected=record;renderList();$('#selection').hidden=false;$('#selectedName').textContent=record.name||'ไม่ระบุชื่อ';$('#selectedAddress').textContent=record.address||'ไม่ระบุที่อยู่';$('#deletePin').disabled=!hasPin(record);if(hasPin(record)){map?.panTo({lat:Number(record.latitude),lng:Number(record.longitude)});map?.setZoom(17);markers.get(Number(record.id))?.setAnimation(google.maps.Animation.BOUNCE);setTimeout(()=>markers.get(Number(record.id))?.setAnimation(null),700);}}
-function setPin(record,latitude,longitude,focus=true){record.latitude=Number(latitude).toFixed(6);record.longitude=Number(longitude).toFixed(6);record.mapSource='manual';save();const old=markers.get(Number(record.id));if(old)old.setMap(null);markerFor(record);pinMode=false;document.body.classList.remove('pin-mode');updateStats();renderList();$('#deletePin').disabled=false;notice(`บันทึกหมุดของ ${record.name||'กิจการ'} แล้ว`);if(focus)map.setZoom(17);}
-function deletePin(){if(!selected||!hasPin(selected)||!confirm(`ลบหมุดของ ${selected.name||'กิจการ'}?`))return;delete selected.latitude;delete selected.longitude;delete selected.mapSource;const marker=markers.get(Number(selected.id));if(marker)marker.setMap(null);markers.delete(Number(selected.id));save();updateStats();renderList();$('#deletePin').disabled=true;notice('ลบหมุดเรียบร้อย');}
-function locationInsideMunicipality(location){const lat=location.lat(),lng=location.lng();return lat>=BOUNDS.south&&lat<=BOUNDS.north&&lng>=BOUNDS.west&&lng<=BOUNDS.east;}
-function cleanAddress(value){return String(value||'').replace(/["']/g,' ').replace(/(?:โทร(?:ศัพท์)?\.?|โทร\s*)\s*[:.-]?\s*[0-9\-/\s]+/gi,' ').replace(/\b0[0-9\-/]{7,}\b/g,' ').replace(/\d+(?:\.\d+)?\s*(?:แรงม้า|ตารางเมตร).*$/gim,' ').replace(/\s+/g,' ').replace(/ม\.\s*(\d+)/g,'หมู่ที่ $1').replace(/ต\.\s*/g,'ตำบล').replace(/อ\.\s*/g,'อำเภอ').replace(/จ\.\s*/g,'จังหวัด').trim();}
-function rawGeocode(address){return new Promise(resolve=>geocoder.geocode({address,componentRestrictions:{country:'TH'},bounds:new google.maps.LatLngBounds({lat:BOUNDS.south,lng:BOUNDS.west},{lat:BOUNDS.north,lng:BOUNDS.east})},(results,status)=>resolve({results:results||[],status,address})));}
-async function restGeocodeV4(address){const key=localStorage.getItem(MAPS_KEY)||'';const url=`https://geocode.googleapis.com/v4/geocode/address/${encodeURIComponent(address)}?key=${encodeURIComponent(key)}&languageCode=th&regionCode=th`;try{const response=await fetch(url,{headers:{Accept:'application/json'}});const payload=await response.json().catch(()=>({}));if(!response.ok){const status=response.status===429?'OVER_QUERY_LIMIT':response.status===400?'INVALID_REQUEST':response.status===401||response.status===403?'REQUEST_DENIED':'ERROR';return{results:[],status,errorMessage:payload.error?.message||`HTTP ${response.status}`,source:'v4'};}const results=(payload.results||[]).map(item=>({geometry:{location:{lat:()=>Number(item.location?.latitude),lng:()=>Number(item.location?.longitude)}},formatted_address:item.formattedAddress||'',place_id:item.placeId||''}));return{results,status:results.length?'OK':'ZERO_RESULTS',address,source:'v4'};}catch(error){return{results:[],status:'NETWORK_ERROR',errorMessage:error.message,source:'v4'};}}
-async function geocodeAddress(record){const cleaned=cleanAddress(record.address);if(!cleaned)return{results:[],status:'ZERO_RESULTS'};const queries=[`${cleaned} อำเภอบางบัวทอง จังหวัดนนทบุรี ประเทศไทย`,`${cleaned} นนทบุรี ประเทศไทย`];for(const query of queries){let response=await restGeocodeV4(query);if(response.status==='NETWORK_ERROR')response=await rawGeocode(query);if(response.status==='OK'){const inside=response.results.find(item=>locationInsideMunicipality(item.geometry.location));if(inside)return{...response,results:[inside]};continue;}if(response.status!=='ZERO_RESULTS')return response;}return{results:[],status:'ZERO_RESULTS'};}
-const wait=milliseconds=>new Promise(resolve=>setTimeout(resolve,milliseconds));
-async function autoGeocode(automatic=false){if(!map||!geocoder)return notice('กรุณาเชื่อมต่อ Google Maps ก่อน',true);if(geocoding)return;const queue=data.records.filter(record=>!hasPin(record));if(!queue.length){localStorage.setItem(AUTORUN_KEY,new Date().toISOString());return notice('ทุกกิจการมีหมุดแล้ว');}if(!automatic&&!confirm(`ค้นหาพิกัดอัตโนมัติ ${queue.length.toLocaleString('en-US')} กิจการจากที่อยู่ในทะเบียน? กระบวนการอาจใช้เวลาหลายนาที`))return;geocoding=true;$('#autoGeocode').disabled=true;$('#progress').hidden=false;notice(`เริ่มปักหมุดอัตโนมัติ ${queue.length.toLocaleString('en-US')} กิจการ กรุณาเปิดหน้านี้ค้างไว้`);let success=0,unresolved=0;
-  for(let index=0;index<queue.length;index++){const record=queue[index];$('#progressText').textContent=`กำลังค้นหา ${record.name||'กิจการ'} (${index+1}/${queue.length})`;$('#progressNumber').textContent=`${Math.round(index/queue.length*100)}%`;$('#progressBar').value=index/queue.length*100;let response=await geocodeAddress(record);for(let retry=0;response.status==='OVER_QUERY_LIMIT'&&retry<3;retry++){await wait(1800*(retry+1));response=await geocodeAddress(record);}if(response.status==='REQUEST_DENIED'||response.status==='INVALID_REQUEST'){geocoding=false;$('#autoGeocode').disabled=false;$('#progressText').textContent='Google ปฏิเสธสิทธิ์ Geocoding API v4';localStorage.removeItem(AUTORUN_KEY);notice(`Google Maps แสดงแผนที่ได้ แต่คีย์ยังเรียก Geocoding API v4 ไม่ได้: ${response.errorMessage||response.status} กรุณาตรวจสอบสิทธิ์ API ของคีย์`,true);return;}if(response.status==='OVER_QUERY_LIMIT'){geocoding=false;$('#autoGeocode').disabled=false;$('#progressText').textContent='ถึงขีดจำกัดการค้นหาพิกัดของ Google';localStorage.removeItem(AUTORUN_KEY);save();notice('Google จำกัดจำนวนคำขอชั่วคราว ระบบบันทึกหมุดที่ทำสำเร็จแล้ว กรุณารอสักครู่แล้วกดปักหมุดอัตโนมัติอีกครั้ง',true);return;}const result=response.results?.find(item=>locationInsideMunicipality(item.geometry.location));if(response.status==='OK'&&result){record.latitude=result.geometry.location.lat().toFixed(6);record.longitude=result.geometry.location.lng().toFixed(6);record.mapSource=response.source==='v4'?'google-geocoding-v4':'google-geocoding';record.formattedAddress=result.formatted_address;success++;markerFor(record);}else unresolved++;if(index%5===0)save();await wait(350);}
-  save();localStorage.setItem(AUTORUN_KEY,JSON.stringify({finishedAt:new Date().toISOString(),success,unresolved,total:queue.length}));geocoding=false;$('#autoGeocode').disabled=false;$('#progressBar').value=100;$('#progressNumber').textContent='100%';$('#progressText').textContent=`สำเร็จ ${success.toLocaleString('en-US')} รายการ • ต้องตรวจสอบเอง ${unresolved.toLocaleString('en-US')} รายการ`;updateStats();renderList();fitAll();notice(`ปักหมุดอัตโนมัติแล้ว ${success.toLocaleString('en-US')} กิจการ รายการที่หาไม่พบจะคงอยู่ในหมวดรอปักหมุด`);
+
+const $ = selector => document.querySelector(selector);
+const STORAGE_KEY = 'tabien-khum-v1';
+const CENTER = [13.9166, 100.4240]; // เทศบาลนครบางบัวทอง
+
+let data = { records: [], categories: [] };
+let map = null;
+let selected = null;
+let pinMode = false;
+const markers = new Map();
+
+const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, char => ({
+  '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+}[char]));
+
+const hasPin = record => Boolean(
+  record.latitude && record.longitude &&
+  Number.isFinite(Number(record.latitude)) &&
+  Number.isFinite(Number(record.longitude))
+);
+
+const notice = (message, error = false) => {
+  const el = $('#notice');
+  el.textContent = message;
+  el.className = error ? 'error' : '';
+};
+
+function save() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
-function fitAll(){const bounds=new google.maps.LatLngBounds();let count=0;data.records.filter(hasPin).forEach(record=>{bounds.extend({lat:Number(record.latitude),lng:Number(record.longitude)});count++;});if(count)map.fitBounds(bounds,55);else map.setCenter(CENTER);}
-function saveKey(value){const key=value.trim();if(!key)return notice('กรุณาใส่ Google Maps API Key',true);localStorage.setItem(MAPS_KEY,key);location.reload();}
-$('#businessList').onclick=event=>{const card=event.target.closest('[data-id]');if(card)selectRecord(data.records.find(record=>Number(record.id)===Number(card.dataset.id)));};
-$('#search').oninput=renderList;$('#pinFilter').onchange=renderList;$('#autoGeocode').onclick=()=>autoGeocode(false);$('#fitAll').onclick=()=>map?fitAll():notice('กรุณาเชื่อมต่อ Google Maps ก่อน',true);$('#addPin').onclick=()=>{if(!map)return;pinMode=true;notice(`คลิกตำแหน่งของ ${selected.name||'กิจการ'} บน Google Maps`);};$('#deletePin').onclick=deletePin;$('#currentLocation').onclick=()=>navigator.geolocation?navigator.geolocation.getCurrentPosition(position=>setPin(selected,position.coords.latitude,position.coords.longitude),()=>notice('ไม่สามารถอ่านตำแหน่งปัจจุบันได้',true)):notice('อุปกรณ์ไม่รองรับตำแหน่งปัจจุบัน',true);$('#saveApiKey').onclick=()=>saveKey($('#apiKey').value);$('#mapSettings').onclick=()=>{$('#settingsApiKey').value=localStorage.getItem(MAPS_KEY)||'';$('#settingsDialog').showModal();};$('#updateApiKey').onclick=()=>saveKey($('#settingsApiKey').value);$('#removeApiKey').onclick=()=>{if(confirm('ลบ Google Maps API Key จากเครื่องนี้?')){localStorage.removeItem(MAPS_KEY);localStorage.removeItem(AUTORUN_KEY);location.reload();}};
-loadData().then(()=>{const key=localStorage.getItem(MAPS_KEY);if(key)connectMap(key);}).catch(error=>notice(error.message,true));
+
+// โหลดข้อมูล และรวมพิกัดจาก initial.json ในกรณีที่ localStorage ข้อมูลเก่าไม่มีพิกัด
+async function loadData() {
+  try {
+    const response = await fetch('initial.json');
+    const initialData = await response.json();
+    const initialMap = new Map();
+    (initialData.records || []).forEach(r => {
+      if (r.id && hasPin(r)) initialMap.set(Number(r.id), r);
+      else if (r.name && hasPin(r)) initialMap.set(r.name.trim(), r);
+    });
+
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      data = JSON.parse(stored);
+      // หากมี record ใน localStorage ที่ยังไม่มีพิกัด ให้นำพิกัดจาก initialData มาใส่
+      let mergedCount = 0;
+      data.records.forEach((r, idx) => {
+        if (!r.id) r.id = idx + 1;
+        if (!hasPin(r)) {
+          const match = initialMap.get(Number(r.id)) || initialMap.get(String(r.name || '').trim());
+          if (match && hasPin(match)) {
+            r.latitude = match.latitude;
+            r.longitude = match.longitude;
+            r.mapSource = match.mapSource || 'auto-free';
+            mergedCount++;
+          }
+        }
+      });
+      if (mergedCount > 0) {
+        save();
+      }
+    } else {
+      data = initialData;
+      data.records = (data.records || []).map((r, i) => ({ ...r, id: r.id || i + 1 }));
+      save();
+    }
+  } catch (err) {
+    console.error('Error loading initial.json', err);
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      data = JSON.parse(stored);
+    }
+  }
+
+  initMap();
+  renderList();
+  renderMarkers();
+  updateStats();
+
+  // ตรวจสอบ query string เช่น ?id=123 เพื่อเลือกกิจการทันที
+  const requested = Number(new URLSearchParams(location.search).get('id'));
+  if (requested) {
+    const record = data.records.find(item => Number(item.id) === requested);
+    if (record) selectRecord(record);
+  }
+}
+
+function initMap() {
+  if (map) return;
+  // Initialize Leaflet map
+  map = L.map('map', {
+    center: CENTER,
+    zoom: 13,
+    zoomControl: true
+  });
+
+  // OpenStreetMap tile layer (100% Free, No API key)
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  map.on('click', event => {
+    if (pinMode && selected) {
+      setPin(selected, event.latlng.lat, event.latlng.lng, true);
+    }
+  });
+}
+
+function updateStats() {
+  const pinned = data.records.filter(hasPin).length;
+  $('#totalCount').textContent = data.records.length.toLocaleString('th-TH');
+  $('#pinnedCount').textContent = pinned.toLocaleString('th-TH');
+  $('#unplacedCount').textContent = (data.records.length - pinned).toLocaleString('th-TH');
+}
+
+function renderList() {
+  const query = $('#search').value.trim().toLowerCase();
+  const filter = $('#pinFilter').value;
+  const records = data.records.filter(record =>
+    (filter === 'all' || (filter === 'pinned' && hasPin(record)) || (filter === 'missing' && !hasPin(record))) &&
+    (!query || JSON.stringify([record.name, record.address, record.code, record.business, record.category]).toLowerCase().includes(query))
+  );
+
+  $('#businessList').innerHTML = records.map(record => `
+    <button class="business-card ${selected?.id === record.id ? 'active' : ''}" data-id="${record.id}">
+      <span class="pin-status ${hasPin(record) ? '' : 'missing'}">${hasPin(record) ? 'มีหมุด' : 'รอปักหมุด'}</span>
+      <b>${escapeHTML(record.name || 'ไม่ระบุชื่อ')}</b>
+      <span>${escapeHTML(record.address || 'ไม่ระบุที่อยู่')}</span>
+      <small>${escapeHTML(record.code || '—')} • ${escapeHTML(record.business || '')}</small>
+    </button>
+  `).join('') || '<p style="padding:20px;color:#71847e;text-align:center;">ไม่พบกิจการที่ตรงกับเงื่อนไข</p>';
+}
+
+function createPopupContent(record) {
+  const lat = Number(record.latitude);
+  const lng = Number(record.longitude);
+  const googleNavUrl = `https://www.google.com/maps?q=${lat},${lng}`;
+  return `
+    <b>${escapeHTML(record.name || 'ไม่ระบุชื่อ')}</b>
+    <span class="popup-code">${escapeHTML(record.code || '—')}</span>
+    <div class="popup-address">${escapeHTML(record.address || '')}</div>
+    <div style="color:#6f8680;font-size:11px;margin-bottom:6px;">${escapeHTML(record.business || '')}</div>
+    <div class="popup-actions">
+      <a class="popup-nav" href="${googleNavUrl}" target="_blank" rel="noopener">↗ เปิดนำทาง Google Maps</a>
+    </div>
+  `;
+}
+
+function markerFor(record) {
+  if (!hasPin(record) || !map) return null;
+  const lat = Number(record.latitude);
+  const lng = Number(record.longitude);
+
+  const marker = L.marker([lat, lng], {
+    title: record.name || 'กิจการ',
+    draggable: true
+  });
+
+  marker.bindPopup(createPopupContent(record));
+
+  marker.on('click', () => {
+    selectRecord(record, false);
+  });
+
+  marker.on('dragend', event => {
+    const pos = event.target.getLatLng();
+    setPin(record, pos.lat, pos.lng, false);
+  });
+
+  marker.addTo(map);
+  markers.set(Number(record.id), marker);
+  return marker;
+}
+
+function renderMarkers() {
+  if (!map) return;
+  markers.forEach(marker => map.removeLayer(marker));
+  markers.clear();
+  data.records.forEach(markerFor);
+  updateStats();
+}
+
+function selectRecord(record, moveMap = true) {
+  selected = record;
+  renderList();
+  $('#selection').hidden = false;
+  $('#selectedName').textContent = record.name || 'ไม่ระบุชื่อ';
+  $('#selectedAddress').textContent = record.address || 'ไม่ระบุที่อยู่';
+  $('#selectedCategory').textContent = `${record.code || ''} • ${record.business || ''}`;
+  $('#deletePin').disabled = !hasPin(record);
+
+  if (hasPin(record)) {
+    const lat = Number(record.latitude);
+    const lng = Number(record.longitude);
+    if (moveMap && map) {
+      map.flyTo([lat, lng], 16, { duration: 0.8 });
+    }
+    const marker = markers.get(Number(record.id));
+    if (marker) {
+      setTimeout(() => marker.openPopup(), 400);
+    }
+  }
+}
+
+function setPin(record, latitude, longitude, focus = true) {
+  record.latitude = Number(latitude).toFixed(6);
+  record.longitude = Number(longitude).toFixed(6);
+  record.mapSource = 'manual';
+  save();
+
+  const old = markers.get(Number(record.id));
+  if (old) map.removeLayer(old);
+
+  const marker = markerFor(record);
+  pinMode = false;
+  document.body.classList.remove('pin-mode');
+  updateStats();
+  renderList();
+  $('#deletePin').disabled = false;
+  notice(`บันทึกตำแหน่งหมุดของ "${record.name || 'กิจการ'}" เรียบร้อยแล้ว`);
+
+  if (focus && map) {
+    map.flyTo([latitude, longitude], 16);
+    if (marker) marker.openPopup();
+  }
+}
+
+function deletePin() {
+  if (!selected || !hasPin(selected) || !confirm(`ยืนยันการลบหมุดของ "${selected.name || 'กิจการ'}"?`)) return;
+  delete selected.latitude;
+  delete selected.longitude;
+  delete selected.mapSource;
+  const marker = markers.get(Number(selected.id));
+  if (marker) map.removeLayer(marker);
+  markers.delete(Number(selected.id));
+  save();
+  updateStats();
+  renderList();
+  $('#deletePin').disabled = true;
+  notice('ลบตำแหน่งหมุดเรียบร้อย');
+}
+
+function fitAll() {
+  if (!map) return;
+  const valid = data.records.filter(hasPin);
+  if (!valid.length) {
+    map.setView(CENTER, 13);
+    return;
+  }
+  const bounds = L.latLngBounds(valid.map(r => [Number(r.latitude), Number(r.longitude)]));
+  map.fitBounds(bounds, { padding: [40, 40] });
+}
+
+// ฟังก์ชันซิงค์พิกัดเริ่มต้นจาก initial.json ทั้งหมด
+async function syncInitialPins() {
+  if (!confirm('ต้องการตรวจสอบและซิงค์พิกัดเริ่มต้นฟรีทั้งหมดจากฐานข้อมูลหรือไม่?')) return;
+  try {
+    $('#progress').hidden = false;
+    $('#progressText').textContent = 'กำลังโหลดพิกัดเริ่มต้น…';
+    const res = await fetch('initial.json');
+    const initialData = await res.json();
+    const initialMap = new Map();
+    (initialData.records || []).forEach(r => {
+      if (r.id && hasPin(r)) initialMap.set(Number(r.id), r);
+      else if (r.name && hasPin(r)) initialMap.set(r.name.trim(), r);
+    });
+
+    let updated = 0;
+    data.records.forEach(r => {
+      if (!hasPin(r)) {
+        const match = initialMap.get(Number(r.id)) || initialMap.get(String(r.name || '').trim());
+        if (match && hasPin(match)) {
+          r.latitude = match.latitude;
+          r.longitude = match.longitude;
+          r.mapSource = match.mapSource || 'auto-free';
+          updated++;
+        }
+      }
+    });
+
+    save();
+    renderMarkers();
+    renderList();
+    updateStats();
+    $('#progress').hidden = true;
+    notice(`ซิงค์พิกัดเรียบร้อย (${updated} รายการใหม่ได้รับการปักหมุด)`);
+    fitAll();
+  } catch (err) {
+    $('#progress').hidden = true;
+    notice('ซิงค์พิกัดไม่สำเร็จ: ' + err.message, true);
+  }
+}
+
+// Event Listeners
+$('#businessList').onclick = event => {
+  const card = event.target.closest('[data-id]');
+  if (card) {
+    selectRecord(data.records.find(record => Number(record.id) === Number(card.dataset.id)));
+  }
+};
+
+$('#search').oninput = renderList;
+$('#pinFilter').onchange = renderList;
+$('#fitAll').onclick = fitAll;
+$('#syncPins').onclick = syncInitialPins;
+
+$('#addPin').onclick = () => {
+  if (!selected) return;
+  pinMode = true;
+  document.body.classList.add('pin-mode');
+  notice(`โหมดปักหมุดเปิดอยู่: กรุณาคลิกบนแผนที่ ณ ตำแหน่งที่ต้องการวางหมุดของ "${selected.name || 'กิจการ'}"`);
+};
+
+$('#deletePin').onclick = deletePin;
+
+$('#currentLocation').onclick = () => {
+  if (!selected) return;
+  if (!navigator.geolocation) return notice('อุปกรณ์นี้ไม่รองรับการระบุพิกัด GPS', true);
+  notice('กำลังค้นหาตำแหน่ง GPS ปัจจุบัน…');
+  navigator.geolocation.getCurrentPosition(
+    position => {
+      setPin(selected, position.coords.latitude, position.coords.longitude, true);
+      notice('บันทึกพิกัดจาก GPS เรียบร้อย');
+    },
+    error => {
+      notice('ไม่สามารถอ่านตำแหน่ง GPS ได้: ' + error.message, true);
+    },
+    { enableHighAccuracy: true, timeout: 10000 }
+  );
+};
+
+$('#openExternalMap').onclick = () => {
+  if (!selected || !hasPin(selected)) return notice('กรุณาเลือกกิจการที่มีหมุดก่อน', true);
+  const url = `https://www.google.com/maps?q=${selected.latitude},${selected.longitude}`;
+  window.open(url, '_blank');
+};
+
+loadData().catch(error => notice(error.message, true));
