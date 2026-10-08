@@ -1,8 +1,16 @@
 @echo off
 cd /d "%~dp0"
+
+where node >nul 2>nul
+if not errorlevel 1 (
+  node server.cjs
+  pause
+  exit /b 0
+)
+
 where py >nul 2>nul
 if errorlevel 1 (
-  echo Please install Python 3.10 or newer from python.org
+  echo Please install Node.js or Python 3.10+
   pause
   exit /b 1
 )

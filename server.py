@@ -26,7 +26,7 @@ def validate(r):
     r=dict(r);r.pop('id',None);return r
 
 class Handler(SimpleHTTPRequestHandler):
-    def __init__(self,*a,**k): super().__init__(*a,directory=str(ROOT/'static'),**k)
+    def __init__(self,*a,**k): super().__init__(*a,directory=str(ROOT/'dist'),**k)
     def log_message(self,*args): pass
     def reply(self,data,status=200):
         b=json.dumps(data,ensure_ascii=False).encode(); self.send_response(status); self.send_header('Content-Type','application/json; charset=utf-8');self.send_header('Content-Length',str(len(b)));self.end_headers();self.wfile.write(b)

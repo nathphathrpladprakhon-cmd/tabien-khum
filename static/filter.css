@@ -1,0 +1,1 @@
+#subcategory{flex:1;max-width:460px}#subcategory[hidden]{display:none}@media(max-width:1100px){.filters{flex-wrap:wrap}#subcategory{max-width:none;flex-basis:50%}}@media(max-width:760px){#subcategory{flex-basis:100%;width:100%}}
