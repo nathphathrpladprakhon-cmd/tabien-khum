@@ -604,8 +604,24 @@ let currentExpiryList=[];
 
 function parseThaiDate(str){
   if(!str)return null;
-  const clean=String(str).trim();
-  const m=clean.match(/^(\d{1,2})[\/\-\.](\d{1,3})[\/\-\.](\d{2,5})$/);
+  let clean=String(str).trim();
+  clean=clean.replace(/[\*\s]+/g,'');
+  const mThai=clean.match(/^(\d{1,2})\s*([^\d\s\/\-\.]+)\s*(\d{2,4})$/);
+  const thaiMonths={
+    'ม.ค.':1,'ก.พ.':2,'มี.ค.':3,'เม.ย.':4,'พ.ค.':5,'มิ.ย.':6,
+    'ก.ค.':7,'ส.ค.':8,'ก.ย.':9,'ต.ค.':10,'พ.ย.':11,'ธ.ค.':12,
+    'มกราคม':1,'กุมภาพันธ์':2,'มีนาคม':3,'เมษายน':4,'พฤษภาคม':5,'มิถุนายน':6,
+    'กรกฎาคม':7,'สิงหาคม':8,'กันยายน':9,'ตุลาคม':10,'พฤศจิกายน':11,'ธันวาคม':12
+  };
+  if(mThai&&thaiMonths[mThai[2]]){
+    let y=parseInt(mThai[3],10);
+    if(y<100)y+=2500;
+    return{day:parseInt(mThai[1],10),month:thaiMonths[mThai[2]],year:y,raw:clean};
+  }
+  let m=clean.match(/^(\d{1,2})[\/\-\.](\d{1,3})[\/\-\.](\d{2,5})$/);
+  if(!m){
+    m=clean.match(/^(\d{1,2})[\/\-\.](\d{1,2})(\d{4})$/);
+  }
   if(!m)return null;
   let day=parseInt(m[1],10),month=parseInt(m[2],10);
   if(month>12){
@@ -662,35 +678,39 @@ function getExpiringRecords(targetMonth,targetYear,includePending=true){
   const results=[];
   data.records.forEach(r=>{
     if(r.cancelled)return;
-    const lic=getLatestLicense(r);
-    if(!lic)return;
-    const parsed=parseThaiDate(lic.expires);
-    if(!parsed)return;
-    if(parsed.month!==targetMonth)return;
-    if(includePending){
-      if(parsed.year!==targetYear&&parsed.year!==prevYear)return;
-    }else{
-      if(parsed.year!==targetYear)return;
-    }
-    const shortYear=parsed.year%100;
-    const expiresText=`${parsed.day}/${parsed.month}/${shortYear}`;
-    const cleanName=cleanOwnerName(r.name);
-    const feeObj=parseFeeValue(r.fee);
-    results.push({
-      id:r.id,
-      code:r.code||r.category||'—',
-      name:cleanName,
-      address:(r.address||'').replace(/\r?\n/g,' ').trim(),
-      business:(r.business||'').replace(/\r?\n/g,' ').trim(),
-      fee:feeObj.text,
-      feeNum:feeObj.num,
-      expiresText,
-      day:parsed.day,
-      year:parsed.year,
-      fullExpires:lic.expires
+    (r.history||[]).forEach((h,hIdx)=>{
+      if(!h.expires||!String(h.expires).trim())return;
+      const parsed=parseThaiDate(h.expires);
+      if(!parsed)return;
+      if(parsed.month!==targetMonth)return;
+      if(includePending){
+        if(parsed.year!==targetYear&&parsed.year!==prevYear)return;
+      }else{
+        if(parsed.year!==targetYear)return;
+      }
+      const shortYear=parsed.year%100;
+      const expiresText=`${parsed.day}/${parsed.month}/${shortYear}`;
+      const cleanName=cleanOwnerName(r.name);
+      const feeObj=parseFeeValue(r.fee);
+      results.push({
+        id:r.id,
+        code:r.code||r.category||'—',
+        name:cleanName,
+        address:(r.address||'').replace(/\r?\n/g,' ').trim(),
+        business:(r.business||'').replace(/\r?\n/g,' ').trim(),
+        fee:feeObj.text,
+        feeNum:feeObj.num,
+        expiresText,
+        day:parsed.day,
+        month:parsed.month,
+        year:parsed.year,
+        fullExpires:h.expires,
+        historyYear:h.year,
+        historyIndex:hIdx
+      });
     });
   });
-  results.sort((a,b)=>a.day-b.day||a.code.localeCompare(b.code,'th'));
+  results.sort((a,b)=>a.day-b.day||a.year-b.year||a.code.localeCompare(b.code,'th'));
   return results;
 }
 
