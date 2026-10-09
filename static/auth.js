@@ -87,8 +87,7 @@ function ensureLoginOverlay() {
           <button type="submit" class="login-btn">เข้าสู่ระบบ</button>
           <div class="login-error" id="loginError"></div>
           <div class="login-hints">
-            🔒 กรุณาเข้าสู่ระบบเพื่อเข้าถึงข้อมูลทะเบียนและแผนที่<br>
-            <small style="color:#8ba099">บัญชีเริ่มต้น: <b>admin</b> (รหัส: admin1234) หรือ <b>officer</b> (รหัส: 1234)</small>
+            🔒 กรุณาเข้าสู่ระบบเพื่อเข้าถึงข้อมูลทะเบียนและแผนที่
           </div>
         </form>
       </div>
