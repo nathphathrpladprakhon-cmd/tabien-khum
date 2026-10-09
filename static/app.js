@@ -472,29 +472,33 @@ function getLicenseExpYear(h){
 }
 function classifyRecords(records,year){
   const numYear=Number(year);
-  const prevYear=numYear-1; // 2 ปีงบประมาณ: ปีก่อนหน้า (เช่น 68) และ ปีปัจจุบัน (เช่น 69)
-  // รายเก่า: ผู้ประกอบการเดิมที่มีใบอนุญาตในปีก่อนหน้า หรือมีใบอนุญาตเดิมที่หมดอายุในปี prevYear (68) หรือ numYear (69)
-  const old=records.filter(r=>{
-    if(r.cancelled&&r.cancelYear&&Number(r.cancelYear)<prevYear)return false;
-    const hasPrev=(r.history||[]).some(h=>Number(h.year)===prevYear&&String(h.number||'').trim());
-    const hasExpPrev=(r.history||[]).some(h=>getLicenseExpYear(h)===prevYear);
-    const hasExpCur=(r.history||[]).some(h=>Number(h.year)<=prevYear&&getLicenseExpYear(h)===numYear);
-    return hasPrev||hasExpPrev||hasExpCur;
-  });
-  // ผู้มีใบอนุญาตในปีปัจจุบัน
-  const current=records.filter(r=>!r.cancelled&&(r.history||[]).some(h=>Number(h.year)===numYear&&String(h.number||'').trim()));
-  // ยกเลิกกิจการ
+  const prevYear=numYear-1; // 2 ปีงบประมาณ เช่น ปี 69 รวมใบอนุญาตที่ออกปี 68 และ 69
+  // 1. รายเก่า: กิจการทั้งหมด
+  const old=records.length;
+  // 2. ยกเลิก: กิจการที่ยกเลิกในปีนี้
   const cancelled=records.filter(r=>{
     if(!r.cancelled)return false;
     if(r.cancelYear)return Number(r.cancelYear)===numYear;
     const maxHistYear=Math.max(0,...(r.history||[]).filter(h=>String(h.number||'').trim()).map(h=>Number(h.year)||0));
-    return maxHistYear===numYear||maxHistYear===prevYear;
-  });
-  // รายต่อ: รายเดิมที่มาต่อใบอนุญาตในปีนี้
-  const oldSet=new Set(old.map(r=>r.id));
-  const renewed=current.filter(r=>oldSet.has(r.id)||(r.history||[]).some(h=>Number(h.year)<numYear&&String(h.number||'').trim()));
-  // รายใหม่: เพิ่งได้ใบอนุญาตใหม่ในปีนี้
-  return[old.length,cancelled.length,renewed.length,Math.max(0,current.length-renewed.length)];
+    return maxHistYear===numYear;
+  }).length;
+  // 3. รายต่อ: นับรวม 2 ปีงบประมาณ (เช่น ปี 69 เอาข้อมูลใบอนุญาตที่ออกปี 69 และปี 68)
+  const renewed=records.filter(r=>{
+    if(r.cancelled)return false;
+    return (r.history||[]).some(h=>{
+      const y=Number(h.year);
+      const hasNum=Boolean(String(h.number||'').trim());
+      return (y===numYear||y===prevYear)&&hasNum;
+    });
+  }).length;
+  // 4. รายใหม่: กิจการที่มีใบอนุญาตใหม่ในปีนี้ โดยไม่เคยมีใบอนุญาตในปีก่อนหน้า
+  const newCount=records.filter(r=>{
+    if(r.cancelled)return false;
+    const hasCur=(r.history||[]).some(h=>Number(h.year)===numYear&&String(h.number||'').trim());
+    const hadBefore=(r.history||[]).some(h=>Number(h.year)<numYear&&String(h.number||'').trim());
+    return hasCur&&!hadBefore;
+  }).length;
+  return[old,cancelled,renewed,newCount];
 }
 function summaryCounts(category,sub,year){const prefix=`${category}(${sub})`;return classifyRecords(data.records.filter(r=>String(r.code||'').replace(/\s/g,'').startsWith(prefix)),year);}
 function categoryReport(year){return categoryLabels().map((label,index)=>({number:index+1,label,values:classifyRecords(data.records.filter(r=>categoryNo(r.category)===index+1),year)}));}
@@ -502,7 +506,7 @@ function renderSummary(){
   const year=Number($('#year').value),report=categoryReport(year),totals=[0,0,0,0];
   $('#reportTitle').textContent=`สรุปกิจการที่เป็นอันตรายต่อสุขภาพ ปี ${year}`;
   const subTitle=$('#reportDialog p');
-  if(subTitle)subTitle.textContent=`ข้อมูล 2 ปีงบประมาณ (ปี ${year-1} - ${year}) อิงใบอนุญาตที่หมดอายุปี ${year-1} และ ${year}`;
+  if(subTitle)subTitle.textContent=`รายเก่าคือกิจการทั้งหมด • รายต่อนับรวม 2 ปีงบประมาณ (ใบอนุญาตที่ออกปี ${year-1} และปี ${year})`;
   $('#reportRows').innerHTML=report.map(row=>{row.values.forEach((v,i)=>totals[i]+=v);return `<tr><td><b>${row.number}.</b> ${escapeHTML(row.label)}</td>${row.values.map(v=>`<td>${v.toLocaleString('th-TH')}</td>`).join('')}</tr>`;}).join('');
   ['Old','Cancelled','Renewed','New'].forEach((name,i)=>{
     $('#report'+name).textContent=totals[i].toLocaleString('th-TH');
