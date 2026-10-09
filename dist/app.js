@@ -658,6 +658,7 @@ function parseFeeValue(fee){
 }
 
 function getExpiringRecords(targetMonth,targetYear,includePending=true){
+  const prevYear=targetYear-1;
   const results=[];
   data.records.forEach(r=>{
     if(r.cancelled)return;
@@ -666,7 +667,11 @@ function getExpiringRecords(targetMonth,targetYear,includePending=true){
     const parsed=parseThaiDate(lic.expires);
     if(!parsed)return;
     if(parsed.month!==targetMonth)return;
-    if(!includePending&&parsed.year!==targetYear)return;
+    if(includePending){
+      if(parsed.year!==targetYear&&parsed.year!==prevYear)return;
+    }else{
+      if(parsed.year!==targetYear)return;
+    }
     const shortYear=parsed.year%100;
     const expiresText=`${parsed.day}/${parsed.month}/${shortYear}`;
     const cleanName=cleanOwnerName(r.name);
@@ -712,7 +717,7 @@ function populateExpiryYears(){
   select.innerHTML=years.map(y=>`<option value="${y}">${y}</option>`).join('');
   if(curr&&years.includes(Number(curr)))select.value=curr;
   else{
-    const{targetYear}=getUpcomingMonthInfo();
+    const{targetMonth,targetYear}=getUpcomingMonthInfo();
     select.value=String(targetYear);
   }
 }
@@ -722,6 +727,8 @@ function renderExpiryModal(){
   const monthName=THAI_MONTHS[monthIdx-1];
   const year=Number($('#expiryYearSelect').value);
   const includePending=$('#expiryIncludePending').checked;
+  const pendingLabel=$('#expiryIncludePendingText');
+  if(pendingLabel)pendingLabel.textContent=`รวมเดือนเดียวกันของปีก่อนหน้า (ปี ${year-1})`;
   const q=$('#expirySearchInput').value.trim().toLowerCase();
   
   let list=getExpiringRecords(monthIdx,year,includePending);
