@@ -517,10 +517,87 @@ function renderSummary(){
   return{year,report,totals};
 }
 async function downloadSummary(){const button=$('#downloadReport'),year=Number($('#year').value);button.disabled=true;notice('กำลังจัดทำ Excel พร้อมตาราง…');try{if(!window.ExcelJS)throw Error('ตัวสร้างเอกสาร Excel โหลดไม่สำเร็จ');const response=await fetch('summary-template.xlsx');if(!response.ok)throw Error('โหลดแม่แบบเอกสารไม่สำเร็จ');const workbook=new ExcelJS.Workbook();await workbook.xlsx.load(await response.arrayBuffer());const sheet=workbook.worksheets[0];sheet.getCell(1,1).value=`ข้อมูลการต่อใบอนุญาตกิจการที่เป็นอันตรายต่อสุขภาพ ประจำปี ${year} ( 1 ต.ค. ${year-1} - 30 ก.ย. ${year} )`;for(let r=1;r<=sheet.rowCount;r++){for(let c=9;c<=Math.max(sheet.columnCount,35);c++){const cell=sheet.getCell(r,c);cell.value=null;cell.border={};cell.fill={type:'pattern',pattern:'none'};cell.style={};}}let category=0;for(let row=5;row<=sheet.rowCount;row++){const a=String(sheet.getCell(row,1).text||'').trim(),heading=a.match(/^(\d{1,2})\s*\.\s*กิจการ/);if(heading){category=Number(heading[1]);continue;}if(category===1&&/^\(1\)\s*การฆ่า/.test(a))category=2;const sub=a.match(/^[（(]\s*([0-9๐-๙]+)\s*[）)]/)||a.match(/^([0-9๐-๙]+)\s*\./),numeric=[5,6,7,8].some(col=>typeof sheet.getCell(row,col).value==='number');if(!sub&&!numeric)continue;for(let col=5;col<=8;col++)sheet.getCell(row,col).value=0;if(!sub||!category)continue;summaryCounts(category,thaiNumber(sub[1]),year).forEach((value,index)=>sheet.getCell(row,5+index).value=value);}workbook.calcProperties.fullCalcOnLoad=true;const output=await workbook.xlsx.writeBuffer();download(output,`สรุปกิจการอันตราย-ปี-${year}.xlsx`,'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');notice(`ดาวน์โหลด Excel ปี ${year} พร้อมรูปแบบตารางแล้ว`);}catch(error){notice(error.message,true);}finally{button.disabled=false;}}
+async function downloadWordSummary(){
+  const button=$('#downloadWordReport'),year=Number($('#year').value);
+  if(button)button.disabled=true;
+  notice('กำลังจัดทำบันทึกข้อความ (Word)…');
+  try{
+    if(!window.JSZip)throw Error('ระบบกำลังโหลด JSZip กรุณาลองใหม่อีกครั้ง');
+    const response=await fetch('summary-memo-template.docx');
+    if(!response.ok)throw Error('โหลดแม่แบบบันทึกข้อความไม่สำเร็จ');
+    const zip=await JSZip.loadAsync(await response.arrayBuffer());
+    let docXml=await zip.file('word/document.xml').async('text');
+
+    const thaiYear=String(year).replace(/[0-9]/g,c=>'๐๑๒๓๔๕๖๗๘๙'[Number(c)]);
+    docXml=docXml.replace(/๒๕๖[9๙]/g,thaiYear);
+    docXml=docXml.replace(/256\s*9/g,String(year));
+
+    const catStats=[];
+    let totOld=0,totCanc=0,totNew=0,totRem=0;
+    for(let i=1;i<=13;i++){
+      const recs=(data.records||[]).filter(r=>categoryNo(r.category)===i);
+      const [old,cancelled,renewed,newCount]=classifyRecords(recs,year);
+      const remaining=Math.max(0,old-cancelled+newCount);
+      catStats.push({old,cancelled,newCount,remaining});
+      totOld+=old;
+      totCanc+=cancelled;
+      totNew+=newCount;
+      totRem+=remaining;
+    }
+
+    const tblStart=docXml.indexOf('<w:tbl>');
+    const tblEnd=docXml.indexOf('</w:tbl>')+8;
+    let tableXml=docXml.slice(tblStart,tblEnd);
+    const trMatches=tableXml.match(/<w:tr[\s\S]*?<\/w:tr>/g);
+    let newTableXml=tableXml;
+
+    function setTrCellValues(trXml,vals){
+      let tcCount=0;
+      return trXml.replace(/<w:tc[\s\S]*?<\/w:tc>/g,tcXml=>{
+        const idx=tcCount++;
+        if(idx===0)return tcXml;
+        const val=String(vals[idx-1]??0);
+        let replaced=false;
+        return tcXml.replace(/<w:r[\s\S]*?<\/w:r>/g,rXml=>{
+          if(!replaced){
+            replaced=true;
+            const rPrMatch=rXml.match(/<w:rPr[\s\S]*?<\/w:rPr>/);
+            const rPr=rPrMatch?rPrMatch[0]:'<w:rPr><w:rFonts w:ascii="TH SarabunIT๙" w:hAnsi="TH SarabunIT๙" w:cs="TH SarabunIT๙"/><w:sz w:val="30"/><w:szCs w:val="30"/><w:cs/></w:rPr>';
+            return `<w:r>${rPr}<w:t>${val}</w:t></w:r>`;
+          }
+          return '';
+        });
+      });
+    }
+
+    for(let i=1;i<=13;i++){
+      const origTr=trMatches[i];
+      const s=catStats[i-1];
+      const newTr=setTrCellValues(origTr,[s.old,s.cancelled,s.newCount,s.remaining]);
+      newTableXml=newTableXml.replace(origTr,newTr);
+    }
+
+    const origTotalTr=trMatches[14];
+    const newTotalTr=setTrCellValues(origTotalTr,[totOld,totCanc,totNew,totRem]);
+    newTableXml=newTableXml.replace(origTotalTr,newTotalTr);
+
+    docXml=docXml.slice(0,tblStart)+newTableXml+docXml.slice(tblEnd);
+    zip.file('word/document.xml',docXml);
+
+    const output=await zip.generateAsync({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',compression:'DEFLATE'});
+    download(output,`บันทึกข้อความ-สรุปผลใบอนุญาต-ปี-${year}.docx`,'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+    notice(`ดาวน์โหลดบันทึกข้อความสรุปผล ปี ${year} (.docx) สำเร็จ`);
+  }catch(error){
+    notice(error.message,true);
+  }finally{
+    if(button)button.disabled=false;
+  }
+}
 function printSummary(){const{year,report,totals}=renderSummary(),popup=window.open('','_blank');if(!popup)return notice('เบราว์เซอร์ปิดกั้นหน้าต่างพิมพ์ กรุณาอนุญาตป๊อปอัป',true);const rows=report.map(row=>`<tr><td>${row.number}. ${escapeHTML(row.label)}</td>${row.values.map(v=>`<td>${v}</td>`).join('')}</tr>`).join('');popup.document.write(`<!doctype html><html lang="th"><head><meta charset="utf-8"><title>รายงานปี ${year}</title><style>body{font-family:Tahoma,sans-serif;padding:24px;color:#123}h1{text-align:center;font-size:20px}p{text-align:center}table{width:100%;border-collapse:collapse;font-size:11px}th,td{border:1px solid #333;padding:7px}th{background:#dcebe5}td:not(:first-child),th:not(:first-child){text-align:center}tfoot{font-weight:bold}@page{size:A4 landscape;margin:12mm}</style></head><body><h1>ข้อมูลการต่อใบอนุญาตกิจการที่เป็นอันตรายต่อสุขภาพ</h1><p>ประจำปี ${year} (1 ต.ค. ${year-1} - 30 ก.ย. ${year})</p><table><thead><tr><th>ประเภทกิจการ</th><th>รายเก่า</th><th>ยกเลิก</th><th>รายต่อ</th><th>รายใหม่</th></tr></thead><tbody>${rows}</tbody><tfoot><tr><td>รวมทั้งหมด</td>${totals.map(v=>`<td>${v}</td>`).join('')}</tr></tfoot></table><script>onload=()=>{print();onafterprint=()=>close()}<\/script></body></html>`);popup.document.close();}
 if($('#summaryXlsx'))$('#summaryXlsx').onclick=()=>{renderSummary();$('#reportDialog')?.showModal();};
 if($('#closeReport'))$('#closeReport').onclick=()=>$('#reportDialog')?.close();
 if($('#downloadReport'))$('#downloadReport').onclick=downloadSummary;
+if($('#downloadWordReport'))$('#downloadWordReport').onclick=downloadWordSummary;
 if($('#printReport'))$('#printReport').onclick=printSummary;
 
 let currentExpiryList=[];
@@ -720,6 +797,9 @@ async function downloadExpiryExcel(){
     };
     sheet.properties.pageSetUpProperties={fitToPage:true};
 
+    sheet.views=[{showGridLines:true}];
+    sheet.properties.defaultRowHeight=24;
+
     const borderThinBlack={
       top:{style:'thin',color:{argb:'FF000000'}},
       left:{style:'thin',color:{argb:'FF000000'}},
@@ -731,26 +811,26 @@ async function downloadExpiryExcel(){
     sheet.mergeCells('A1:G1');
     const t1=sheet.getCell('A1');
     t1.value=`บัญชีรายชื่อผู้ประกอบการที่ใบอนุญาตใกล้หมดอายุ  ประจำเดือน${monthName} ${year}`;
-    t1.font={name:'TH SarabunPSK',size:16,bold:true};
+    t1.font={name:'TH SarabunIT๙',family:2,size:18,bold:true};
     t1.alignment={vertical:'middle',horizontal:'center'};
-    sheet.getRow(1).height=28;
+    sheet.getRow(1).height=32;
 
     // แถว 2: ประเภทกิจการที่เป็นอันตรายต่อสุขภาพ
     sheet.mergeCells('A2:G2');
     const t2=sheet.getCell('A2');
     t2.value='ประเภทกิจการที่เป็นอันตรายต่อสุขภาพ';
-    t2.font={name:'TH SarabunPSK',size:14,bold:true};
+    t2.font={name:'TH SarabunIT๙',family:2,size:16,bold:true};
     t2.alignment={vertical:'middle',horizontal:'left'};
-    sheet.getRow(2).height=24;
+    sheet.getRow(2).height=26;
 
     // แถว 3: หัวตาราง พื้นขาว เส้นทึบดำ ตัวหนา จัดกลางทุกช่อง
     const headerRow=sheet.getRow(3);
-    headerRow.height=26;
+    headerRow.height=28;
     const colTitles=['ลำดับ','หมวด','ชื่อ - สกุล','ที่อยู่','ประเภทกิจการ','ค่าธรรมเนียม','วันหมดอายุ'];
     colTitles.forEach((t,i)=>{
       const cell=headerRow.getCell(i+1);
       cell.value=t;
-      cell.font={name:'TH SarabunPSK',size:14,bold:true};
+      cell.font={name:'TH SarabunIT๙',family:2,size:16,bold:true};
       cell.border=borderThinBlack;
       cell.alignment={vertical:'middle',horizontal:'center'};
     });
@@ -758,40 +838,47 @@ async function downloadExpiryExcel(){
     // แถว 4+: ข้อมูลตามต้นฉบับ เส้นทึบดำ จัดแนวกลางแนวตั้ง
     items.forEach((item,index)=>{
       const r=sheet.getRow(index+4);
-      r.height=28;
+      const text3=String(item.name||'');
+      const text4=String(item.address||'');
+      const text5=String(item.business||'');
+      const lines3=text3.split('\n').reduce((acc,l)=>acc+Math.max(1,Math.ceil(l.length/28)),0);
+      const lines4=text4.split('\n').reduce((acc,l)=>acc+Math.max(1,Math.ceil(l.length/32)),0);
+      const lines5=text5.split('\n').reduce((acc,l)=>acc+Math.max(1,Math.ceil(l.length/32)),0);
+      const maxLines=Math.max(1,lines3,lines4,lines5);
+      r.height=Math.max(26,maxLines*24);
 
       // Col 1: ลำดับ
       const c1=r.getCell(1);
       c1.value=index+1;
-      c1.font={name:'TH SarabunPSK',size:14};
+      c1.font={name:'TH SarabunIT๙',family:2,size:16};
       c1.alignment={vertical:'middle',horizontal:'center'};
       c1.border=borderThinBlack;
 
       // Col 2: หมวด
       const c2=r.getCell(2);
       c2.value=item.code;
-      c2.font={name:'TH SarabunPSK',size:14};
+      c2.font={name:'TH SarabunIT๙',family:2,size:16};
       c2.alignment={vertical:'middle',horizontal:'center'};
       c2.border=borderThinBlack;
 
       // Col 3: ชื่อ - สกุล
       const c3=r.getCell(3);
       c3.value=item.name;
-      c3.font={name:'TH SarabunPSK',size:14};
+      c3.font={name:'TH SarabunIT๙',family:2,size:16};
       c3.alignment={vertical:'middle',horizontal:'left',wrapText:true};
       c3.border=borderThinBlack;
 
       // Col 4: ที่อยู่
       const c4=r.getCell(4);
       c4.value=item.address;
-      c4.font={name:'TH SarabunPSK',size:14};
+      c4.font={name:'TH SarabunIT๙',family:2,size:16};
       c4.alignment={vertical:'middle',horizontal:'left',wrapText:true};
       c4.border=borderThinBlack;
 
       // Col 5: ประเภทกิจการ
       const c5=r.getCell(5);
       c5.value=item.business;
-      c5.font={name:'TH SarabunPSK',size:14};
+      c5.font={name:'TH SarabunIT๙',family:2,size:16};
       c5.alignment={vertical:'middle',horizontal:'left',wrapText:true};
       c5.border=borderThinBlack;
 
@@ -803,27 +890,27 @@ async function downloadExpiryExcel(){
       }else{
         c6.value=item.fee;
       }
-      c6.font={name:'TH SarabunPSK',size:14};
+      c6.font={name:'TH SarabunIT๙',family:2,size:16};
       c6.alignment={vertical:'middle',horizontal:'center'};
       c6.border=borderThinBlack;
 
       // Col 7: วันหมดอายุ
       const c7=r.getCell(7);
       c7.value=item.expiresText;
-      c7.font={name:'TH SarabunPSK',size:14};
+      c7.font={name:'TH SarabunIT๙',family:2,size:16};
       c7.alignment={vertical:'middle',horizontal:'center'};
       c7.border=borderThinBlack;
     });
 
     // กำหนดความกว้างคอลัมน์ให้เหมือนต้นฉบับ และพอดี 1 หน้า A4 แนวนอน
     sheet.columns=[
-      {width:6.5}, // ลำดับ
-      {width:11},   // หมวด
-      {width:26},   // ชื่อ - สกุล
-      {width:28},   // ที่อยู่
-      {width:28},   // ประเภทกิจการ
-      {width:13},   // ค่าธรรมเนียม
-      {width:12}    // วันหมดอายุ
+      {width:7},    // ลำดับ
+      {width:12},   // หมวด
+      {width:30},   // ชื่อ - สกุล
+      {width:34},   // ที่อยู่
+      {width:34},   // ประเภทกิจการ
+      {width:14},   // ค่าธรรมเนียม
+      {width:14}    // วันหมดอายุ
     ];
 
     const buffer=await workbook.xlsx.writeBuffer();
