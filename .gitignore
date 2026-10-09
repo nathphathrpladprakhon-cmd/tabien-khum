@@ -7,3 +7,4 @@ extract-details.ps1
 regulation-source.docx
 
 .vercel
+.env*
